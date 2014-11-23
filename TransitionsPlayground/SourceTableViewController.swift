@@ -25,16 +25,23 @@ class SourceTableViewController: UITableViewController/*, UIViewControllerTransi
     
     @IBAction func unwindToSourceTVC(segue: UIStoryboardSegue) {
         println("unwindToSourceTVC")
+        self.dismissViewControllerAnimated(true, completion: nil)
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "fadeSegue" {
             println("fadeSeguePrepare")
-            let toViewController = segue.destinationViewController as UINavigationController
-//            toViewController.modalPresentationStyle = UIModalPresentationStyle.Custom
+//            let toViewController = segue.destinationViewController as UINavigationController
+            let toViewController = segue.destinationViewController as UIViewController
+            toViewController.modalPresentationStyle = UIModalPresentationStyle.Custom
             
+            fadeAnimator.presentationController = AEPresentationController(presentedViewController: toViewController, presentingViewController: self, presentedViewFrame: CGRectMake(50, 50, 200, 400))
             toViewController.transitioningDelegate = fadeAnimator
         }
+    }
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
 
 }

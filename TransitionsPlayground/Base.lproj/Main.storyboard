@@ -28,9 +28,6 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
-                                        <connections>
-                                            <segue destination="eGI-Ym-ty1" kind="presentation" identifier="defaultSegue" id="YNx-bT-JRi"/>
-                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="D8t-jf-y4h" style="IBUITableViewCellStyleDefault" id="ehq-96-f1B">
                                         <autoresizingMask key="autoresizingMask"/>
@@ -46,7 +43,7 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="eGI-Ym-ty1" kind="presentation" identifier="fadeSegue" id="96O-s9-eAJ"/>
+                                            <segue destination="A15-Gg-ohZ" kind="presentation" identifier="fadeSegue" id="QrW-By-EyN"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="VvT-CP-X3J" style="IBUITableViewCellStyleDefault" id="mXj-Xg-OZO">
@@ -88,6 +85,17 @@
                     <view key="view" contentMode="scaleToFill" id="F9L-sq-F29">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jnb-2h-ONb">
+                                <rect key="frame" x="16" y="285" width="54" height="30"/>
+                                <state key="normal" title="Dismiss">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="upY-dW-oaK" kind="unwind" unwindAction="unwindToSourceTVC:" id="bC7-bw-dxr"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="Destination" id="OWA-rc-ydh">
@@ -101,7 +109,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5tV-tC-J0D" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="upY-dW-oaK" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="3175" y="627"/>
+            <point key="canvasLocation" x="2381" y="627"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="NAn-PN-1hw">
@@ -121,26 +129,5 @@
             </objects>
             <point key="canvasLocation" x="781" y="627"/>
         </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="FLe-mV-2d0">
-            <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="nY7-QC-UOg" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="eGI-Ym-ty1" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="qP6-e3-sEf">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="A15-Gg-ohZ" kind="relationship" relationship="rootViewController" id="YX4-xO-hIw"/>
-                    </connections>
-                </navigationController>
-            </objects>
-            <point key="canvasLocation" x="2363" y="627"/>
-        </scene>
     </scenes>
-    <inferredMetricsTieBreakers>
-        <segue reference="96O-s9-eAJ"/>
-    </inferredMetricsTieBreakers>
 </document>
