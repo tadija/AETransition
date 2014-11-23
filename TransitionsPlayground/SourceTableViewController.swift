@@ -17,27 +17,38 @@ class SourceTableViewController: UITableViewController/*, UIViewControllerTransi
         return transitioningDelegate
     }()
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        navigationController?.delegate = fadeAnimator
-    }
-    
     @IBAction func unwindToSourceTVC(segue: UIStoryboardSegue) {
         println("unwindToSourceTVC")
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "fadeSegue" {
-            println("fadeSeguePrepare")
-//            let toViewController = segue.destinationViewController as UINavigationController
-            let toViewController = segue.destinationViewController as UIViewController
-            toViewController.modalPresentationStyle = UIModalPresentationStyle.Custom
-            
-            fadeAnimator.presentationController = AEPresentationController(presentedViewController: toViewController, presentingViewController: self, presentedViewFrame: CGRectMake(50, 50, 200, 400))
+        
+        let toViewController = segue.destinationViewController as UIViewController
+//        let toViewController = segue.destinationViewController as UINavigationController
+        
+        if segue.identifier == "fadeSeguePush" {
+            navigationController?.delegate = fadeAnimator
+        }
+        
+        if segue.identifier == "fadeSegueReplace" {
             toViewController.transitioningDelegate = fadeAnimator
         }
+        
+        if segue.identifier == "fadeSegueModal" {
+            fadeAnimator.presentationController = AEPresentationController(presentedViewController: toViewController, presentingViewController: self, presentedViewFrame: CGRectMake(50, 50, 200, 400))
+            toViewController.modalPresentationStyle = .Custom
+            toViewController.transitioningDelegate = fadeAnimator
+        }
+        
+        if segue.identifier == "fadeSeguePopover" {
+            toViewController.transitioningDelegate = fadeAnimator
+        }
+        
+        if segue.identifier == "fadeSegueCustom" {
+            navigationController?.delegate = fadeAnimator
+        }
+
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
