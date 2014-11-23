@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SourceTableViewController: UITableViewController/*, UIViewControllerTransitioningDelegate, UINavigationControllerDelegate*/ {
+class SourceTableViewController: UITableViewController {
     
     lazy var fadeAnimator: AETransitioningDelegate = {
         let fadeIn = AETransitionFade(presenting: true)
@@ -25,7 +25,6 @@ class SourceTableViewController: UITableViewController/*, UIViewControllerTransi
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
         let toViewController = segue.destinationViewController as UIViewController
-//        let toViewController = segue.destinationViewController as UINavigationController
         
         if segue.identifier == "fadeSeguePush" {
             navigationController?.delegate = fadeAnimator
@@ -36,7 +35,12 @@ class SourceTableViewController: UITableViewController/*, UIViewControllerTransi
         }
         
         if segue.identifier == "fadeSegueModal" {
-            fadeAnimator.presentationController = AEPresentationController(presentedViewController: toViewController, presentingViewController: self, presentedViewFrame: CGRectMake(50, 50, 200, 400))
+            fadeAnimator.presentationController = AEPresentationController(presentedViewController: toViewController, presentingViewController: self, presentedViewFrame: CGRectMake(60, 84, 200, 400))
+            toViewController.transitioningDelegate = fadeAnimator
+        }
+        
+        if segue.identifier == "fadeSegueModalCustom" {
+            fadeAnimator.presentationController = AEPresentationController(presentedViewController: toViewController, presentingViewController: self, presentedViewFrame: CGRectMake(60, 84, 200, 400))
             toViewController.modalPresentationStyle = .Custom
             toViewController.transitioningDelegate = fadeAnimator
         }

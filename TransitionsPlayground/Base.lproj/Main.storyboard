@@ -54,7 +54,7 @@
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="mXj-Xg-OZO" id="wuU-si-UPq">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="AEFade Modal" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="VvT-CP-X3J">
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="AEFade Modal Default" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="VvT-CP-X3J">
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -63,7 +63,24 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="A15-Gg-ohZ" kind="presentation" identifier="fadeSegueModal" modalPresentationStyle="overCurrentContext" id="Eai-XQ-8Sl"/>
+                                            <segue destination="A15-Gg-ohZ" kind="presentation" identifier="fadeSegueModal" id="Eai-XQ-8Sl"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="osf-9a-V0w" style="IBUITableViewCellStyleDefault" id="fpn-TO-1UL">
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="fpn-TO-1UL" id="GVc-GR-vjA">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="AEFade Modal Custom" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="osf-9a-V0w">
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="A15-Gg-ohZ" kind="presentation" identifier="fadeSegueModalCustom" modalPresentationStyle="overFullScreen" id="egN-le-KfH"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="3bS-xD-HFd" style="IBUITableViewCellStyleDefault" id="8bJ-ua-0Em">
@@ -116,7 +133,7 @@
             </objects>
             <point key="canvasLocation" x="1593" y="627"/>
         </scene>
-        <!--Destination-->
+        <!--Destination View Controller-->
         <scene sceneID="gRX-pR-cWm">
             <objects>
                 <viewController id="A15-Gg-ohZ" customClass="DestinationViewController" customModule="TransitionsPlayground" customModuleProvider="target" sceneMemberID="viewController">
@@ -128,8 +145,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jnb-2h-ONb">
-                                <rect key="frame" x="16" y="285" width="54" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jnb-2h-ONb">
+                                <rect key="frame" x="273" y="285" width="54" height="30"/>
                                 <state key="normal" title="Dismiss">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -139,14 +156,11 @@
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="jnb-2h-ONb" firstAttribute="centerX" secondItem="F9L-sq-F29" secondAttribute="centerX" id="EFb-Io-3bC"/>
+                            <constraint firstItem="jnb-2h-ONb" firstAttribute="centerY" secondItem="F9L-sq-F29" secondAttribute="centerY" id="lPu-C7-itb"/>
+                        </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Destination" id="OWA-rc-ydh">
-                        <barButtonItem key="rightBarButtonItem" title="Dismiss" id="Dly-LB-eRy">
-                            <connections>
-                                <segue destination="upY-dW-oaK" kind="unwind" unwindAction="unwindToSourceTVC:" id="Mcl-ip-9Vj"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5tV-tC-J0D" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="upY-dW-oaK" userLabel="Exit" sceneMemberID="exit"/>
@@ -173,6 +187,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="Eai-XQ-8Sl"/>
+        <segue reference="egN-le-KfH"/>
     </inferredMetricsTieBreakers>
 </document>

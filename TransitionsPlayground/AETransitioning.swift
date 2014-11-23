@@ -72,6 +72,14 @@ class AETransitioningDelegate: NSObject, UIViewControllerTransitioningDelegate, 
         return presentedViewFrame
     }
     
+    override func shouldPresentInFullscreen() -> Bool {
+        return false
+    }
+    
+    override func shouldRemovePresentersView() -> Bool {
+        return false
+    }
+    
 }
 
 class AETransition: NSObject, UIViewControllerAnimatedTransitioning {
@@ -99,91 +107,83 @@ class AETransition: NSObject, UIViewControllerAnimatedTransitioning {
 class AETransitionFade: AETransition {
     
     override func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
-        let fromVC = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)!
-        let toVC = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)!
-        let containerView = transitionContext.containerView()
         
-        fromVC.view.frame = transitionContext.initialFrameForViewController(fromVC)
-        toVC.view.frame = transitionContext.finalFrameForViewController(toVC)
-        
+        let container = transitionContext.containerView()
+
         if presenting {
-            toVC.view.alpha = 0.0
-            containerView.addSubview(toVC.view)
-            
-            UIView.animateWithDuration(duration, animations: { () -> Void in
-                toVC.view.alpha = 1.0
-            }, completion: { (finished) -> Void in
-                transitionContext.completeTransition(!transitionContext.transitionWasCancelled())
-            })
+            if let toView = transitionContext.viewForKey(UITransitionContextToViewKey) {
+                println("fade in")
+                
+                if let toVC = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey) {
+                    toView.frame = transitionContext.finalFrameForViewController(toVC)
+                }
+                
+                toView.alpha = 0.0
+                container.addSubview(toView)
+                
+                UIView.animateWithDuration(duration, animations: { () -> Void in
+                    toView.alpha = 1.0
+                }, completion: { (finished) -> Void in
+                    transitionContext.completeTransition(!transitionContext.transitionWasCancelled())
+                })
+            }
         } else {
-            containerView.addSubview(toVC.view)
-            containerView.sendSubviewToBack(toVC.view)
-            
-            UIView.animateWithDuration(duration, animations: { () -> Void in
-                fromVC.view.alpha = 0.0
-            }, completion: { (finished) -> Void in
-                fromVC.view.removeFromSuperview()
-                transitionContext.completeTransition(!transitionContext.transitionWasCancelled())
-            })
+            if let fromView = transitionContext.viewForKey(UITransitionContextFromViewKey) {
+                println("fade out")
+                
+                if let toView = transitionContext.viewForKey(UITransitionContextToViewKey) {
+                    println("dismiss has toView")
+                    container.addSubview(toView)
+                    container.sendSubviewToBack(toView)
+                }
+                
+                UIView.animateWithDuration(duration, animations: { () -> Void in
+                    fromView.alpha = 0.0
+                }, completion: { (finished) -> Void in
+                    fromView.removeFromSuperview()
+                    transitionContext.completeTransition(!transitionContext.transitionWasCancelled())
+                })
+            }
         }
+        
     }
     
 }
 
+//// original old version
 //class AETransitionFade: AETransition {
-//
+//    
 //    override func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
-//        let container = transitionContext.containerView()
-////        let fromView = transitionContext.viewForKey(UITransitionContextFromViewKey)!
-////        let toView = transitionContext.viewForKey(UITransitionContextToViewKey)!
+//        let fromVC = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)!
+//        let toVC = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)!
+//        let containerView = transitionContext.containerView()
 //        
-////        container.addSubview(toView)
-////        container.addSubview(fromView)
-////        UIView.animateWithDuration(duration, animations: { () -> Void in
-////            if self.presenting {
-////                toView.alpha = 1.0
-////            } else {
-////                fromView.alpha = 0.0
-////            }
-////        }) { (finished) -> Void in
-////            transitionContext.completeTransition(!transitionContext.transitionWasCancelled())
-////        }
+//        fromVC.view.frame = transitionContext.initialFrameForViewController(fromVC)
+//        toVC.view.frame = transitionContext.finalFrameForViewController(toVC)
 //        
 //        if presenting {
-//            let presentedController = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)!
-//            let toView = transitionContext.viewForKey(UITransitionContextToViewKey)!
-//            toView.frame = transitionContext.finalFrameForViewController(presentedController)
-//            println("fade presenting")
-//            toView.alpha = 0.0
-//            container.addSubview(toView)
+//            toVC.view.alpha = 0.0
+//            containerView.addSubview(toVC.view)
 //            
 //            UIView.animateWithDuration(duration, animations: { () -> Void in
-//                toView.alpha = 1.0
-//            }, completion: { (finished) -> Void in
-//                transitionContext.completeTransition(!transitionContext.transitionWasCancelled())
+//                toVC.view.alpha = 1.0
+//                }, completion: { (finished) -> Void in
+//                    transitionContext.completeTransition(!transitionContext.transitionWasCancelled())
 //            })
 //        } else {
-//            let fromView = transitionContext.viewForKey(UITransitionContextFromViewKey)!
-////            let toView = transitionContext.viewForKey(UITransitionContextToViewKey)!
-//            println("fade dismissing")
-////            container.addSubview(toView)
-////            container.sendSubviewToBack(toView)
+//            containerView.addSubview(toVC.view)
+//            containerView.sendSubviewToBack(toVC.view)
 //            
 //            UIView.animateWithDuration(duration, animations: { () -> Void in
-//                fromView.alpha = 0.0
+//                fromVC.view.alpha = 0.0
 //                }, completion: { (finished) -> Void in
-//                    fromView.removeFromSuperview()
+//                    fromVC.view.removeFromSuperview()
 //                    transitionContext.completeTransition(!transitionContext.transitionWasCancelled())
 //            })
 //        }
 //    }
 //    
 //}
-
-
-
-
-
 
 
 
