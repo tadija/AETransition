@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="nXJ-hK-bzr">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--Source-->
@@ -49,6 +50,25 @@
                                             <segue destination="A15-Gg-ohZ" kind="showDetail" identifier="fadeSegueReplace" id="Z8O-9H-zAN"/>
                                         </connections>
                                     </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="3bS-xD-HFd" style="IBUITableViewCellStyleDefault" id="8bJ-ua-0Em">
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="8bJ-ua-0Em" id="Yyc-d3-UG3">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="AEFade Popover" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="3bS-xD-HFd">
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="A15-Gg-ohZ" kind="popoverPresentation" identifier="fadeSeguePopover" popoverAnchorView="8bJ-ua-0Em" id="yU2-PR-LE6">
+                                                <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                            </segue>
+                                        </connections>
+                                    </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="VvT-CP-X3J" style="IBUITableViewCellStyleDefault" id="mXj-Xg-OZO">
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="mXj-Xg-OZO" id="wuU-si-UPq">
@@ -63,7 +83,7 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="A15-Gg-ohZ" kind="presentation" identifier="fadeSegueModal" id="Eai-XQ-8Sl"/>
+                                            <segue destination="A15-Gg-ohZ" kind="presentation" identifier="fadeSegueModalDefault" id="ile-ub-OZd"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="osf-9a-V0w" style="IBUITableViewCellStyleDefault" id="fpn-TO-1UL">
@@ -83,12 +103,16 @@
                                             <segue destination="A15-Gg-ohZ" kind="presentation" identifier="fadeSegueModalCustom" modalPresentationStyle="overFullScreen" id="egN-le-KfH"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="3bS-xD-HFd" style="IBUITableViewCellStyleDefault" id="8bJ-ua-0Em">
+                                </cells>
+                            </tableViewSection>
+                            <tableViewSection id="UkI-Cb-Jf8">
+                                <cells>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="V7R-Qs-XlV" style="IBUITableViewCellStyleDefault" id="hCO-lT-ijf">
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="8bJ-ua-0Em" id="Yyc-d3-UG3">
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="hCO-lT-ijf" id="KaA-CM-Igm">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="AEFade Popover" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="3bS-xD-HFd">
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="AESlide Push" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="V7R-Qs-XlV">
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -96,18 +120,13 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
-                                        <connections>
-                                            <segue destination="A15-Gg-ohZ" kind="popoverPresentation" identifier="fadeSeguePopover" popoverAnchorView="8bJ-ua-0Em" id="TwJ-LL-FgS">
-                                                <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
-                                            </segue>
-                                        </connections>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="KHi-Fn-emV" style="IBUITableViewCellStyleDefault" id="aYh-5y-sbY">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="v9t-zq-J7q" style="IBUITableViewCellStyleDefault" id="Mnz-Li-hFe">
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="aYh-5y-sbY" id="tCa-2C-DG7">
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Mnz-Li-hFe" id="hh9-eH-LJV">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="AEFade Custom" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="KHi-Fn-emV">
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="AESlide Replace" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="v9t-zq-J7q">
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -115,9 +134,48 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
-                                        <connections>
-                                            <segue destination="A15-Gg-ohZ" kind="custom" identifier="fadeSegueCustom" id="ncB-hX-fAN"/>
-                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="tqp-Ap-1iR" style="IBUITableViewCellStyleDefault" id="2EC-mO-vql">
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="2EC-mO-vql" id="cIS-vj-Qv8">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="AESlide Popover" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="tqp-Ap-1iR">
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="7lP-OB-UcO" style="IBUITableViewCellStyleDefault" id="Kot-0M-XZo">
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Kot-0M-XZo" id="Ar4-hU-ooX">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="AESlide Modal Default" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="7lP-OB-UcO">
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="Gu3-Ej-sgU" style="IBUITableViewCellStyleDefault" id="z3q-0D-nkM">
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="z3q-0D-nkM" id="CbF-yU-ZZx">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="AESlide Modal Custom" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Gu3-Ej-sgU">
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
@@ -154,11 +212,51 @@
                                     <segue destination="upY-dW-oaK" kind="unwind" unwindAction="unwindToSourceTVC:" id="bC7-bw-dxr"/>
                                 </connections>
                             </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hW8-8v-IrX">
+                                <rect key="frame" x="16" y="40" width="50" height="50"/>
+                                <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="1qf-Jc-L4d"/>
+                                    <constraint firstAttribute="width" constant="50" id="nB3-TV-ge9"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xEj-P4-xmu">
+                                <rect key="frame" x="534" y="40" width="50" height="50"/>
+                                <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="QLU-Fi-d5g"/>
+                                    <constraint firstAttribute="width" constant="50" id="tkd-Rd-EJG"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LOu-IY-hj4">
+                                <rect key="frame" x="534" y="530" width="50" height="50"/>
+                                <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="50" id="GGD-ew-zfi"/>
+                                    <constraint firstAttribute="height" constant="50" id="ZMq-6V-YYT"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FEL-AN-qEn">
+                                <rect key="frame" x="16" y="530" width="50" height="50"/>
+                                <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="50" id="5Fe-lh-BpQ"/>
+                                    <constraint firstAttribute="height" constant="50" id="ZIH-kE-v42"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="jnb-2h-ONb" firstAttribute="centerX" secondItem="F9L-sq-F29" secondAttribute="centerX" id="EFb-Io-3bC"/>
-                            <constraint firstItem="jnb-2h-ONb" firstAttribute="centerY" secondItem="F9L-sq-F29" secondAttribute="centerY" id="lPu-C7-itb"/>
+                            <constraint firstItem="FEL-AN-qEn" firstAttribute="leading" secondItem="F9L-sq-F29" secondAttribute="leadingMargin" id="1dD-mw-fed"/>
+                            <constraint firstItem="xEj-P4-xmu" firstAttribute="trailing" secondItem="F9L-sq-F29" secondAttribute="trailingMargin" id="2ps-2v-86b"/>
+                            <constraint firstItem="LOu-IY-hj4" firstAttribute="trailing" secondItem="F9L-sq-F29" secondAttribute="trailingMargin" id="5uB-6g-TjZ"/>
+                            <constraint firstItem="htg-Hf-gjz" firstAttribute="top" secondItem="LOu-IY-hj4" secondAttribute="bottom" constant="20" id="Eey-GH-XVA"/>
+                            <constraint firstAttribute="centerY" secondItem="jnb-2h-ONb" secondAttribute="centerY" id="Mn2-Ht-fxM"/>
+                            <constraint firstItem="hW8-8v-IrX" firstAttribute="top" secondItem="cau-AD-OvC" secondAttribute="bottom" constant="20" id="X2T-w9-7hX"/>
+                            <constraint firstAttribute="centerX" secondItem="jnb-2h-ONb" secondAttribute="centerX" id="Ze4-Zc-08T"/>
+                            <constraint firstItem="hW8-8v-IrX" firstAttribute="leading" secondItem="F9L-sq-F29" secondAttribute="leadingMargin" id="dhZ-cn-Fp3"/>
+                            <constraint firstItem="xEj-P4-xmu" firstAttribute="top" secondItem="cau-AD-OvC" secondAttribute="bottom" constant="20" id="kR0-en-nZf"/>
+                            <constraint firstItem="htg-Hf-gjz" firstAttribute="top" secondItem="FEL-AN-qEn" secondAttribute="bottom" constant="20" id="ru2-85-jh4"/>
                         </constraints>
                     </view>
                 </viewController>
@@ -187,6 +285,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="egN-le-KfH"/>
+        <segue reference="yU2-PR-LE6"/>
     </inferredMetricsTieBreakers>
 </document>

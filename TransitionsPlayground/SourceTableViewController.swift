@@ -11,15 +11,21 @@ import UIKit
 class SourceTableViewController: UITableViewController {
     
     lazy var fadeAnimator: AETransitioningDelegate = {
-        let fadeIn = AETransitionFade(presenting: true)
-        let fadeOut = AETransitionFade(presenting: false)
-        let transitioningDelegate = AETransitioningDelegate(presentingTransition: fadeIn, dismissingTransition: fadeOut)
+//        let fadeIn = AETransitionFade(presenting: true)
+//        let fadeOut = AETransitionFade(presenting: false)
+//        let transitioningDelegate = AETransitioningDelegate(presentTransition: fadeIn, dismissTransition: fadeOut)
+        let transitioningDelegate = AETransitioningDelegate(transition: AETransitionFade.self)
         return transitioningDelegate
     }()
     
     @IBAction func unwindToSourceTVC(segue: UIStoryboardSegue) {
         println("unwindToSourceTVC")
-        self.dismissViewControllerAnimated(true, completion: nil)
+        if let p = presentedViewController {
+            if p.modalPresentationStyle == .Custom {
+                println("manual dismiss")
+                dismissViewControllerAnimated(true, completion: nil)
+            }
+        }
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -34,7 +40,7 @@ class SourceTableViewController: UITableViewController {
             toViewController.transitioningDelegate = fadeAnimator
         }
         
-        if segue.identifier == "fadeSegueModal" {
+        if segue.identifier == "fadeSegueModalDefault" {
             fadeAnimator.presentationController = AEPresentationController(presentedViewController: toViewController, presentingViewController: self, presentedViewFrame: CGRectMake(60, 84, 200, 400))
             toViewController.transitioningDelegate = fadeAnimator
         }

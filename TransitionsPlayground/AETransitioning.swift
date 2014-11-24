@@ -14,21 +14,17 @@ class AETransitioningDelegate: NSObject, UIViewControllerTransitioningDelegate, 
     let dismissingTransition: UIViewControllerAnimatedTransitioning
     var presentationController: UIPresentationController?
     
-    init (presentingTransition: UIViewControllerAnimatedTransitioning, dismissingTransition: UIViewControllerAnimatedTransitioning, presentationController: UIPresentationController? = nil) {
-        self.presentingTransition = presentingTransition
-        self.dismissingTransition = dismissingTransition
+    init (presentTransition: UIViewControllerAnimatedTransitioning, dismissTransition: UIViewControllerAnimatedTransitioning, presentationController: UIPresentationController? = nil) {
+        self.presentingTransition = presentTransition
+        self.dismissingTransition = dismissTransition
         self.presentationController = presentationController
     }
     
-//    convenience init (transition: AETransition, presentationController: UIPresentationController? = nil) {
-////        let presenting = transition
-////        let dismissing = transition
-////        presenting.presenting = true
-////        dismissing.presenting = false
-//        let presenting = AETransitionFade(presenting: true)
-//        let dismissing = AETransitionFade(presenting: false)
-//        self.init(presentingTransition: presenting, dismissingTransition: dismissing, presentationController: presentationController)
-//    }
+    convenience init (transition: AETransition.Type, presentationController: UIPresentationController? = nil) {
+        let presenting = transition(presenting: true)
+        let dismissing = transition(presenting: false)
+        self.init(presentTransition: presenting, dismissTransition: dismissing, presentationController: presentationController)
+    }
     
     func animationControllerForPresentedController(presented: UIViewController, presentingController presenting: UIViewController, sourceController source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return presentingTransition
@@ -36,6 +32,10 @@ class AETransitioningDelegate: NSObject, UIViewControllerTransitioningDelegate, 
     
     func animationControllerForDismissedController(dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return dismissingTransition
+    }
+    
+    func presentationControllerForPresentedViewController(presented: UIViewController, presentingViewController presenting: UIViewController!, sourceViewController source: UIViewController) -> UIPresentationController? {
+        return presentationController
     }
     
     func navigationController(navigationController: UINavigationController, animationControllerForOperation operation: UINavigationControllerOperation, fromViewController fromVC: UIViewController, toViewController toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
@@ -51,10 +51,6 @@ class AETransitioningDelegate: NSObject, UIViewControllerTransitioningDelegate, 
 
     func tabBarController(tabBarController: UITabBarController, animationControllerForTransitionFromViewController fromVC: UIViewController, toViewController toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return presentingTransition
-    }
-    
-    func presentationControllerForPresentedViewController(presented: UIViewController, presentingViewController presenting: UIViewController!, sourceViewController source: UIViewController) -> UIPresentationController? {
-        return presentationController
     }
     
 }
@@ -87,7 +83,7 @@ class AETransition: NSObject, UIViewControllerAnimatedTransitioning {
     var presenting: Bool
     let duration: NSTimeInterval
     
-    init(presenting: Bool = true, duration: NSTimeInterval = 0.5) {
+    required init(presenting: Bool = true, duration: NSTimeInterval = 0.5) {
         self.presenting = presenting
         self.duration = duration
     }
