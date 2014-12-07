@@ -120,6 +120,9 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="A15-Gg-ohZ" kind="show" identifier="slideSeguePush" id="p8D-Fw-4Ud"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="v9t-zq-J7q" style="IBUITableViewCellStyleDefault" id="Mnz-Li-hFe">
                                         <autoresizingMask key="autoresizingMask"/>
@@ -134,6 +137,9 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="A15-Gg-ohZ" kind="showDetail" identifier="slideSegueReplace" id="LhQ-KZ-bDs"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="tqp-Ap-1iR" style="IBUITableViewCellStyleDefault" id="2EC-mO-vql">
                                         <autoresizingMask key="autoresizingMask"/>
@@ -148,6 +154,11 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="A15-Gg-ohZ" kind="popoverPresentation" identifier="slideSeguePopover" popoverAnchorView="2EC-mO-vql" id="KMm-FJ-6hd">
+                                                <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                            </segue>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="7lP-OB-UcO" style="IBUITableViewCellStyleDefault" id="Kot-0M-XZo">
                                         <autoresizingMask key="autoresizingMask"/>
@@ -162,6 +173,9 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="A15-Gg-ohZ" kind="presentation" identifier="slideSegueModalDefault" id="0ex-2g-OpG"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="Gu3-Ej-sgU" style="IBUITableViewCellStyleDefault" id="z3q-0D-nkM">
                                         <autoresizingMask key="autoresizingMask"/>
@@ -176,6 +190,9 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="A15-Gg-ohZ" kind="presentation" identifier="slideSegueModalCustom" modalPresentationStyle="overFullScreen" id="lKg-Zm-Ljj"/>
+                                        </connections>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
@@ -285,6 +302,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="yU2-PR-LE6"/>
+        <segue reference="KMm-FJ-6hd"/>
     </inferredMetricsTieBreakers>
 </document>

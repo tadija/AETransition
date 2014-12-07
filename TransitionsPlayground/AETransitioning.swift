@@ -8,7 +8,7 @@
 
 import UIKit
 
-class AETransitioningDelegate: NSObject, UIViewControllerTransitioningDelegate, UINavigationControllerDelegate, UITabBarControllerDelegate {
+class AEAnimator: NSObject, UIViewControllerTransitioningDelegate, UINavigationControllerDelegate, UITabBarControllerDelegate {
     
     let presentingTransition: UIViewControllerAnimatedTransitioning
     let dismissingTransition: UIViewControllerAnimatedTransitioning
@@ -142,6 +142,89 @@ class AETransitionFade: AETransition {
             }
         }
         
+    }
+    
+}
+
+class AETransitionSlide: AETransition {
+    
+    enum Direction {
+        case Top
+        case Left
+        case Bottom
+        case Right
+    }
+    
+    let direction: Direction
+    
+    init(presenting: Bool, duration: NSTimeInterval, direction: Direction) {
+        self.direction = direction
+        super.init(presenting: presenting, duration: duration)
+    }
+    
+    required convenience init(presenting: Bool, duration: NSTimeInterval) {
+        self.init(presenting: presenting, duration: duration, direction: .Right)
+    }
+    
+    override func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
+
+        let container = transitionContext.containerView()
+        
+        let fromVC = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)!
+        let finalFrame = transitionContext.initialFrameForViewController(fromVC)
+        let initialFrame = initialFrameForRect(finalFrame, direction: direction)
+        
+        if presenting {
+            if let toView = transitionContext.viewForKey(UITransitionContextToViewKey) {
+                println("slide in")
+                
+                toView.frame = initialFrame
+                container.addSubview(toView)
+                
+                UIView.animateWithDuration(duration, animations: { () -> Void in
+                    toView.frame = finalFrame
+                    }, completion: { (finished) -> Void in
+                        transitionContext.completeTransition(!transitionContext.transitionWasCancelled())
+                })
+            }
+        } else {
+            if let fromView = transitionContext.viewForKey(UITransitionContextFromViewKey) {
+                println("slide out")
+                
+                if let toView = transitionContext.viewForKey(UITransitionContextToViewKey) {
+                    println("dismiss has toView")
+                    container.addSubview(toView)
+                    container.sendSubviewToBack(toView)
+                }
+                
+                UIView.animateWithDuration(duration, animations: { () -> Void in
+                    fromView.frame = initialFrame
+                    }, completion: { (finished) -> Void in
+                        fromView.removeFromSuperview()
+                        transitionContext.completeTransition(!transitionContext.transitionWasCancelled())
+                })
+            }
+        }
+        
+    }
+    
+    // use direction property
+    func initialFrameForRect(rect: CGRect, direction: Direction) -> CGRect {
+        
+        var initialFrame = rect
+        
+        switch direction {
+        case .Top:
+            initialFrame.origin.y -= CGRectGetHeight(rect)
+        case .Left:
+            initialFrame.origin.x -= CGRectGetWidth(rect)
+        case .Bottom:
+            initialFrame.origin.y += CGRectGetHeight(rect)
+        case .Right:
+            initialFrame.origin.x += CGRectGetWidth(rect)
+        }
+        
+        return initialFrame
     }
     
 }

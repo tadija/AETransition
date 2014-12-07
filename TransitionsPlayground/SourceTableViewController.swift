@@ -10,12 +10,17 @@ import UIKit
 
 class SourceTableViewController: UITableViewController {
     
-    lazy var fadeAnimator: AETransitioningDelegate = {
+    lazy var fadeAnimator: AEAnimator = {
 //        let fadeIn = AETransitionFade(presenting: true)
 //        let fadeOut = AETransitionFade(presenting: false)
-//        let transitioningDelegate = AETransitioningDelegate(presentTransition: fadeIn, dismissTransition: fadeOut)
-        let transitioningDelegate = AETransitioningDelegate(transition: AETransitionFade.self)
-        return transitioningDelegate
+//        let animator = AEAnimator(presentTransition: fadeIn, dismissTransition: fadeOut)
+        let animator = AEAnimator(transition: AETransitionFade.self)
+        return animator
+    }()
+    
+    lazy var slideAnimator: AEAnimator = {
+        let animator = AEAnimator(transition: AETransitionSlide.self)
+        return animator
     }()
     
     @IBAction func unwindToSourceTVC(segue: UIStoryboardSegue) {
@@ -31,6 +36,8 @@ class SourceTableViewController: UITableViewController {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
         let toViewController = segue.destinationViewController as UIViewController
+        
+        // FADE
         
         if segue.identifier == "fadeSeguePush" {
             navigationController?.delegate = fadeAnimator
@@ -57,6 +64,35 @@ class SourceTableViewController: UITableViewController {
         
         if segue.identifier == "fadeSegueCustom" {
             navigationController?.delegate = fadeAnimator
+        }
+        
+        // SLIDE
+        
+        if segue.identifier == "slideSeguePush" {
+            navigationController?.delegate = slideAnimator
+        }
+        
+        if segue.identifier == "slideSegueReplace" {
+            toViewController.transitioningDelegate = slideAnimator
+        }
+        
+        if segue.identifier == "slideSegueModalDefault" {
+            slideAnimator.presentationController = AEPresentationController(presentedViewController: toViewController, presentingViewController: self, presentedViewFrame: CGRectMake(60, 84, 200, 400))
+            toViewController.transitioningDelegate = slideAnimator
+        }
+        
+        if segue.identifier == "slideSegueModalCustom" {
+            slideAnimator.presentationController = AEPresentationController(presentedViewController: toViewController, presentingViewController: self, presentedViewFrame: CGRectMake(60, 84, 200, 400))
+            toViewController.modalPresentationStyle = .Custom
+            toViewController.transitioningDelegate = slideAnimator
+        }
+        
+        if segue.identifier == "slideSeguePopover" {
+            toViewController.transitioningDelegate = slideAnimator
+        }
+        
+        if segue.identifier == "slideSegueCustom" {
+            navigationController?.delegate = slideAnimator
         }
 
     }
