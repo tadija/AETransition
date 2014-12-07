@@ -78,6 +78,8 @@ class AEAnimator: NSObject, UIViewControllerTransitioningDelegate, UINavigationC
     
 }
 
+// note to myself: probably all the logic can be inside AETransition (alpha, frame, direction)
+
 class AETransition: NSObject, UIViewControllerAnimatedTransitioning {
     
     var presenting: Bool
@@ -170,11 +172,12 @@ class AETransitionSlide: AETransition {
 
         let container = transitionContext.containerView()
         
-        let fromVC = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)!
-        let finalFrame = transitionContext.initialFrameForViewController(fromVC)
-        let initialFrame = initialFrameForRect(finalFrame, direction: direction)
-        
         if presenting {
+            
+            let toVC = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)!
+            let finalFrame = transitionContext.finalFrameForViewController(toVC)
+            let initialFrame = initialFrameForRect(finalFrame, direction: direction)
+            
             if let toView = transitionContext.viewForKey(UITransitionContextToViewKey) {
                 println("slide in")
                 
@@ -188,6 +191,11 @@ class AETransitionSlide: AETransition {
                 })
             }
         } else {
+            
+            let fromVC = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)!
+            let finalFrame = transitionContext.initialFrameForViewController(fromVC)
+            let initialFrame = initialFrameForRect(finalFrame, direction: direction)
+            
             if let fromView = transitionContext.viewForKey(UITransitionContextFromViewKey) {
                 println("slide out")
                 
@@ -215,55 +223,19 @@ class AETransitionSlide: AETransition {
         
         switch direction {
         case .Top:
-            initialFrame.origin.y -= CGRectGetHeight(rect)
+            initialFrame.origin.y -= CGRectGetHeight(rect) + CGRectGetMinY(rect)
         case .Left:
-            initialFrame.origin.x -= CGRectGetWidth(rect)
+            initialFrame.origin.x -= CGRectGetWidth(rect) + CGRectGetMinX(rect)
         case .Bottom:
-            initialFrame.origin.y += CGRectGetHeight(rect)
+            initialFrame.origin.y += CGRectGetHeight(rect) + CGRectGetMinY(rect)
         case .Right:
-            initialFrame.origin.x += CGRectGetWidth(rect)
+            initialFrame.origin.x += CGRectGetWidth(rect) + CGRectGetMinX(rect)
         }
         
         return initialFrame
     }
     
 }
-
-//// original old version
-//class AETransitionFade: AETransition {
-//    
-//    override func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
-//        let fromVC = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)!
-//        let toVC = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)!
-//        let containerView = transitionContext.containerView()
-//        
-//        fromVC.view.frame = transitionContext.initialFrameForViewController(fromVC)
-//        toVC.view.frame = transitionContext.finalFrameForViewController(toVC)
-//        
-//        if presenting {
-//            toVC.view.alpha = 0.0
-//            containerView.addSubview(toVC.view)
-//            
-//            UIView.animateWithDuration(duration, animations: { () -> Void in
-//                toVC.view.alpha = 1.0
-//                }, completion: { (finished) -> Void in
-//                    transitionContext.completeTransition(!transitionContext.transitionWasCancelled())
-//            })
-//        } else {
-//            containerView.addSubview(toVC.view)
-//            containerView.sendSubviewToBack(toVC.view)
-//            
-//            UIView.animateWithDuration(duration, animations: { () -> Void in
-//                fromVC.view.alpha = 0.0
-//                }, completion: { (finished) -> Void in
-//                    fromVC.view.removeFromSuperview()
-//                    transitionContext.completeTransition(!transitionContext.transitionWasCancelled())
-//            })
-//        }
-//    }
-//    
-//}
-
 
 
 
