@@ -19,11 +19,19 @@ class SourceTableViewController: UITableViewController {
     }()
     
     lazy var slideAnimator: AEAnimator = {
-//        let animator = AEAnimator(transition: AETransitionSlide.self)
+        let animator = AEAnimator(transition: AETransitionSlide.self)
         
-        let slideFromTop = AETransitionSlide(presenting: true, duration: 0.5, direction: .Top)
-        let slideToBottom = AETransitionSlide(presenting: false, duration: 0.3, direction: .Bottom)
-        let animator = AEAnimator(presentTransition: slideFromTop, dismissTransition: slideToBottom)
+//        let slideFromTop = AETransitionSlide(presenting: true, duration: 0.5, direction: .Top)
+//        let slideToBottom = AETransitionSlide(presenting: false, duration: 0.3, direction: .Bottom)
+//        let animator = AEAnimator(presentTransition: slideFromTop, dismissTransition: slideToBottom)
+        
+        return animator
+    }()
+    
+    lazy var slideAnimatorCustom: AEAnimator = {
+        let slideFromLeft = AETransitionSlide(presenting: true, duration: 0.5, direction: .Left)
+        let slideToLeft = AETransitionSlide(presenting: false, duration: 0.3, direction: .Left)
+        let animator = AEAnimator(presentTransition: slideFromLeft, dismissTransition: slideToLeft)
         
         return animator
     }()
@@ -87,9 +95,11 @@ class SourceTableViewController: UITableViewController {
         }
         
         if segue.identifier == "slideSegueModalCustom" {
-            slideAnimator.presentationController = AEPresentationController(presentedViewController: toViewController, presentingViewController: self, presentedViewFrame: CGRectMake(60, 84, 200, 400))
+            var frame = CGRectInset(view.frame, 20, 0)
+            frame.origin.x = 0
+            slideAnimatorCustom.presentationController = AEPresentationController(presentedViewController: toViewController, presentingViewController: self, presentedViewFrame: frame)
             toViewController.modalPresentationStyle = .Custom
-            toViewController.transitioningDelegate = slideAnimator
+            toViewController.transitioningDelegate = slideAnimatorCustom
         }
         
         if segue.identifier == "slideSeguePopover" {

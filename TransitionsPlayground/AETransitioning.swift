@@ -64,6 +64,40 @@ class AEAnimator: NSObject, UIViewControllerTransitioningDelegate, UINavigationC
         super.init(presentedViewController: presentedViewController, presentingViewController: presentingViewController)
     }
     
+    override func presentationTransitionWillBegin() {
+        if let coordinator = presentedViewController.transitionCoordinator() {
+            
+            coordinator.animateAlongsideTransition({ (transitionContext: UIViewControllerTransitionCoordinatorContext!) -> Void in
+                var newFrame = self.presentingViewController.view.frame
+                newFrame.origin.x = CGRectGetMaxX(self.presentedViewFrame)
+                self.presentingViewController.view.frame = newFrame
+                
+//                // has only toView
+//                if let fromView = transitionContext.viewForKey(UITransitionContextFromViewKey) {
+//                    println("has from view")
+//                    if let toView = transitionContext.viewForKey(UITransitionContextToViewKey) {
+//                        println("has to view")
+//                        var newFrame = fromView.frame
+//                        newFrame.origin.x = CGRectGetMaxX(toView.frame)
+//                        fromView.frame = newFrame
+//                    }
+//                }
+                
+            }, completion: nil)
+            
+        }
+    }
+    
+    override func dismissalTransitionWillBegin() {
+        if let coordinator = presentedViewController.transitionCoordinator() {
+            coordinator.animateAlongsideTransition({ (transitionContext: UIViewControllerTransitionCoordinatorContext!) -> Void in
+                var newFrame = self.presentingViewController.view.frame
+                newFrame.origin.x = 0
+                self.presentingViewController.view.frame = newFrame
+            }, completion: nil)
+        }
+    }
+    
     override func frameOfPresentedViewInContainerView() -> CGRect {
         return presentedViewFrame
     }
@@ -184,8 +218,21 @@ class AETransitionSlide: AETransition {
                 toView.frame = initialFrame
                 container.addSubview(toView)
                 
+//                // testing
+//                var fromView = UIView()
+//                var fromFrame = CGRectZero
+//                if let fromVC = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey) {
+//                    println("fromVC")
+//                    println(fromVC.view.frame)
+//                    fromView = fromVC.view
+//                    fromFrame = fromVC.view.frame
+//                    fromFrame.origin.x = CGRectGetMaxX(finalFrame)
+//                }
+//                // testing
+                
                 UIView.animateWithDuration(duration, animations: { () -> Void in
                     toView.frame = finalFrame
+//                    fromView.frame = fromFrame // testing
                     }, completion: { (finished) -> Void in
                         transitionContext.completeTransition(!transitionContext.transitionWasCancelled())
                 })
@@ -205,8 +252,21 @@ class AETransitionSlide: AETransition {
                     container.sendSubviewToBack(toView)
                 }
                 
+//                // testing
+//                var toView = UIView()
+//                var toFrame = CGRectZero
+//                if let toVC = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey) {
+//                    println("toVC")
+//                    println(toVC.view.frame)
+//                    toView = toVC.view
+//                    toFrame = toVC.view.frame
+//                    toFrame.origin.x = 0
+//                }
+//                // testing
+                
                 UIView.animateWithDuration(duration, animations: { () -> Void in
                     fromView.frame = initialFrame
+//                    toView.frame = toFrame // testing
                     }, completion: { (finished) -> Void in
                         fromView.removeFromSuperview()
                         transitionContext.completeTransition(!transitionContext.transitionWasCancelled())
