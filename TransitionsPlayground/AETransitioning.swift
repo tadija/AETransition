@@ -58,43 +58,36 @@ class AEAnimator: NSObject, UIViewControllerTransitioningDelegate, UINavigationC
 @objc class AEPresentationController: UIPresentationController {
     
     let presentedViewFrame: CGRect
+    var presentingViewFrame: CGRect?
+    
+    private let initialPresentingFrame: CGRect
 
-    init(presentedViewController: UIViewController!, presentingViewController: UIViewController!, presentedViewFrame: CGRect) {
+    init(presentedViewController: UIViewController, presentedViewFrame: CGRect, presentingViewController: UIViewController, presentingViewFrame: CGRect? = nil) {
         self.presentedViewFrame = presentedViewFrame
+        self.presentingViewFrame = presentingViewFrame
+        
+        self.initialPresentingFrame = presentingViewController.view.frame
+        
         super.init(presentedViewController: presentedViewController, presentingViewController: presentingViewController)
     }
     
     override func presentationTransitionWillBegin() {
-        if let coordinator = presentedViewController.transitionCoordinator() {
-            
-            coordinator.animateAlongsideTransition({ (transitionContext: UIViewControllerTransitionCoordinatorContext!) -> Void in
-                var newFrame = self.presentingViewController.view.frame
-                newFrame.origin.x = CGRectGetMaxX(self.presentedViewFrame)
-                self.presentingViewController.view.frame = newFrame
-                
-//                // has only toView
-//                if let fromView = transitionContext.viewForKey(UITransitionContextFromViewKey) {
-//                    println("has from view")
-//                    if let toView = transitionContext.viewForKey(UITransitionContextToViewKey) {
-//                        println("has to view")
-//                        var newFrame = fromView.frame
-//                        newFrame.origin.x = CGRectGetMaxX(toView.frame)
-//                        fromView.frame = newFrame
-//                    }
-//                }
-                
-            }, completion: nil)
-            
+        if let presentingFrame = presentingViewFrame {
+            if let coordinator = presentedViewController.transitionCoordinator() {
+                coordinator.animateAlongsideTransition({ (transitionContext: UIViewControllerTransitionCoordinatorContext!) -> Void in
+                    self.presentingViewController.view.frame =  presentingFrame
+                }, completion: nil)
+            }
         }
     }
     
     override func dismissalTransitionWillBegin() {
-        if let coordinator = presentedViewController.transitionCoordinator() {
-            coordinator.animateAlongsideTransition({ (transitionContext: UIViewControllerTransitionCoordinatorContext!) -> Void in
-                var newFrame = self.presentingViewController.view.frame
-                newFrame.origin.x = 0
-                self.presentingViewController.view.frame = newFrame
-            }, completion: nil)
+        if let presentingFrame = presentingViewFrame {
+            if let coordinator = presentedViewController.transitionCoordinator() {
+                coordinator.animateAlongsideTransition({ (transitionContext: UIViewControllerTransitionCoordinatorContext!) -> Void in
+                    self.presentingViewController.view.frame = self.initialPresentingFrame
+                }, completion: nil)
+            }
         }
     }
     

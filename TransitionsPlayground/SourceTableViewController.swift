@@ -11,10 +11,12 @@ import UIKit
 class SourceTableViewController: UITableViewController {
     
     lazy var fadeAnimator: AEAnimator = {
+        let animator = AEAnimator(transition: AETransitionFade.self)
+        
 //        let fadeIn = AETransitionFade(presenting: true)
 //        let fadeOut = AETransitionFade(presenting: false)
 //        let animator = AEAnimator(presentTransition: fadeIn, dismissTransition: fadeOut)
-        let animator = AEAnimator(transition: AETransitionFade.self)
+        
         return animator
     }()
     
@@ -61,12 +63,15 @@ class SourceTableViewController: UITableViewController {
         }
         
         if segue.identifier == "fadeSegueModalDefault" {
-            fadeAnimator.presentationController = AEPresentationController(presentedViewController: toViewController, presentingViewController: self, presentedViewFrame: CGRectMake(60, 84, 200, 400))
             toViewController.transitioningDelegate = fadeAnimator
         }
         
         if segue.identifier == "fadeSegueModalCustom" {
-            fadeAnimator.presentationController = AEPresentationController(presentedViewController: toViewController, presentingViewController: self, presentedViewFrame: CGRectMake(60, 84, 200, 400))
+            // setup presented frame and create custom presentation controller
+            var presentedFrame = CGRectInset(view.frame, 40, 80)
+            fadeAnimator.presentationController = AEPresentationController(presentedViewController: toViewController, presentedViewFrame: presentedFrame, presentingViewController: self)
+            
+            // set custom modal presentation style and transitioning delegate
             toViewController.modalPresentationStyle = .Custom
             toViewController.transitioningDelegate = fadeAnimator
         }
@@ -90,14 +95,20 @@ class SourceTableViewController: UITableViewController {
         }
         
         if segue.identifier == "slideSegueModalDefault" {
-            slideAnimator.presentationController = AEPresentationController(presentedViewController: toViewController, presentingViewController: self, presentedViewFrame: CGRectMake(60, 84, 200, 400))
             toViewController.transitioningDelegate = slideAnimator
         }
         
         if segue.identifier == "slideSegueModalCustom" {
-            var frame = CGRectInset(view.frame, 20, 0)
-            frame.origin.x = 0
-            slideAnimatorCustom.presentationController = AEPresentationController(presentedViewController: toViewController, presentingViewController: self, presentedViewFrame: frame)
+            // setup presented frame
+            var presentedFrame = CGRectInset(view.frame, 20, 0)
+            presentedFrame.origin.x = 0
+            // setup presenting frame
+            var presentingFrame = view.frame
+            presentingFrame.origin.x = CGRectGetMaxX(presentedFrame)
+            // create custom presentation controller
+            slideAnimatorCustom.presentationController = AEPresentationController(presentedViewController: toViewController, presentedViewFrame: presentedFrame, presentingViewController: self, presentingViewFrame: presentingFrame)
+            
+            // set custom modal presentation style and transitioning delegate
             toViewController.modalPresentationStyle = .Custom
             toViewController.transitioningDelegate = slideAnimatorCustom
         }
