@@ -67,9 +67,13 @@ class SourceTableViewController: UITableViewController {
         }
         
         if segue.identifier == "fadeSegueModalCustom" {
-            // setup presented frame and create custom presentation controller
-            var presentedFrame = CGRectInset(view.frame, 40, 80)
-            fadeAnimator.presentationController = AEPresentationController(presentedViewController: toViewController, presentedViewFrame: presentedFrame, presentingViewController: self)
+            // setup presentationController
+            var presentedViewFrame = CGRectInset(view.frame, 40, 80)
+            
+            let presentationController = AEPresentationController(presentedViewController: toViewController, presentingViewController: self)
+            presentationController.presentedViewFrame = presentedViewFrame
+            
+            fadeAnimator.presentationController = presentationController
             
             // set custom modal presentation style and transitioning delegate
             toViewController.modalPresentationStyle = .Custom
@@ -99,20 +103,17 @@ class SourceTableViewController: UITableViewController {
         }
         
         if segue.identifier == "slideSegueModalCustom" {
-            // setup presented frame
+            // setup presentationController
             var presentedFrame = CGRectInset(view.frame, 20, 0)
             presentedFrame.origin.x = 0
-            // setup presenting frame
-            var presentingFrame = view.frame
-            presentingFrame.origin.x = CGRectGetMaxX(presentedFrame)
-            
-            // create custom presentation controller
-//            slideAnimatorCustom.presentationController = AEPresentationController(presentedViewController: toViewController, presentedViewFrame: presentedFrame, presentingViewController: self, presentingViewFrame: presentingFrame)
-            
-            let pc = AEPresentationController(presentedViewController: toViewController, presentedViewFrame: presentedFrame, presentingViewController: self, presentingViewFrame: presentingFrame)
             let transform = CGAffineTransformMakeTranslation(280, 0)
-            pc.presentingViewTransform = transform
-            slideAnimatorCustom.presentationController = pc
+            
+            let presentationController = AEPresentationController(presentedViewController: toViewController, presentingViewController: self)
+            presentationController.presentedViewFrame = presentedFrame
+            presentationController.presentingViewTransform = transform
+            presentationController.dimmingColor = UIColor.orangeColor().colorWithAlphaComponent(0.5)
+            
+            slideAnimatorCustom.presentationController = presentationController
             
             // set custom modal presentation style and transitioning delegate
             toViewController.modalPresentationStyle = .Custom

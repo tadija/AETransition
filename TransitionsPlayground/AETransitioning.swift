@@ -8,11 +8,17 @@
 
 import UIKit
 
+// MARK: -
 class AEAnimator: NSObject, UIViewControllerTransitioningDelegate, UINavigationControllerDelegate, UITabBarControllerDelegate {
+    
+    // MARK: Properties
     
     let presentingTransition: UIViewControllerAnimatedTransitioning
     let dismissingTransition: UIViewControllerAnimatedTransitioning
+    
     var presentationController: UIPresentationController?
+    
+    // MARK: Lifecycle
     
     init (presentTransition: UIViewControllerAnimatedTransitioning, dismissTransition: UIViewControllerAnimatedTransitioning, presentationController: UIPresentationController? = nil) {
         self.presentingTransition = presentTransition
@@ -26,6 +32,8 @@ class AEAnimator: NSObject, UIViewControllerTransitioningDelegate, UINavigationC
         self.init(presentTransition: presenting, dismissTransition: dismissing, presentationController: presentationController)
     }
     
+    // MARK: UIViewControllerTransitioningDelegate
+    
     func animationControllerForPresentedController(presented: UIViewController, presentingController presenting: UIViewController, sourceController source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return presentingTransition
     }
@@ -38,6 +46,8 @@ class AEAnimator: NSObject, UIViewControllerTransitioningDelegate, UINavigationC
         return presentationController
     }
     
+    // MARK: UINavigationControllerDelegate
+    
     func navigationController(navigationController: UINavigationController, animationControllerForOperation operation: UINavigationControllerOperation, fromViewController fromVC: UIViewController, toViewController toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         switch operation {
         case .Push:
@@ -48,6 +58,8 @@ class AEAnimator: NSObject, UIViewControllerTransitioningDelegate, UINavigationC
             return nil
         }
     }
+    
+    // MARK: UITabBarControllerDelegate
 
     func tabBarController(tabBarController: UITabBarController, animationControllerForTransitionFromViewController fromVC: UIViewController, toViewController toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return presentingTransition
@@ -55,86 +67,78 @@ class AEAnimator: NSObject, UIViewControllerTransitioningDelegate, UINavigationC
     
 }
 
+// MARK: -
 @objc class AEPresentationController: UIPresentationController {
     
-    let presentedViewFrame: CGRect
+    // MARK: Properties
     
-    var dimmingView: UIView
+    var presentedViewFrame: CGRect?
+    var presentingViewTransform: CGAffineTransform?
+    
+    var dimmingView: UIView = UIView()
     var dimmingColor: UIColor = UIColor(white: 0.5, alpha: 0.5) {
         didSet {
             dimmingView.backgroundColor = dimmingColor
         }
     }
     
-//    var presentingViewFrame: CGRect?
-//    private let initialPresentingFrame: CGRect
+    // MARK: Transition
     
-    var presentingViewTransform: CGAffineTransform?
-
-    init(presentedViewController: UIViewController, presentedViewFrame: CGRect, dimmingView: UIView! = UIView(), presentingViewController: UIViewController, presentingViewFrame: CGRect? = nil, presentingViewTransform: CGAffineTransform? = nil) {
-        self.presentedViewFrame = presentedViewFrame
-        
-        self.dimmingView = dimmingView
-        self.dimmingView.backgroundColor = dimmingColor
-        
-//        self.presentingViewFrame = presentingViewFrame
-//        self.initialPresentingFrame = presentingViewController.view.frame
-        
-        super.init(presentedViewController: presentedViewController, presentingViewController: presentingViewController)
+    private func presentationTransition() {
+        self.dimmingView.alpha = 1.0
+        if let transform = self.presentingViewTransform {
+            self.presentingViewController.view.transform = transform
+        }
     }
     
+    private func dismissalTransition() {
+        self.dimmingView.alpha = 0.0
+        if let transform = self.presentingViewTransform {
+            self.presentingViewController.view.transform = CGAffineTransformIdentity
+        }
+    }
+    
+    // MARK: UIPresentationController override
+    
     override func containerViewDidLayoutSubviews() {
-        
         super.containerViewDidLayoutSubviews()
-        
         dimmingView.frame = containerView.bounds
-        
-        // update presentingVC frame
-//        presentingViewController.view.frame = containerView.bounds
     }
     
     override func presentationTransitionWillBegin() {
-        
         self.dimmingView.frame = containerView.bounds
+        self.dimmingView.backgroundColor = dimmingColor
         self.dimmingView.alpha = 0.0
         containerView.insertSubview(dimmingView, atIndex: 0)
         
+        // do presentationTransition
         if let coordinator = presentedViewController.transitionCoordinator() {
             coordinator.animateAlongsideTransition({ (transitionContext: UIViewControllerTransitionCoordinatorContext!) -> Void in
-                self.dimmingView.alpha = 1.0
-//                if let presentingFrame = self.presentingViewFrame {
-//                    self.presentingViewController.view.frame =  presentingFrame
-//                }
-                if let transform = self.presentingViewTransform {
-                    self.presentingViewController.view.transform = transform
-                }
+                self.presentationTransition()
             }, completion: nil)
         } else {
-            dimmingView.alpha = 1.0
+            presentationTransition()
         }
     }
     
     override func dismissalTransitionWillBegin() {
-        
         self.dimmingView.frame = containerView.bounds
         
+        // do dismissalTransition
         if let coordinator = presentedViewController.transitionCoordinator() {
             coordinator.animateAlongsideTransition({ (transitionContext: UIViewControllerTransitionCoordinatorContext!) -> Void in
-                self.dimmingView.alpha = 0.0
-//                if let presentingFrame = self.presentingViewFrame {
-//                    self.presentingViewController.view.frame = self.initialPresentingFrame
-//                }
-                if let transform = self.presentingViewTransform {
-                    self.presentingViewController.view.transform = CGAffineTransformIdentity
-                }
-            }, completion: nil)
+                self.dismissalTransition()
+            }, completion: { (transitionContext: UIViewControllerTransitionCoordinatorContext!) -> Void in
+                self.dimmingView.removeFromSuperview()
+            })
         } else {
-            dimmingView.alpha = 0.0
+            dismissalTransition()
+            dimmingView.removeFromSuperview()
         }
     }
     
     override func frameOfPresentedViewInContainerView() -> CGRect {
-        return presentedViewFrame
+        return presentedViewFrame ?? containerView.bounds
     }
     
     override func shouldPresentInFullscreen() -> Bool {
@@ -147,8 +151,8 @@ class AEAnimator: NSObject, UIViewControllerTransitioningDelegate, UINavigationC
     
 }
 
+// MARK: -
 // note to myself: probably all the logic can be inside AETransition (alpha, frame, direction)
-
 class AETransition: NSObject, UIViewControllerAnimatedTransitioning {
     
     var presenting: Bool
@@ -253,23 +257,10 @@ class AETransitionSlide: AETransition {
                 toView.frame = initialFrame
                 container.addSubview(toView)
                 
-//                // testing
-//                var fromView = UIView()
-//                var fromFrame = CGRectZero
-//                if let fromVC = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey) {
-//                    println("fromVC")
-//                    println(fromVC.view.frame)
-//                    fromView = fromVC.view
-//                    fromFrame = fromVC.view.frame
-//                    fromFrame.origin.x = CGRectGetMaxX(finalFrame)
-//                }
-//                // testing
-                
                 UIView.animateWithDuration(duration, animations: { () -> Void in
                     toView.frame = finalFrame
-//                    fromView.frame = fromFrame // testing
-                    }, completion: { (finished) -> Void in
-                        transitionContext.completeTransition(!transitionContext.transitionWasCancelled())
+                }, completion: { (finished) -> Void in
+                    transitionContext.completeTransition(!transitionContext.transitionWasCancelled())
                 })
             }
         } else {
@@ -287,24 +278,11 @@ class AETransitionSlide: AETransition {
                     container.sendSubviewToBack(toView)
                 }
                 
-//                // testing
-//                var toView = UIView()
-//                var toFrame = CGRectZero
-//                if let toVC = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey) {
-//                    println("toVC")
-//                    println(toVC.view.frame)
-//                    toView = toVC.view
-//                    toFrame = toVC.view.frame
-//                    toFrame.origin.x = 0
-//                }
-//                // testing
-                
                 UIView.animateWithDuration(duration, animations: { () -> Void in
                     fromView.frame = initialFrame
-//                    toView.frame = toFrame // testing
-                    }, completion: { (finished) -> Void in
-                        fromView.removeFromSuperview()
-                        transitionContext.completeTransition(!transitionContext.transitionWasCancelled())
+                }, completion: { (finished) -> Void in
+                    fromView.removeFromSuperview()
+                    transitionContext.completeTransition(!transitionContext.transitionWasCancelled())
                 })
             }
         }
