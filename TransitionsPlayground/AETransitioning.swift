@@ -58,36 +58,78 @@ class AEAnimator: NSObject, UIViewControllerTransitioningDelegate, UINavigationC
 @objc class AEPresentationController: UIPresentationController {
     
     let presentedViewFrame: CGRect
-    var presentingViewFrame: CGRect?
     
-    private let initialPresentingFrame: CGRect
+    var dimmingView: UIView
+    var dimmingColor: UIColor = UIColor(white: 0.5, alpha: 0.5) {
+        didSet {
+            dimmingView.backgroundColor = dimmingColor
+        }
+    }
+    
+//    var presentingViewFrame: CGRect?
+//    private let initialPresentingFrame: CGRect
+    
+    var presentingViewTransform: CGAffineTransform?
 
-    init(presentedViewController: UIViewController, presentedViewFrame: CGRect, presentingViewController: UIViewController, presentingViewFrame: CGRect? = nil) {
+    init(presentedViewController: UIViewController, presentedViewFrame: CGRect, dimmingView: UIView! = UIView(), presentingViewController: UIViewController, presentingViewFrame: CGRect? = nil, presentingViewTransform: CGAffineTransform? = nil) {
         self.presentedViewFrame = presentedViewFrame
-        self.presentingViewFrame = presentingViewFrame
         
-        self.initialPresentingFrame = presentingViewController.view.frame
+        self.dimmingView = dimmingView
+        self.dimmingView.backgroundColor = dimmingColor
+        
+//        self.presentingViewFrame = presentingViewFrame
+//        self.initialPresentingFrame = presentingViewController.view.frame
         
         super.init(presentedViewController: presentedViewController, presentingViewController: presentingViewController)
     }
     
+    override func containerViewDidLayoutSubviews() {
+        
+        super.containerViewDidLayoutSubviews()
+        
+        dimmingView.frame = containerView.bounds
+        
+        // update presentingVC frame
+//        presentingViewController.view.frame = containerView.bounds
+    }
+    
     override func presentationTransitionWillBegin() {
-        if let presentingFrame = presentingViewFrame {
-            if let coordinator = presentedViewController.transitionCoordinator() {
-                coordinator.animateAlongsideTransition({ (transitionContext: UIViewControllerTransitionCoordinatorContext!) -> Void in
-                    self.presentingViewController.view.frame =  presentingFrame
-                }, completion: nil)
-            }
+        
+        self.dimmingView.frame = containerView.bounds
+        self.dimmingView.alpha = 0.0
+        containerView.insertSubview(dimmingView, atIndex: 0)
+        
+        if let coordinator = presentedViewController.transitionCoordinator() {
+            coordinator.animateAlongsideTransition({ (transitionContext: UIViewControllerTransitionCoordinatorContext!) -> Void in
+                self.dimmingView.alpha = 1.0
+//                if let presentingFrame = self.presentingViewFrame {
+//                    self.presentingViewController.view.frame =  presentingFrame
+//                }
+                if let transform = self.presentingViewTransform {
+                    self.presentingViewController.view.transform = transform
+                }
+            }, completion: nil)
+        } else {
+            dimmingView.alpha = 1.0
         }
     }
     
     override func dismissalTransitionWillBegin() {
-        if let presentingFrame = presentingViewFrame {
-            if let coordinator = presentedViewController.transitionCoordinator() {
-                coordinator.animateAlongsideTransition({ (transitionContext: UIViewControllerTransitionCoordinatorContext!) -> Void in
-                    self.presentingViewController.view.frame = self.initialPresentingFrame
-                }, completion: nil)
-            }
+        
+        self.dimmingView.frame = containerView.bounds
+        
+        if let coordinator = presentedViewController.transitionCoordinator() {
+            coordinator.animateAlongsideTransition({ (transitionContext: UIViewControllerTransitionCoordinatorContext!) -> Void in
+                self.dimmingView.alpha = 0.0
+//                if let presentingFrame = self.presentingViewFrame {
+//                    self.presentingViewController.view.frame = self.initialPresentingFrame
+//                }
+                if let transform = self.presentingViewTransform {
+                    self.presentingViewController.view.transform = CGAffineTransformIdentity
+                }
+            }, completion: nil)
+        } else {
+            dimmingView.alpha = 0.0
         }
     }
     

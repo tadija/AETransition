@@ -105,8 +105,14 @@ class SourceTableViewController: UITableViewController {
             // setup presenting frame
             var presentingFrame = view.frame
             presentingFrame.origin.x = CGRectGetMaxX(presentedFrame)
+            
             // create custom presentation controller
-            slideAnimatorCustom.presentationController = AEPresentationController(presentedViewController: toViewController, presentedViewFrame: presentedFrame, presentingViewController: self, presentingViewFrame: presentingFrame)
+//            slideAnimatorCustom.presentationController = AEPresentationController(presentedViewController: toViewController, presentedViewFrame: presentedFrame, presentingViewController: self, presentingViewFrame: presentingFrame)
+            
+            let pc = AEPresentationController(presentedViewController: toViewController, presentedViewFrame: presentedFrame, presentingViewController: self, presentingViewFrame: presentingFrame)
+            let transform = CGAffineTransformMakeTranslation(280, 0)
+            pc.presentingViewTransform = transform
+            slideAnimatorCustom.presentationController = pc
             
             // set custom modal presentation style and transitioning delegate
             toViewController.modalPresentationStyle = .Custom
