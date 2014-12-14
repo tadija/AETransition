@@ -38,6 +38,21 @@ class SourceTableViewController: UITableViewController {
         return animator
     }()
     
+    lazy var fadeAnimatorCustom: AEAnimator = {
+        let present = AETransitionCustom(presenting: true)
+        present.animateAlpha = true
+        present.initialPosition = .Left
+        present.initialTransform = CGAffineTransformMakeScale(0.01, 0.01)
+        
+        let dismiss = AETransitionCustom(presenting: false)
+        dismiss.animateAlpha = true
+        dismiss.initialPosition = .Left
+        dismiss.initialTransform = CGAffineTransformMakeScale(0.01, 0.01)
+        
+        let animator = AEAnimator(presentTransition: present, dismissTransition: dismiss)
+        return animator
+    }()
+    
     @IBAction func unwindToSourceTVC(segue: UIStoryboardSegue) {
         println("unwindToSourceTVC")
         if let p = presentedViewController {
@@ -74,12 +89,17 @@ class SourceTableViewController: UITableViewController {
             let presentationController = AEPresentationController(presentedViewController: toViewController, presentingViewController: self)
             presentationController.presentedViewFrame = presentedViewFrame
             presentationController.presentedViewTransform = presentedViewTransform
+//
+//            fadeAnimator.presentationController = presentationController
+//            
+//            // set custom modal presentation style and transitioning delegate
+//            toViewController.modalPresentationStyle = .Custom
+//            toViewController.transitioningDelegate = fadeAnimator
             
-            fadeAnimator.presentationController = presentationController
-            
-            // set custom modal presentation style and transitioning delegate
+            // test custom
+            fadeAnimatorCustom.presentationController = presentationController
             toViewController.modalPresentationStyle = .Custom
-            toViewController.transitioningDelegate = fadeAnimator
+            toViewController.transitioningDelegate = fadeAnimatorCustom
         }
         
         if segue.identifier == "fadeSeguePopover" {
