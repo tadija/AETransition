@@ -75,7 +75,7 @@ class AEAnimator: NSObject, UIViewControllerTransitioningDelegate, UINavigationC
     var presentedViewFrame: CGRect?
     
     var presentingViewTransform: CGAffineTransform?
-    var presentedViewTransform: CGAffineTransform?
+//    var presentedViewTransform: CGAffineTransform?
     
     var dimmingView: UIView = UIView()
     var dimmingViewColor: UIColor = UIColor(white: 0.5, alpha: 0.5) {
@@ -96,10 +96,10 @@ class AEAnimator: NSObject, UIViewControllerTransitioningDelegate, UINavigationC
             self.presentingViewController.view.transform = presentingViewTransform
         }
         
-        // transform presented view
-        if let presentedViewTransform = self.presentedViewTransform {
-            self.presentedViewController.view.transform = presentedViewTransform
-        }
+//        // transform presented view
+//        if let presentedViewTransform = self.presentedViewTransform {
+//            self.presentedViewController.view.transform = presentedViewTransform
+//        }
     }
     
     private func dismissalTransition() {
@@ -111,11 +111,11 @@ class AEAnimator: NSObject, UIViewControllerTransitioningDelegate, UINavigationC
             self.presentingViewController.view.transform = CGAffineTransformIdentity
         }
         
-        // reset presented view transform
-        if let presentedViewTransform = self.presentedViewTransform {
-            println("dismissalTransition CGAffineTransformIdentity")
-            self.presentedViewController.view.transform = CGAffineTransformIdentity
-        }
+//        // reset presented view transform
+//        if let presentedViewTransform = self.presentedViewTransform {
+//            println("dismissalTransition CGAffineTransformIdentity")
+//            self.presentedViewController.view.transform = CGAffineTransformIdentity
+//        }
     }
     
     // MARK: UIPresentationController override
@@ -299,8 +299,8 @@ class AETransitionCustom: AETransition {
         case Right
     }
     
-    var initialPosition: Position?
-    
+    var initialFrame: CGRect?
+    var initialSide: Position?
     var initialTransform: CGAffineTransform?
     
     var animateAlpha: Bool = false
@@ -320,11 +320,13 @@ class AETransitionCustom: AETransition {
                 let toVC = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)!
                 let finalFrame = transitionContext.finalFrameForViewController(toVC)
                 
-                var initialFrame = finalFrame
-                if let initialPosition = self.initialPosition {
+//                var initialFrame = finalFrame
+                var initialFrame = self.initialFrame ?? finalFrame
+                if let initialPosition = self.initialSide {
                     initialFrame = initialFrameForRect(finalFrame, position: initialPosition)
                 }
                 
+                println(initialFrame)
                 toView.frame = initialFrame
                 
                 if let initialTransform = self.initialTransform {
@@ -343,6 +345,7 @@ class AETransitionCustom: AETransition {
                         toView.transform = CGAffineTransformIdentity
                     }
                     
+//                    println(finalFrame)
                     toView.frame = finalFrame
                     
                     if self.animateAlpha {
@@ -365,10 +368,14 @@ class AETransitionCustom: AETransition {
                 
                 let fromVC = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)!
                 let finalFrame = transitionContext.initialFrameForViewController(fromVC)
+//                let finalFrame = transitionContext.finalFrameForViewController(fromVC)
                 
-                var initialFrame = finalFrame
-                if let initialPosition = self.initialPosition {
-                    initialFrame = initialFrameForRect(finalFrame, position: initialPosition)
+//                var initialFrame = finalFrame
+                var initialFrame = self.initialFrame ?? finalFrame
+//                var initialFrame = fromView.bounds
+//                println(initialFrame)
+                if let initialPosition = self.initialSide {
+                    initialFrame = initialFrameForRect(initialFrame, position: initialPosition)
                 }
                 
 //                if let initialTransform = self.initialTransform {
@@ -383,7 +390,11 @@ class AETransitionCustom: AETransition {
                     if let initialTransform = self.initialTransform {
                         println("animation initialTransform")
                         fromView.transform = initialTransform
+//                        fromView.transform = CGAffineTransformConcat(initialTransform, CGAffineTransformIdentity)
+//                        fromView.transform = CGAffineTransformIdentity
                     }
+                    
+//                    fromView.frame = initialFrame
                     
                     if self.animateAlpha {
                         fromView.alpha = 0.0

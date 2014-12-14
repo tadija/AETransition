@@ -41,13 +41,22 @@ class SourceTableViewController: UITableViewController {
     lazy var fadeAnimatorCustom: AEAnimator = {
         let present = AETransitionCustom(presenting: true)
         present.animateAlpha = true
-        present.initialPosition = .Left
-        present.initialTransform = CGAffineTransformMakeScale(0.01, 0.01)
+//        present.initialSide = .Top
+//        present.initialTransform = CGAffineTransformMakeScale(0.01, 0.01)
+//        present.initialTransform = CGAffineTransformMake(0, 1, 1, 0.5, 0, 100)
+//        let scale = CGAffineTransformMakeScale(0.01, 0.01)
+//        let translate = CGAffineTransformMakeTranslation(-100, -100)
+//        present.initialTransform = CGAffineTransformConcat(scale, translate)
+        present.initialTransform = CGAffineTransformMakeScale(0.25, 0.25)
+        present.initialFrame = CGRect(x: 100, y: 200, width: 100, height: 100)
         
         let dismiss = AETransitionCustom(presenting: false)
         dismiss.animateAlpha = true
-        dismiss.initialPosition = .Left
-        dismiss.initialTransform = CGAffineTransformMakeScale(0.01, 0.01)
+//        dismiss.initialSide = .Bottom
+//        dismiss.initialTransform = CGAffineTransformMakeScale(0.01, 0.01)
+//        dismiss.initialTransform = CGAffineTransformConcat(scale, translate)
+        dismiss.initialTransform = CGAffineTransformMakeScale(0.25, 0.25)
+        dismiss.initialFrame = CGRect(x: 100, y: 200, width: 100, height: 100)
         
         let animator = AEAnimator(presentTransition: present, dismissTransition: dismiss)
         return animator
@@ -84,11 +93,11 @@ class SourceTableViewController: UITableViewController {
         if segue.identifier == "fadeSegueModalCustom" {
             // setup presentationController
             var presentedViewFrame = CGRectInset(view.frame, 40, 80)
-            let presentedViewTransform = CGAffineTransformMakeRotation(0.2)
+//            let presentedViewTransform = CGAffineTransformMakeRotation(0.2)
             
             let presentationController = AEPresentationController(presentedViewController: toViewController, presentingViewController: self)
             presentationController.presentedViewFrame = presentedViewFrame
-            presentationController.presentedViewTransform = presentedViewTransform
+//            presentationController.presentedViewTransform = presentedViewTransform
 //
 //            fadeAnimator.presentationController = presentationController
 //            
