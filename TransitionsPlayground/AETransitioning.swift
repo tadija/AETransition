@@ -73,28 +73,46 @@ class AEAnimator: NSObject, UIViewControllerTransitioningDelegate, UINavigationC
     // MARK: Properties
     
     var presentedViewFrame: CGRect?
+    
     var presentingViewTransform: CGAffineTransform?
+    var presentedViewTransform: CGAffineTransform?
     
     var dimmingView: UIView = UIView()
-    var dimmingColor: UIColor = UIColor(white: 0.5, alpha: 0.5) {
+    var dimmingViewColor: UIColor = UIColor(white: 0.5, alpha: 0.5) {
         didSet {
-            dimmingView.backgroundColor = dimmingColor
+            dimmingView.backgroundColor = dimmingViewColor
         }
     }
     
     // MARK: Transition
     
     private func presentationTransition() {
+        // show dimming view
         self.dimmingView.alpha = 1.0
-        if let transform = self.presentingViewTransform {
-            self.presentingViewController.view.transform = transform
+        
+        // transform presenting view
+        if let presentingViewTransform = self.presentingViewTransform {
+            self.presentingViewController.view.transform = presentingViewTransform
+        }
+        
+        // transform presented view
+        if let presentedViewTransform = self.presentedViewTransform {
+            self.presentedViewController.view.transform = presentedViewTransform
         }
     }
     
     private func dismissalTransition() {
+        // hide dimming view
         self.dimmingView.alpha = 0.0
-        if let transform = self.presentingViewTransform {
+        
+        // reset presenting view transform
+        if let presentingViewTransform = self.presentingViewTransform {
             self.presentingViewController.view.transform = CGAffineTransformIdentity
+        }
+        
+        // reset presented view transform
+        if let presentedViewTransform = self.presentedViewTransform {
+            self.presentedViewController.view.transform = CGAffineTransformIdentity
         }
     }
     
@@ -106,8 +124,9 @@ class AEAnimator: NSObject, UIViewControllerTransitioningDelegate, UINavigationC
     }
     
     override func presentationTransitionWillBegin() {
+        // setup dimmingView
         self.dimmingView.frame = containerView.bounds
-        self.dimmingView.backgroundColor = dimmingColor
+        self.dimmingView.backgroundColor = dimmingViewColor
         self.dimmingView.alpha = 0.0
         containerView.insertSubview(dimmingView, atIndex: 0)
         
@@ -122,6 +141,7 @@ class AEAnimator: NSObject, UIViewControllerTransitioningDelegate, UINavigationC
     }
     
     override func dismissalTransitionWillBegin() {
+        // setup dimmingView
         self.dimmingView.frame = containerView.bounds
         
         // do dismissalTransition

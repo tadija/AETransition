@@ -69,9 +69,11 @@ class SourceTableViewController: UITableViewController {
         if segue.identifier == "fadeSegueModalCustom" {
             // setup presentationController
             var presentedViewFrame = CGRectInset(view.frame, 40, 80)
+            let presentedViewTransform = CGAffineTransformMakeRotation(0.2)
             
             let presentationController = AEPresentationController(presentedViewController: toViewController, presentingViewController: self)
             presentationController.presentedViewFrame = presentedViewFrame
+            presentationController.presentedViewTransform = presentedViewTransform
             
             fadeAnimator.presentationController = presentationController
             
@@ -104,14 +106,14 @@ class SourceTableViewController: UITableViewController {
         
         if segue.identifier == "slideSegueModalCustom" {
             // setup presentationController
-            var presentedFrame = CGRectInset(view.frame, 20, 0)
-            presentedFrame.origin.x = 0
-            let transform = CGAffineTransformMakeTranslation(280, 0)
+            var presentedViewFrame = CGRectInset(view.frame, 20, 0)
+            presentedViewFrame.origin.x = 0
+            let presentingViewTransform = CGAffineTransformMakeTranslation(280, 0)
             
             let presentationController = AEPresentationController(presentedViewController: toViewController, presentingViewController: self)
-            presentationController.presentedViewFrame = presentedFrame
-            presentationController.presentingViewTransform = transform
-            presentationController.dimmingColor = UIColor.orangeColor().colorWithAlphaComponent(0.5)
+            presentationController.presentedViewFrame = presentedViewFrame
+            presentationController.presentingViewTransform = presentingViewTransform
+            presentationController.dimmingViewColor = UIColor.orangeColor().colorWithAlphaComponent(0.5)
             
             slideAnimatorCustom.presentationController = presentationController
             
