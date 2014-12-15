@@ -11,7 +11,10 @@ import UIKit
 class SourceTableViewController: UITableViewController {
     
     lazy var fadeAnimator: AEAnimator = {
-        let animator = AEAnimator(transition: AETransitionFade.self)
+//        let animator = AEAnimator(transition: AETransitionFade.self)
+//        let animator = AEAnimator(transition: AETransitionFadeIn.self)
+        
+        let animator = AEAnimator(presentTransition: AETransitionFadeIn(), dismissTransition: AETransitionFadeOut())
         
 //        let fadeIn = AETransitionFade(presenting: true)
 //        let fadeOut = AETransitionFade(presenting: false)
@@ -21,19 +24,23 @@ class SourceTableViewController: UITableViewController {
     }()
     
     lazy var slideAnimator: AEAnimator = {
-        let animator = AEAnimator(transition: AETransitionSlide.self)
+//        let animator = AEAnimator(transition: AETransitionSlide.self)
         
 //        let slideFromTop = AETransitionSlide(presenting: true, duration: 0.5, direction: .Top)
 //        let slideToBottom = AETransitionSlide(presenting: false, duration: 0.3, direction: .Bottom)
 //        let animator = AEAnimator(presentTransition: slideFromTop, dismissTransition: slideToBottom)
         
+        let animator = AEAnimator(presentTransition: AETransitionSlideIn(), dismissTransition: AETransitionSlideOut())
+        
         return animator
     }()
     
     lazy var slideAnimatorCustom: AEAnimator = {
-        let slideFromLeft = AETransitionSlide(presenting: true, duration: 0.5, direction: .Left)
-        let slideToLeft = AETransitionSlide(presenting: false, duration: 0.3, direction: .Left)
-        let animator = AEAnimator(presentTransition: slideFromLeft, dismissTransition: slideToLeft)
+//        let slideFromLeft = AETransitionSlide(presenting: true, duration: 0.5, direction: .Left)
+//        let slideToLeft = AETransitionSlide(presenting: false, duration: 0.3, direction: .Left)
+//        let animator = AEAnimator(presentTransition: slideFromLeft, dismissTransition: slideToLeft)
+        
+        let animator = AEAnimator(presentTransition: AETransitionSlideIn(fromSide: .Left), dismissTransition: AETransitionSlideOut(toSide: .Left))
         
         return animator
     }()
