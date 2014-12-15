@@ -47,16 +47,16 @@ class SourceTableViewController: UITableViewController {
 //        let scale = CGAffineTransformMakeScale(0.01, 0.01)
 //        let translate = CGAffineTransformMakeTranslation(-100, -100)
 //        present.initialTransform = CGAffineTransformConcat(scale, translate)
-        present.initialTransform = CGAffineTransformMakeScale(0.25, 0.25)
-        present.initialFrame = CGRect(x: 100, y: 200, width: 100, height: 100)
+        present.initialTransform = CGAffineTransformMakeScale(2.25, 2.25)
+//        present.initialFrame = CGRect(x: 100, y: 200, width: 100, height: 100)
         
         let dismiss = AETransitionCustom(presenting: false)
         dismiss.animateAlpha = true
-//        dismiss.initialSide = .Bottom
-//        dismiss.initialTransform = CGAffineTransformMakeScale(0.01, 0.01)
+        dismiss.initialSide = .Bottom
+        dismiss.initialTransform = CGAffineTransformMakeScale(0.01, 0.01)
 //        dismiss.initialTransform = CGAffineTransformConcat(scale, translate)
-        dismiss.initialTransform = CGAffineTransformMakeScale(0.25, 0.25)
-        dismiss.initialFrame = CGRect(x: 100, y: 200, width: 100, height: 100)
+//        dismiss.initialTransform = CGAffineTransformMakeScale(0.25, 0.25)
+//        dismiss.initialFrame = CGRect(x: 100, y: 200, width: 100, height: 100)
         
         let animator = AEAnimator(presentTransition: present, dismissTransition: dismiss)
         return animator

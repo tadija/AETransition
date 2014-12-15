@@ -189,7 +189,6 @@ class AEAnimator: NSObject, UIViewControllerTransitioningDelegate, UINavigationC
 }
 
 // MARK: -
-// note to myself: probably all the logic can be inside AETransition (alpha, frame, direction)
 class AETransition: NSObject, UIViewControllerAnimatedTransitioning {
     
     var presenting: Bool
@@ -210,99 +209,19 @@ class AETransition: NSObject, UIViewControllerAnimatedTransitioning {
     
 }
 
-
-//if presenting {
-//    if let toView = transitionContext.viewForKey(UITransitionContextToViewKey) {
-//        println("fade in")
-//        
-//        if let toVC = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey) {
-//            toView.frame = transitionContext.finalFrameForViewController(toVC)
-//        }
-//        
-//        toView.alpha = 0.0
-//        container.addSubview(toView)
-//        
-//        UIView.animateWithDuration(duration, animations: { () -> Void in
-//            toView.alpha = 1.0
-//            }, completion: { (finished) -> Void in
-//                transitionContext.completeTransition(!transitionContext.transitionWasCancelled())
-//        })
-//    }
-//} else {
-//    if let fromView = transitionContext.viewForKey(UITransitionContextFromViewKey) {
-//        println("fade out")
-//        
-//        if let toView = transitionContext.viewForKey(UITransitionContextToViewKey) {
-//            println("dismiss has toView")
-//            container.addSubview(toView)
-//            container.sendSubviewToBack(toView)
-//        }
-//        
-//        UIView.animateWithDuration(duration, animations: { () -> Void in
-//            fromView.alpha = 0.0
-//            }, completion: { (finished) -> Void in
-//                fromView.removeFromSuperview()
-//                transitionContext.completeTransition(!transitionContext.transitionWasCancelled())
-//        })
-//    }
-//}
-
-
-//if presenting {
-//
-//    let toVC = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)!
-//    let finalFrame = transitionContext.finalFrameForViewController(toVC)
-//    let initialFrame = initialFrameForRect(finalFrame, direction: direction)
-//    
-//    if let toView = transitionContext.viewForKey(UITransitionContextToViewKey) {
-//        println("slide in")
-//        
-//        toView.frame = initialFrame
-//        container.addSubview(toView)
-//        
-//        UIView.animateWithDuration(duration, animations: { () -> Void in
-//            toView.frame = finalFrame
-//            }, completion: { (finished) -> Void in
-//                transitionContext.completeTransition(!transitionContext.transitionWasCancelled())
-//        })
-//    }
-//} else {
-//    
-//    let fromVC = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)!
-//    let finalFrame = transitionContext.initialFrameForViewController(fromVC)
-//    let initialFrame = initialFrameForRect(finalFrame, direction: direction)
-//    
-//    if let fromView = transitionContext.viewForKey(UITransitionContextFromViewKey) {
-//        println("slide out")
-//        
-//        if let toView = transitionContext.viewForKey(UITransitionContextToViewKey) {
-//            println("dismiss has toView")
-//            container.addSubview(toView)
-//            container.sendSubviewToBack(toView)
-//        }
-//        
-//        UIView.animateWithDuration(duration, animations: { () -> Void in
-//            fromView.frame = initialFrame
-//            }, completion: { (finished) -> Void in
-//                fromView.removeFromSuperview()
-//                transitionContext.completeTransition(!transitionContext.transitionWasCancelled())
-//        })
-//    }
-//}
-
+// MARK: -
 class AETransitionCustom: AETransition {
     
-    enum Position {
+    enum Side {
         case Top
         case Left
         case Bottom
         case Right
     }
     
+    var initialSide: Side?
     var initialFrame: CGRect?
-    var initialSide: Position?
     var initialTransform: CGAffineTransform?
-    
     var animateAlpha: Bool = false
     
     override func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
@@ -310,110 +229,101 @@ class AETransitionCustom: AETransition {
         let container = transitionContext.containerView()
         
         if presenting {
+            // prepare
             if let toView = transitionContext.viewForKey(UITransitionContextToViewKey) {
-                println("fade in")
-                
-//                if let toVC = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey) {
-//                    toView.frame = transitionContext.finalFrameForViewController(toVC)
-//                }
-                
-                let toVC = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)!
-                let finalFrame = transitionContext.finalFrameForViewController(toVC)
-                
-//                var initialFrame = finalFrame
-                var initialFrame = self.initialFrame ?? finalFrame
-                if let initialPosition = self.initialSide {
-                    initialFrame = initialFrameForRect(finalFrame, position: initialPosition)
-                }
-                
-                println(initialFrame)
-                toView.frame = initialFrame
-                
-                if let initialTransform = self.initialTransform {
-                    toView.transform = initialTransform
-                }
-                
-                if animateAlpha {
-                    toView.alpha = 0.0
-                }
-                
-                container.addSubview(toView)
-                
-                UIView.animateWithDuration(duration, animations: { () -> Void in
+                if let toVC = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey) {
                     
-                    if let initialTransform = self.initialTransform {
-                        toView.transform = CGAffineTransformIdentity
+                    // frame
+                    let finalFrame = transitionContext.finalFrameForViewController(toVC)
+                    var initialFrame = self.initialFrame ?? finalFrame
+                    if let side = initialSide {
+                        initialFrame = initialFrameForRect(finalFrame, side: side)
+                    }
+                    toView.frame = initialFrame
+                    
+                    // transform
+                    if let transform = initialTransform {
+                        toView.transform = transform
                     }
                     
-//                    println(finalFrame)
-                    toView.frame = finalFrame
-                    
-                    if self.animateAlpha {
-                        toView.alpha = 1.0
+                    // alpha
+                    if animateAlpha {
+                        toView.alpha = 0.0
                     }
                     
-                }, completion: { (finished) -> Void in
-                    transitionContext.completeTransition(!transitionContext.transitionWasCancelled())
-                })
+                    container.addSubview(toView)
+                    
+                    // animate
+                    UIView.animateWithDuration(duration, animations: { () -> Void in
+                        
+                        // transform
+                        if let transform = self.initialTransform {
+                            toView.transform = CGAffineTransformIdentity
+                        }
+                        
+                        // frame
+                        toView.frame = finalFrame
+                        
+                        // alpha
+                        if self.animateAlpha {
+                            toView.alpha = 1.0
+                        }
+                        
+                    }, completion: { (finished) -> Void in
+                        transitionContext.completeTransition(!transitionContext.transitionWasCancelled())
+                    })
+                }
             }
         } else {
+            // prepare
             if let fromView = transitionContext.viewForKey(UITransitionContextFromViewKey) {
-                println("fade out")
-                
-                if let toView = transitionContext.viewForKey(UITransitionContextToViewKey) {
-                    println("dismiss has toView")
-                    container.addSubview(toView)
-                    container.sendSubviewToBack(toView)
-                }
-                
-                let fromVC = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)!
-                let finalFrame = transitionContext.initialFrameForViewController(fromVC)
-//                let finalFrame = transitionContext.finalFrameForViewController(fromVC)
-                
-//                var initialFrame = finalFrame
-                var initialFrame = self.initialFrame ?? finalFrame
-//                var initialFrame = fromView.bounds
-//                println(initialFrame)
-                if let initialPosition = self.initialSide {
-                    initialFrame = initialFrameForRect(initialFrame, position: initialPosition)
-                }
-                
-//                if let initialTransform = self.initialTransform {
-//                    fromView.transform = CGAffineTransformIdentity
-//                }
-                
-                UIView.animateWithDuration(duration, animations: { () -> Void in
+                if let fromVC = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey) {
                     
-                    println(initialFrame)
-                    fromView.frame = initialFrame
-                    
-                    if let initialTransform = self.initialTransform {
-                        println("animation initialTransform")
-                        fromView.transform = initialTransform
-//                        fromView.transform = CGAffineTransformConcat(initialTransform, CGAffineTransformIdentity)
-//                        fromView.transform = CGAffineTransformIdentity
+                    // must do this if dismiss has toView
+                    if let toView = transitionContext.viewForKey(UITransitionContextToViewKey) {
+                        container.addSubview(toView)
+                        container.sendSubviewToBack(toView)
                     }
                     
-//                    fromView.frame = initialFrame
-                    
-                    if self.animateAlpha {
-                        fromView.alpha = 0.0
+                    // frame
+                    let finalFrame = transitionContext.initialFrameForViewController(fromVC)
+                    var initialFrame = self.initialFrame ?? finalFrame
+                    if let side = initialSide {
+                        initialFrame = initialFrameForRect(finalFrame, side: side)
                     }
-
-                }, completion: { (finished) -> Void in
-                    fromView.removeFromSuperview()
-                    transitionContext.completeTransition(!transitionContext.transitionWasCancelled())
-                })
+                    
+                    // animate
+                    UIView.animateWithDuration(duration, animations: { () -> Void in
+                        
+                        // frame
+                        fromView.frame = initialFrame
+                        
+                        // transform
+                        if let transform = self.initialTransform {
+                            fromView.transform = transform
+                        }
+                        
+                        // alpha
+                        if self.animateAlpha {
+                            fromView.alpha = 0.0
+                        }
+                        
+                    }, completion: { (finished) -> Void in
+                        fromView.removeFromSuperview()
+                        transitionContext.completeTransition(!transitionContext.transitionWasCancelled())
+                    })
+                }
             }
         }
         
     }
     
-    func initialFrameForRect(rect: CGRect, position: Position) -> CGRect {
+    func initialFrameForRect(rect: CGRect, side: Side) -> CGRect {
         
         var initialFrame = rect
         
-        switch position {
+        // calculate initial frame for given side
+        switch side {
         case .Top:
             initialFrame.origin.y -= CGRectGetHeight(rect) + CGRectGetMinY(rect)
         case .Left:
