@@ -26,12 +26,6 @@ class AEAnimator: NSObject, UIViewControllerTransitioningDelegate, UINavigationC
         self.presentationController = presentationController
     }
     
-//    convenience init (transition: AETransition.Type, presentationController: UIPresentationController? = nil) {
-//        let presenting = transition(presenting: true)
-//        let dismissing = transition(presenting: false)
-//        self.init(presentTransition: presenting, dismissTransition: dismissing, presentationController: presentationController)
-//    }
-    
     // MARK: UIViewControllerTransitioningDelegate
     
     func animationControllerForPresentedController(presented: UIViewController, presentingController presenting: UIViewController, sourceController source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
@@ -87,7 +81,6 @@ class AEAnimator: NSObject, UIViewControllerTransitioningDelegate, UINavigationC
     // MARK: Transition
     
     private func presentationTransition() {
-        println("presentationTransition")
         // show dimming view
         self.dimmingView.alpha = 1.0
         
@@ -176,16 +169,21 @@ class AEAnimator: NSObject, UIViewControllerTransitioningDelegate, UINavigationC
 // MARK: -
 class AETransition: NSObject, UIViewControllerAnimatedTransitioning {
     
+    // MARK: Properties
+    
     class var defaultDuration: NSTimeInterval { return 0.5 }
     
     var presenting: Bool
     var duration: NSTimeInterval
     
-//    required init(presenting: Bool = true, duration: NSTimeInterval = defaultDuration) {
+    // MARK: Lifecycle
+    
     init(presenting: Bool = true, duration: NSTimeInterval = defaultDuration) {
         self.presenting = presenting
         self.duration = duration
     }
+    
+    // MARK: UIViewControllerAnimatedTransitioning
     
     func transitionDuration(transitionContext: UIViewControllerContextTransitioning) -> NSTimeInterval {
         return duration
@@ -207,10 +205,14 @@ class AETransitionCustom: AETransition {
         case Right
     }
     
+    // MARK: Properties
+    
+    var animateAlpha: Bool = false
     var initialSide: Side?
     var initialFrame: CGRect?
     var initialTransform: CGAffineTransform?
-    var animateAlpha: Bool = false
+    
+    // MARK: Animation
     
     override func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
         
@@ -327,6 +329,7 @@ class AETransitionCustom: AETransition {
     
 }
 
+// MARK: - Fade
 class AETransitionFadeIn: AETransitionCustom {
     
     init(duration: NSTimeInterval = defaultDuration) {
@@ -345,6 +348,7 @@ class AETransitionFadeOut: AETransitionCustom {
     
 }
 
+// MARK: - Slide
 class AETransitionSlideIn: AETransitionCustom {
     
     init(fromSide: Side = .Right, duration: NSTimeInterval = defaultDuration) {
@@ -363,142 +367,18 @@ class AETransitionSlideOut: AETransitionCustom {
     
 }
 
-//// see: http://stackoverflow.com/questions/24338700/from-view-controller-disappears-using-uiviewcontrollercontexttransitioning
-//
-//class AETransitionFade: AETransition {
-//    
-//    override func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
-//        
-//        let container = transitionContext.containerView()
-//
-//        if presenting {
-//            if let toView = transitionContext.viewForKey(UITransitionContextToViewKey) {
-//                println("fade in")
-//                
-//                if let toVC = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey) {
-//                    toView.frame = transitionContext.finalFrameForViewController(toVC)
-//                }
-//                
-//                toView.alpha = 0.0
-//                container.addSubview(toView)
-//                
-//                UIView.animateWithDuration(duration, animations: { () -> Void in
-//                    toView.alpha = 1.0
-//                }, completion: { (finished) -> Void in
-//                    transitionContext.completeTransition(!transitionContext.transitionWasCancelled())
-//                })
-//            }
-//        } else {
-//            if let fromView = transitionContext.viewForKey(UITransitionContextFromViewKey) {
-//                println("fade out")
-//                
-//                if let toView = transitionContext.viewForKey(UITransitionContextToViewKey) {
-//                    println("dismiss has toView")
-//                    container.addSubview(toView)
-//                    container.sendSubviewToBack(toView)
-//                }
-//                
-//                UIView.animateWithDuration(duration, animations: { () -> Void in
-//                    fromView.alpha = 0.0
-//                }, completion: { (finished) -> Void in
-//                    fromView.removeFromSuperview()
-//                    transitionContext.completeTransition(!transitionContext.transitionWasCancelled())
-//                })
-//            }
-//        }
-//        
-//    }
-//    
-//}
+class AETransitionPopOut: AETransitionCustom {
+    
+}
 
-//class AETransitionSlide: AETransition {
-//    
-//    enum Direction {
-//        case Top
-//        case Left
-//        case Bottom
-//        case Right
-//    }
-//    
-//    let direction: Direction
-//    
-//    init(presenting: Bool, duration: NSTimeInterval, direction: Direction) {
-//        self.direction = direction
-//        super.init(presenting: presenting, duration: duration)
-//    }
-//    
-//    required convenience init(presenting: Bool, duration: NSTimeInterval) {
-//        self.init(presenting: presenting, duration: duration, direction: .Right)
-//    }
-//    
-//    override func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
-//
-//        let container = transitionContext.containerView()
-//        
-//        if presenting {
-//            
-//            let toVC = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)!
-//            let finalFrame = transitionContext.finalFrameForViewController(toVC)
-//            let initialFrame = initialFrameForRect(finalFrame, direction: direction)
-//            
-//            if let toView = transitionContext.viewForKey(UITransitionContextToViewKey) {
-//                println("slide in")
-//                
-//                toView.frame = initialFrame
-//                container.addSubview(toView)
-//                
-//                UIView.animateWithDuration(duration, animations: { () -> Void in
-//                    toView.frame = finalFrame
-//                }, completion: { (finished) -> Void in
-//                    transitionContext.completeTransition(!transitionContext.transitionWasCancelled())
-//                })
-//            }
-//        } else {
-//            
-//            let fromVC = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)!
-//            let finalFrame = transitionContext.initialFrameForViewController(fromVC)
-//            let initialFrame = initialFrameForRect(finalFrame, direction: direction)
-//            
-//            if let fromView = transitionContext.viewForKey(UITransitionContextFromViewKey) {
-//                println("slide out")
-//                
-//                if let toView = transitionContext.viewForKey(UITransitionContextToViewKey) {
-//                    println("dismiss has toView")
-//                    container.addSubview(toView)
-//                    container.sendSubviewToBack(toView)
-//                }
-//                
-//                UIView.animateWithDuration(duration, animations: { () -> Void in
-//                    fromView.frame = initialFrame
-//                }, completion: { (finished) -> Void in
-//                    fromView.removeFromSuperview()
-//                    transitionContext.completeTransition(!transitionContext.transitionWasCancelled())
-//                })
-//            }
-//        }
-//        
-//    }
-//    
-//    // use direction property
-//    func initialFrameForRect(rect: CGRect, direction: Direction) -> CGRect {
-//        
-//        var initialFrame = rect
-//        
-//        switch direction {
-//        case .Top:
-//            initialFrame.origin.y -= CGRectGetHeight(rect) + CGRectGetMinY(rect)
-//        case .Left:
-//            initialFrame.origin.x -= CGRectGetWidth(rect) + CGRectGetMinX(rect)
-//        case .Bottom:
-//            initialFrame.origin.y += CGRectGetHeight(rect) + CGRectGetMinY(rect)
-//        case .Right:
-//            initialFrame.origin.x += CGRectGetWidth(rect) + CGRectGetMinX(rect)
-//        }
-//        
-//        return initialFrame
-//    }
-//    
-//}
+class AETransitionPopIn: AETransitionCustom {
+    
+}
+
+
+
+
+
 
 
 
