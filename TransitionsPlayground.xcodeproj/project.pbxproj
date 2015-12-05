@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8B2252051A6EDA3B00B0F13D /* SourceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2252041A6EDA3B00B0F13D /* SourceViewController.swift */; };
 		8BE6BE831A20DBE500E6738D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE6BE821A20DBE500E6738D /* AppDelegate.swift */; };
 		8BE6BE881A20DBE500E6738D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8BE6BE861A20DBE500E6738D /* Main.storyboard */; };
 		8BE6BE8A1A20DBE500E6738D /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8BE6BE891A20DBE500E6738D /* Images.xcassets */; };
@@ -28,6 +29,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8B2252041A6EDA3B00B0F13D /* SourceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SourceViewController.swift; sourceTree = "<group>"; };
 		8BE6BE7D1A20DBE500E6738D /* TransitionsPlayground.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TransitionsPlayground.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8BE6BE811A20DBE500E6738D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8BE6BE821A20DBE500E6738D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -83,6 +85,7 @@
 			children = (
 				8BE6BE821A20DBE500E6738D /* AppDelegate.swift */,
 				8BE6BEAE1A215C3400E6738D /* AETransitioning.swift */,
+				8B2252041A6EDA3B00B0F13D /* SourceViewController.swift */,
 				8BE6BEA41A20DD6D00E6738D /* SourceTableViewController.swift */,
 				8BE6BEA81A20F3A300E6738D /* DestinationViewController.swift */,
 				8BE6BE861A20DBE500E6738D /* Main.storyboard */,
@@ -162,6 +165,7 @@
 		8BE6BE751A20DBE500E6738D /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 0710;
 				LastUpgradeCheck = 0610;
 				ORGANIZATIONNAME = AE;
 				TargetAttributes = {
@@ -218,6 +222,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8B2252051A6EDA3B00B0F13D /* SourceViewController.swift in Sources */,
 				8BE6BE831A20DBE500E6738D /* AppDelegate.swift in Sources */,
 				8BE6BEAF1A215C3400E6738D /* AETransitioning.swift in Sources */,
 				8BE6BEA91A20F3A300E6738D /* DestinationViewController.swift in Sources */,
@@ -415,6 +420,7 @@
 				8BE6BE9E1A20DBE500E6738D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		8BE6BE9F1A20DBE500E6738D /* Build configuration list for PBXNativeTarget "TransitionsPlaygroundTests" */ = {
 			isa = XCConfigurationList;
@@ -423,6 +429,7 @@
 				8BE6BEA11A20DBE500E6738D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
