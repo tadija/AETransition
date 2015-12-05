@@ -36,7 +36,7 @@ class AEAnimator: NSObject, UIViewControllerTransitioningDelegate, UINavigationC
         return dismissingTransition
     }
     
-    func presentationControllerForPresentedViewController(presented: UIViewController, presentingViewController presenting: UIViewController!, sourceViewController source: UIViewController) -> UIPresentationController? {
+    func presentationControllerForPresentedViewController(presented: UIViewController, presentingViewController presenting: UIViewController, sourceViewController source: UIViewController) -> UIPresentationController? {
         return presentationController
     }
     
@@ -100,7 +100,7 @@ class AEAnimator: NSObject, UIViewControllerTransitioningDelegate, UINavigationC
         self.dimmingView.alpha = 0.0
         
         // reset presenting view transform
-        if let presentingViewTransform = self.presentingViewTransform {
+        if let _ = self.presentingViewTransform {
             self.presentingViewController.view.transform = CGAffineTransformIdentity
         }
         
@@ -115,15 +115,15 @@ class AEAnimator: NSObject, UIViewControllerTransitioningDelegate, UINavigationC
     
     override func containerViewDidLayoutSubviews() {
         super.containerViewDidLayoutSubviews()
-        dimmingView.frame = containerView.bounds
+        dimmingView.frame = containerView!.bounds
     }
     
     override func presentationTransitionWillBegin() {
         // setup dimmingView
-        self.dimmingView.frame = containerView.bounds
+        self.dimmingView.frame = containerView!.bounds
         self.dimmingView.backgroundColor = dimmingViewColor
         self.dimmingView.alpha = 0.0
-        containerView.insertSubview(dimmingView, atIndex: 0)
+        containerView!.insertSubview(dimmingView, atIndex: 0)
         
         // do presentationTransition
         if let coordinator = presentedViewController.transitionCoordinator() {
@@ -137,7 +137,7 @@ class AEAnimator: NSObject, UIViewControllerTransitioningDelegate, UINavigationC
     
     override func dismissalTransitionWillBegin() {
         // setup dimmingView
-        self.dimmingView.frame = containerView.bounds
+        self.dimmingView.frame = containerView!.bounds
         
         // do dismissalTransition
         if let coordinator = presentedViewController.transitionCoordinator() {
@@ -153,7 +153,7 @@ class AEAnimator: NSObject, UIViewControllerTransitioningDelegate, UINavigationC
     }
     
     override func frameOfPresentedViewInContainerView() -> CGRect {
-        return presentedViewFrame ?? containerView.bounds
+        return presentedViewFrame ?? containerView!.bounds
     }
     
     override func shouldPresentInFullscreen() -> Bool {
@@ -185,12 +185,12 @@ class AETransition: NSObject, UIViewControllerAnimatedTransitioning {
     
     // MARK: UIViewControllerAnimatedTransitioning
     
-    func transitionDuration(transitionContext: UIViewControllerContextTransitioning) -> NSTimeInterval {
+    func transitionDuration(transitionContext: UIViewControllerContextTransitioning?) -> NSTimeInterval {
         return duration
     }
     
     func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
-        println("\(__FUNCTION__) must be implemented by subclass")
+        print("\(__FUNCTION__) must be implemented by subclass")
     }
     
 }
@@ -216,7 +216,7 @@ class AETransitionCustom: AETransition {
     
     override func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
         
-        let container = transitionContext.containerView()
+        let container = transitionContext.containerView()!
         
         if presenting {
             // prepare
@@ -247,7 +247,7 @@ class AETransitionCustom: AETransition {
                     UIView.animateWithDuration(duration, animations: { () -> Void in
                         
                         // transform
-                        if let transform = self.initialTransform {
+                        if let _ = self.initialTransform {
                             toView.transform = CGAffineTransformIdentity
                         }
                         

@@ -70,10 +70,10 @@ class SourceTableViewController: UITableViewController {
     }()
     
     @IBAction func unwindToSourceTVC(segue: UIStoryboardSegue) {
-        println("unwindToSourceTVC")
+        print("unwindToSourceTVC")
         if let p = presentedViewController {
             if p.modalPresentationStyle == .Custom {
-                println("manual dismiss")
+                print("manual dismiss")
                 dismissViewControllerAnimated(true, completion: nil)
             }
         }
@@ -99,7 +99,7 @@ class SourceTableViewController: UITableViewController {
         
         if segue.identifier == "fadeSegueModalCustom" {
             // setup presentationController
-            var presentedViewFrame = CGRectInset(view.frame, 40, 80)
+            let presentedViewFrame = CGRectInset(view.frame, 40, 80)
 //            let presentedViewTransform = CGAffineTransformMakeRotation(0.2)
             
             let presentationController = AEPresentationController(presentedViewController: toViewController, presentingViewController: self)

@@ -312,8 +312,8 @@
                                     <segue destination="upY-dW-oaK" kind="unwind" unwindAction="unwindToSourceTVC:" id="bC7-bw-dxr"/>
                                 </connections>
                             </button>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hW8-8v-IrX">
-                                <rect key="frame" x="16" y="40" width="50" height="50"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hW8-8v-IrX">
+                                <rect key="frame" x="20" y="40" width="50" height="50"/>
                                 <animations/>
                                 <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -321,8 +321,8 @@
                                     <constraint firstAttribute="width" constant="50" id="nB3-TV-ge9"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xEj-P4-xmu">
-                                <rect key="frame" x="534" y="40" width="50" height="50"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xEj-P4-xmu">
+                                <rect key="frame" x="530" y="40" width="50" height="50"/>
                                 <animations/>
                                 <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -330,8 +330,8 @@
                                     <constraint firstAttribute="width" constant="50" id="tkd-Rd-EJG"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LOu-IY-hj4">
-                                <rect key="frame" x="534" y="530" width="50" height="50"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LOu-IY-hj4">
+                                <rect key="frame" x="530" y="530" width="50" height="50"/>
                                 <animations/>
                                 <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -339,8 +339,8 @@
                                     <constraint firstAttribute="height" constant="50" id="ZMq-6V-YYT"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FEL-AN-qEn">
-                                <rect key="frame" x="16" y="530" width="50" height="50"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FEL-AN-qEn">
+                                <rect key="frame" x="20" y="530" width="50" height="50"/>
                                 <animations/>
                                 <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -392,7 +392,7 @@
         <!--Navigation Controller-->
         <scene sceneID="oFL-q3-WsT">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="8HK-uG-ij8" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="DummyID" automaticallyAdjustsScrollViewInsets="NO" id="8HK-uG-ij8" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="kWk-Ef-AzV">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
