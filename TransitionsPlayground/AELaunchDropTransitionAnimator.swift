@@ -301,7 +301,7 @@ open class AELaunchDropTransitionAnimator: NSObject, UIViewControllerAnimatedTra
             [weak self] in
             // stop animator and complete transition when view is snapped back to place
             let view = self!.launchDropView
-            if abs(view?.frame.origin.y) < 0.5 && self?.launchDropBehaviour.linearVelocity(for: view!).y < 0.01 && animator.elapsedTime > self?.duration {
+            if abs(view!.frame.origin.y) < 0.5 && self?.launchDropBehaviour.linearVelocity(for: view!).y < 0.01 && animator.elapsedTime > self?.duration {
                 animator.removeAllBehaviors()
                 view?.frame = initialFrame
                 self?.completeTransition()
