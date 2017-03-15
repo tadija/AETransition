@@ -10,17 +10,52 @@
 //
 
 import UIKit
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func >= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l >= r
+  default:
+    return !(lhs < rhs)
+  }
+}
+
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 public protocol AELaunchDropDelegate: class {
     /// called when user starts interactive transition (launch)
-    func launchDidBegin(launchDropTransitionAnimator: AELaunchDropTransitionAnimator)
+    func launchDidBegin(_ launchDropTransitionAnimator: AELaunchDropTransitionAnimator)
 }
 
-public class AELaunchDropTransitionAnimator: NSObject, UIViewControllerAnimatedTransitioning, UIViewControllerInteractiveTransitioning/*, UIViewControllerContextTransitioning*/ {
+open class AELaunchDropTransitionAnimator: NSObject, UIViewControllerAnimatedTransitioning, UIViewControllerInteractiveTransitioning/*, UIViewControllerContextTransitioning*/ {
     
     // MARK: - Constants
     
-    private struct Constants {
+    fileprivate struct Constants {
         static let LaunchLimit = 0.33
         static let LaunchPercentageChangedNotification = "LaunchPercentageChangedNotification"
     }
@@ -28,28 +63,28 @@ public class AELaunchDropTransitionAnimator: NSObject, UIViewControllerAnimatedT
     // MARK: - Properties
     
     // AEBaseTransitionAnimator
-    public var unwinding: Bool = false
-    public var duration: NSTimeInterval = 0.5
+    open var unwinding: Bool = false
+    open var duration: TimeInterval = 0.5
     
     // AELaunchDropTransitionAnimator
-    public weak var delegate: AELaunchDropDelegate?
-    public var launchPercentageCompleted: CGFloat {
-        return CGRectGetMinY(launchDropView.frame) / CGRectGetHeight(containerView.frame)
+    open weak var delegate: AELaunchDropDelegate?
+    open var launchPercentageCompleted: CGFloat {
+        return launchDropView.frame.minY / containerView.frame.height
     }
     
     // gesture
-    private var panGesture: UIPanGestureRecognizer!
-    private var touchOffsetFromCenter = UIOffsetZero
+    fileprivate var panGesture: UIPanGestureRecognizer!
+    fileprivate var touchOffsetFromCenter = UIOffset.zero
     
     // transition
-    private var context: UIViewControllerContextTransitioning!
-    private var containerView: UIView!
+    fileprivate var context: UIViewControllerContextTransitioning!
+    fileprivate var containerView: UIView!
     
     // launch drop
-    private var gravityForce = 0.0
-    private var launchDropView: UIView!
-    private var dropAnimator: UIDynamicAnimator!
-    private lazy var launchDropBehaviour: UIDynamicItemBehavior = {
+    fileprivate var gravityForce = 0.0
+    fileprivate var launchDropView: UIView!
+    fileprivate var dropAnimator: UIDynamicAnimator!
+    fileprivate lazy var launchDropBehaviour: UIDynamicItemBehavior = {
         [unowned self] in
         let ldb = UIDynamicItemBehavior(items: [self.launchDropView])
         ldb.allowsRotation = false
@@ -65,7 +100,7 @@ public class AELaunchDropTransitionAnimator: NSObject, UIViewControllerAnimatedT
         super.init()
         
         duration = 0.0
-        panGesture = UIPanGestureRecognizer(target: self, action: "panned:")
+        panGesture = UIPanGestureRecognizer(target: self, action: #selector(AELaunchDropTransitionAnimator.panned(_:)))
         sourceView.addGestureRecognizer(panGesture)
     }
     
@@ -75,20 +110,20 @@ public class AELaunchDropTransitionAnimator: NSObject, UIViewControllerAnimatedT
     
     // MARK: - UIViewControllerAnimatedTransitioning
     
-    public func transitionDuration(transitionContext: UIViewControllerContextTransitioning?) -> NSTimeInterval {
+    open func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
         return duration
     }
     
-    public func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
+    open func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
         // get views
-        let fromVC = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)!
-        let toVC = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)!
-        let containerView = transitionContext.containerView()!
+        let fromVC = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.from)!
+        let toVC = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.to)!
+        let containerView = transitionContext.containerView
         
         // set frames
-        let finalFrame = transitionContext.finalFrameForViewController(toVC)
+        let finalFrame = transitionContext.finalFrame(for: toVC)
         var initialFrame = finalFrame
-        initialFrame.origin.y -= CGRectGetHeight(initialFrame)
+        initialFrame.origin.y -= initialFrame.height
         toVC.view.frame = initialFrame
         
         // add to container
@@ -100,8 +135,8 @@ public class AELaunchDropTransitionAnimator: NSObject, UIViewControllerAnimatedT
         
         // create collision on the bottom edge of container
         let collision = UICollisionBehavior(items: [toVC.view])
-        let topInset = -CGRectGetHeight(containerView.bounds)
-        collision.setTranslatesReferenceBoundsIntoBoundaryWithInsets(UIEdgeInsets(top: topInset, left: 0, bottom: 0, right: 0))
+        let topInset = -containerView.bounds.height
+        collision.setTranslatesReferenceBoundsIntoBoundary(with: UIEdgeInsets(top: topInset, left: 0, bottom: 0, right: 0))
         
         // create gravity
         let gravity = UIGravityBehavior(items: [toVC.view])
@@ -118,30 +153,30 @@ public class AELaunchDropTransitionAnimator: NSObject, UIViewControllerAnimatedT
             [weak self] in
             // stop animator and complete transition when view is dropped
             let view = self?.launchDropView
-            if (view?.frame.origin.y >= 0 && self?.dropAnimator.elapsedTime() > self?.duration) {
+            if (view?.frame.origin.y >= 0 && self?.dropAnimator.elapsedTime > self?.duration) {
                 self?.dropAnimator.removeAllBehaviors()
                 view?.frame = finalFrame
-                transitionContext.completeTransition(!transitionContext.transitionWasCancelled())
+                transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
             }
         }
     }
     
     // MARK: - UIViewControllerInteractiveTransitioning
     
-    public func startInteractiveTransition(transitionContext: UIViewControllerContextTransitioning) {
+    open func startInteractiveTransition(_ transitionContext: UIViewControllerContextTransitioning) {
         // get views
-        let fromVC = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)!
-        let toVC = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)!
-        let containerView = transitionContext.containerView()!
+        let fromVC = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.from)!
+        let toVC = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.to)!
+        let containerView = transitionContext.containerView
         
         // set frames
-        fromVC.view.frame = transitionContext.initialFrameForViewController(fromVC)
-        toVC.view.frame = transitionContext.finalFrameForViewController(toVC)
+        fromVC.view.frame = transitionContext.initialFrame(for: fromVC)
+        toVC.view.frame = transitionContext.finalFrame(for: toVC)
         
         // add to container
         containerView.addSubview(fromVC.view)
         containerView.addSubview(toVC.view)
-        containerView.bringSubviewToFront(fromVC.view)
+        containerView.bringSubview(toFront: fromVC.view)
         
         // set properties
         context = transitionContext
@@ -149,43 +184,43 @@ public class AELaunchDropTransitionAnimator: NSObject, UIViewControllerAnimatedT
         launchDropView = fromVC.view
 
         // set gesture offset from center
-        let fingerPoint = panGesture.locationInView(launchDropView)
+        let fingerPoint = panGesture.location(in: launchDropView)
         let viewCenter = launchDropView.center
         touchOffsetFromCenter = UIOffsetMake(fingerPoint.x - viewCenter.x, fingerPoint.y * 0.9 - viewCenter.y)
     }
     
     // MARK: - Gesture interaction
     
-    public func panned(gesture: UIPanGestureRecognizer) {
+    open func panned(_ gesture: UIPanGestureRecognizer) {
         switch gesture.state {
-        case .Began:
+        case .began:
             // inform delegate that launch began
             delegate?.launchDidBegin(self)
             
-        case .Changed:
+        case .changed:
             // get touch location in containerView
-            let touchLocation = panGesture.locationInView(containerView)
+            let touchLocation = panGesture.location(in: containerView)
             
             // set new center location for launch drop view
             var center = launchDropView.center
             center.y = touchLocation.y * 0.9 - touchOffsetFromCenter.vertical
             
             // set gravity force accourding to gesture Y translation
-            gravityForce = Double(panGesture.translationInView(launchDropView).y) * 0.04
+            gravityForce = Double(panGesture.translation(in: launchDropView).y) * 0.04
             
             // do interaction only if gesture direction is from top to bottom
-            if panGesture.translationInView(launchDropView).y > 0 {
+            if panGesture.translation(in: launchDropView).y > 0 {
                 // set launch drop view transparent
                 self.animateLaunchDropViewAlphaToValue(0.9)
                 // move launch drop view to center
                 launchDropView.center = center
                 // post notification
-                NSNotificationCenter.defaultCenter().postNotificationName(Constants.LaunchPercentageChangedNotification, object: self)
+                NotificationCenter.default.post(name: Notification.Name(rawValue: Constants.LaunchPercentageChangedNotification), object: self)
                 // update transition percentage
                 context.updateInteractiveTransition(launchPercentageCompleted)
             }
             
-        case .Ended:
+        case .ended:
             if launchPercentageCompleted >= CGFloat(Constants.LaunchLimit) {
                 finishInteraction()
             } else {
@@ -198,23 +233,23 @@ public class AELaunchDropTransitionAnimator: NSObject, UIViewControllerAnimatedT
 
     }
     
-    private func animateLaunchDropViewAlphaToValue(value: CGFloat) {
+    fileprivate func animateLaunchDropViewAlphaToValue(_ value: CGFloat) {
         // set launchDropView alpha when starting or ending transition
-        UIView.transitionWithView(launchDropView, duration: 0.3, options: .AllowUserInteraction, animations: { () -> Void in
+        UIView.transition(with: launchDropView, duration: 0.3, options: .allowUserInteraction, animations: { () -> Void in
             self.launchDropView.alpha = value
             }, completion: nil)
     }
     
     // MARK: - UIViewControllerContextTransitioning
     
-    private func finishInteraction() {
+    fileprivate func finishInteraction() {
         // set launch drop view opaque
         animateLaunchDropViewAlphaToValue(1.0)
         
         // get views
-        let fromVC = context.viewControllerForKey(UITransitionContextFromViewControllerKey)!
-        var finalFrame = context.initialFrameForViewController(fromVC)
-        finalFrame.origin.y -= CGRectGetHeight(finalFrame)
+        let fromVC = context.viewController(forKey: UITransitionContextViewControllerKey.from)!
+        var finalFrame = context.initialFrame(for: fromVC)
+        finalFrame.origin.y -= finalFrame.height
         
         // create gravity and set it's dynamic force
         let gravity = UIGravityBehavior(items: [launchDropView])
@@ -230,7 +265,7 @@ public class AELaunchDropTransitionAnimator: NSObject, UIViewControllerAnimatedT
             [weak self] in
             // stop animator and complete transition when launchDropView is off screen
             let view = self?.launchDropView
-            if self?.launchPercentageCompleted < -1.0 && animator.elapsedTime() > self?.duration {
+            if self?.launchPercentageCompleted < -1.0 && animator.elapsedTime > self?.duration {
                 animator.removeAllBehaviors()
                 view?.frame = finalFrame
                 self?.completeTransition()
@@ -241,19 +276,19 @@ public class AELaunchDropTransitionAnimator: NSObject, UIViewControllerAnimatedT
         context.finishInteractiveTransition()
     }
     
-    private func cancelInteraction() {
+    fileprivate func cancelInteraction() {
         // set launch drop view opaque
         animateLaunchDropViewAlphaToValue(1.0)
         
         // get views
-        let fromVC = context.viewControllerForKey(UITransitionContextFromViewControllerKey)!
-        let initialFrame = context.initialFrameForViewController(fromVC)
+        let fromVC = context.viewController(forKey: UITransitionContextViewControllerKey.from)!
+        let initialFrame = context.initialFrame(for: fromVC)
         
         // set point for the view to snap back in place
-        let snapPoint = CGPoint(x: CGRectGetMidX(initialFrame), y: CGRectGetMidY(initialFrame))
+        let snapPoint = CGPoint(x: initialFrame.midX, y: initialFrame.midY)
         
         // create snap with damping
-        let snap = UISnapBehavior(item: launchDropView, snapToPoint: snapPoint)
+        let snap = UISnapBehavior(item: launchDropView, snapTo: snapPoint)
         snap.damping = 0.21
         
         // create animator and add behaviors
@@ -266,7 +301,7 @@ public class AELaunchDropTransitionAnimator: NSObject, UIViewControllerAnimatedT
             [weak self] in
             // stop animator and complete transition when view is snapped back to place
             let view = self!.launchDropView
-            if abs(view.frame.origin.y) < 0.5 && self?.launchDropBehaviour.linearVelocityForItem(view).y < 0.01 && animator.elapsedTime() > self?.duration {
+            if abs(view?.frame.origin.y) < 0.5 && self?.launchDropBehaviour.linearVelocity(for: view!).y < 0.01 && animator.elapsedTime > self?.duration {
                 animator.removeAllBehaviors()
                 view?.frame = initialFrame
                 self?.completeTransition()
@@ -277,16 +312,16 @@ public class AELaunchDropTransitionAnimator: NSObject, UIViewControllerAnimatedT
         context.cancelInteractiveTransition()
     }
     
-    private func completeTransition() {
+    fileprivate func completeTransition() {
         // complete transition
-        let finished = !context.transitionWasCancelled()
+        let finished = !context.transitionWasCancelled
         context.completeTransition(finished)
         
         // reset properties
         context = nil
         containerView = nil
         launchDropView = nil
-        touchOffsetFromCenter = UIOffsetZero
+        touchOffsetFromCenter = UIOffset.zero
     }
     
 }

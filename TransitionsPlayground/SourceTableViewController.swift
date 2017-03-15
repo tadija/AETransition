@@ -40,7 +40,7 @@ class SourceTableViewController: UITableViewController {
 //        let slideToLeft = AETransitionSlide(presenting: false, duration: 0.3, direction: .Left)
 //        let animator = AEAnimator(presentTransition: slideFromLeft, dismissTransition: slideToLeft)
         
-        let animator = AEAnimator(presentTransition: AETransitionSlideIn(fromSide: .Left), dismissTransition: AETransitionSlideOut(toSide: .Left))
+        let animator = AEAnimator(presentTransition: AETransitionSlideIn(fromSide: .left), dismissTransition: AETransitionSlideOut(toSide: .left))
         
         return animator
     }()
@@ -54,13 +54,13 @@ class SourceTableViewController: UITableViewController {
 //        let scale = CGAffineTransformMakeScale(0.01, 0.01)
 //        let translate = CGAffineTransformMakeTranslation(-100, -100)
 //        present.initialTransform = CGAffineTransformConcat(scale, translate)
-        present.initialTransform = CGAffineTransformMakeScale(2.25, 2.25)
+        present.initialTransform = CGAffineTransform(scaleX: 2.25, y: 2.25)
 //        present.initialFrame = CGRect(x: 100, y: 200, width: 100, height: 100)
         
         let dismiss = AETransitionCustom(presenting: false)
         dismiss.animateAlpha = true
-        dismiss.initialSide = .Bottom
-        dismiss.initialTransform = CGAffineTransformMakeScale(0.01, 0.01)
+        dismiss.initialSide = .bottom
+        dismiss.initialTransform = CGAffineTransform(scaleX: 0.01, y: 0.01)
 //        dismiss.initialTransform = CGAffineTransformConcat(scale, translate)
 //        dismiss.initialTransform = CGAffineTransformMakeScale(0.25, 0.25)
 //        dismiss.initialFrame = CGRect(x: 100, y: 200, width: 100, height: 100)
@@ -69,19 +69,19 @@ class SourceTableViewController: UITableViewController {
         return animator
     }()
     
-    @IBAction func unwindToSourceTVC(segue: UIStoryboardSegue) {
+    @IBAction func unwindToSourceTVC(_ segue: UIStoryboardSegue) {
         print("unwindToSourceTVC")
         if let p = presentedViewController {
-            if p.modalPresentationStyle == .Custom {
+            if p.modalPresentationStyle == .custom {
                 print("manual dismiss")
-                dismissViewControllerAnimated(true, completion: nil)
+                dismiss(animated: true, completion: nil)
             }
         }
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
-        let toViewController = segue.destinationViewController as UIViewController
+        let toViewController = segue.destination as UIViewController
         
         // FADE
         
@@ -99,10 +99,10 @@ class SourceTableViewController: UITableViewController {
         
         if segue.identifier == "fadeSegueModalCustom" {
             // setup presentationController
-            let presentedViewFrame = CGRectInset(view.frame, 40, 80)
+            let presentedViewFrame = view.frame.insetBy(dx: 40, dy: 80)
 //            let presentedViewTransform = CGAffineTransformMakeRotation(0.2)
             
-            let presentationController = AEPresentationController(presentedViewController: toViewController, presentingViewController: self)
+            let presentationController = AEPresentationController(presentedViewController: toViewController, presenting: self)
             presentationController.presentedViewFrame = presentedViewFrame
 //            presentationController.presentedViewTransform = presentedViewTransform
 //
@@ -114,7 +114,7 @@ class SourceTableViewController: UITableViewController {
             
             // test custom
             fadeAnimatorCustom.presentationController = presentationController
-            toViewController.modalPresentationStyle = .Custom
+            toViewController.modalPresentationStyle = .custom
             toViewController.transitioningDelegate = fadeAnimatorCustom
         }
         
@@ -142,19 +142,19 @@ class SourceTableViewController: UITableViewController {
         
         if segue.identifier == "slideSegueModalCustom" {
             // setup presentationController
-            var presentedViewFrame = CGRectInset(view.frame, 20, 0)
+            var presentedViewFrame = view.frame.insetBy(dx: 20, dy: 0)
             presentedViewFrame.origin.x = 0
-            let presentingViewTransform = CGAffineTransformMakeTranslation(280, 0)
+            let presentingViewTransform = CGAffineTransform(translationX: 280, y: 0)
             
-            let presentationController = AEPresentationController(presentedViewController: toViewController, presentingViewController: self)
+            let presentationController = AEPresentationController(presentedViewController: toViewController, presenting: self)
             presentationController.presentedViewFrame = presentedViewFrame
             presentationController.presentingViewTransform = presentingViewTransform
-            presentationController.dimmingViewColor = UIColor.orangeColor().colorWithAlphaComponent(0.5)
+            presentationController.dimmingViewColor = UIColor.orange.withAlphaComponent(0.5)
             
             slideAnimatorCustom.presentationController = presentationController
             
             // set custom modal presentation style and transitioning delegate
-            toViewController.modalPresentationStyle = .Custom
+            toViewController.modalPresentationStyle = .custom
             toViewController.transitioningDelegate = slideAnimatorCustom
         }
         
@@ -168,8 +168,8 @@ class SourceTableViewController: UITableViewController {
 
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 
 }
