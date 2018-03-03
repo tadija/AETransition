@@ -14,6 +14,10 @@
 		8B949F5A204B395600147752 /* AETransition.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AETransition.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8B949F5D204B395600147752 /* AETransition.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AETransition.h; sourceTree = "<group>"; };
 		8B949F5E204B395600147752 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8B949F65204B40F500147752 /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
+		8B949F66204B411A00147752 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		8B949F67204B411A00147752 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		8B949F68204B411A00147752 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -30,8 +34,12 @@
 		8B949F50204B395600147752 = {
 			isa = PBXGroup;
 			children = (
+				8B949F65204B40F500147752 /* Package.swift */,
 				8B949F5C204B395600147752 /* Sources */,
 				8B949F5B204B395600147752 /* Products */,
+				8B949F67204B411A00147752 /* LICENSE */,
+				8B949F66204B411A00147752 /* README.md */,
+				8B949F68204B411A00147752 /* CHANGELOG.md */,
 			);
 			sourceTree = "<group>";
 		};

@@ -1,10 +1,8 @@
-//
-//  AETransition.h
-//  AETransition
-//
-//  Created by Marko Tadić on 3/3/18.
-//  Copyright © 2018 AE. All rights reserved.
-//
+/**
+ *  https://github.com/tadija/AETransition
+ *  Copyright (c) Marko Tadić 2014-2018
+ *  Licensed under the MIT license. See LICENSE file.
+ */
 
 #import <UIKit/UIKit.h>
 
