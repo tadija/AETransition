@@ -15,13 +15,15 @@ open class TransitionAnimation: NSObject, UIViewControllerAnimatedTransitioning 
         case dismissing
     }
 
+    public typealias ContextAnimation = (UIViewControllerContextTransitioning) -> Void
+
     // MARK: Properties
 
     open let type: TransitionType
     open let duration: TimeInterval
 
-    open var presentingAnimation: ((UIViewControllerContextTransitioning) -> Void)?
-    open var dismissingAnimation: ((UIViewControllerContextTransitioning) -> Void)?
+    open var presentingAnimation: ContextAnimation?
+    open var dismissingAnimation: ContextAnimation?
 
     // MARK: Init
 
@@ -45,4 +47,43 @@ open class TransitionAnimation: NSObject, UIViewControllerAnimatedTransitioning 
         }
     }
 
+}
+
+open class FadeTransition: TransitionAnimation {
+    public override init(type: TransitionType, duration: TimeInterval) {
+        super.init(type: type, duration: duration)
+
+        presentingAnimation = { (context) in
+            guard
+                let fromView = context.view(forKey: .from),
+                let toView = context.view(forKey: .to)
+            else {
+                return
+            }
+            context.containerView.insertSubview(toView, aboveSubview: fromView)
+
+            toView.alpha = 0
+            UIView.animate(withDuration: duration, animations: {
+                toView.alpha = 1
+            }, completion: { (finished) in
+                context.completeTransition(!context.transitionWasCancelled)
+            })
+        }
+
+        dismissingAnimation = { (context) in
+            guard
+                let fromView = context.view(forKey: .from),
+                let toView = context.view(forKey: .to)
+            else {
+                return
+            }
+            context.containerView.insertSubview(toView, belowSubview: fromView)
+
+            UIView.animate(withDuration: duration, animations: {
+                fromView.alpha = 0
+            }, completion: { (finished) in
+                context.completeTransition(!context.transitionWasCancelled)
+            })
+        }
+    }
 }
