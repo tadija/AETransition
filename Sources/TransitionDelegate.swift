@@ -13,15 +13,22 @@ open class TransitionDelegate: NSObject, UIViewControllerTransitioningDelegate {
     let presentTransition: UIViewControllerAnimatedTransitioning
     let dismissTransition: UIViewControllerAnimatedTransitioning
 
+    let presentInteractionController: UIViewControllerInteractiveTransitioning?
+    let dismissInteractionController: UIViewControllerInteractiveTransitioning?
+
     var presentationController: UIPresentationController?
 
     // MARK: Init
 
     public init(presentTransition: UIViewControllerAnimatedTransitioning,
                 dismissTransition: UIViewControllerAnimatedTransitioning,
+                presentInteractionController: UIViewControllerInteractiveTransitioning? = nil,
+                dismissInteractionController: UIViewControllerInteractiveTransitioning? = nil,
                 presentationController: UIPresentationController? = nil) {
         self.presentTransition = presentTransition
         self.dismissTransition = dismissTransition
+        self.presentInteractionController = presentInteractionController
+        self.dismissInteractionController = dismissInteractionController
         self.presentationController = presentationController
     }
 
@@ -35,6 +42,14 @@ open class TransitionDelegate: NSObject, UIViewControllerTransitioningDelegate {
 
     open func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return dismissTransition
+    }
+
+    public func interactionControllerForPresentation(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
+        return presentInteractionController
+    }
+
+    public func interactionControllerForDismissal(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
+        return dismissInteractionController
     }
 
     open func presentationController(forPresented presented: UIViewController,
@@ -61,6 +76,11 @@ extension TransitionDelegate: UINavigationControllerDelegate {
         }
     }
 
+    public func navigationController(_ navigationController: UINavigationController,
+                                     interactionControllerFor animationController: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
+        return presentInteractionController
+    }
+
 }
 
 extension TransitionDelegate: UITabBarControllerDelegate {
@@ -69,6 +89,11 @@ extension TransitionDelegate: UITabBarControllerDelegate {
                                animationControllerForTransitionFrom fromVC: UIViewController,
                                to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return presentTransition
+    }
+
+    public func tabBarController(_ tabBarController: UITabBarController,
+                                 interactionControllerFor animationController: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
+        return presentInteractionController
     }
 
 }
