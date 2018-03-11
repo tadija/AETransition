@@ -6,29 +6,43 @@
 
 import UIKit
 
-public enum TransitionType {
-    case presenting
-    case dismissing
-}
+open class TransitionAnimation: NSObject, UIViewControllerAnimatedTransitioning {
 
-public protocol TransitionAnimation: UIViewControllerAnimatedTransitioning {
-    var type: TransitionType { get }
-    var duration: TimeInterval { get }
+    // MARK: Types
 
-    var presentingAnimation: (UIViewControllerContextTransitioning) -> Void { get set }
-    var dismissingAnimation: (UIViewControllerContextTransitioning) -> Void { get set }
-}
+    public enum TransitionType {
+        case presenting
+        case dismissing
+    }
 
-extension TransitionAnimation {
-    public func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
+    // MARK: Properties
+
+    open let type: TransitionType
+    open let duration: TimeInterval
+
+    open var presentingAnimation: ((UIViewControllerContextTransitioning) -> Void)?
+    open var dismissingAnimation: ((UIViewControllerContextTransitioning) -> Void)?
+
+    // MARK: Init
+
+    public init(type: TransitionType = .presenting, duration: TimeInterval = 0.5) {
+        self.type = type
+        self.duration = duration
+    }
+
+    // MARK: UIViewControllerAnimatedTransitioning
+
+    open func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
         return duration
     }
-    public func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
+
+    open func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
         switch type {
         case .presenting:
-            presentingAnimation(transitionContext)
+            presentingAnimation?(transitionContext)
         case .dismissing:
-            dismissingAnimation(transitionContext)
+            dismissingAnimation?(transitionContext)
         }
     }
+
 }
