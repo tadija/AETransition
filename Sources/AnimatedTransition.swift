@@ -87,3 +87,42 @@ open class FadeTransition: AnimatedTransition {
         }
     }
 }
+
+open class SlideTransition: AnimatedTransition {
+    public override init(type: TransitionType, duration: TimeInterval) {
+        super.init(type: type, duration: duration)
+
+        presentingAnimation = { (context) in
+            guard
+                let fromView = context.view(forKey: .from),
+                let toView = context.view(forKey: .to)
+            else {
+                return
+            }
+            context.containerView.insertSubview(toView, aboveSubview: fromView)
+
+            toView.transform = CGAffineTransform(translationX: fromView.bounds.width, y: 0)
+            UIView.animate(withDuration: duration, animations: {
+                toView.transform = .identity
+            }, completion: { (finished) in
+                context.completeTransition(!context.transitionWasCancelled)
+            })
+        }
+
+        dismissingAnimation = { (context) in
+            guard
+                let fromView = context.view(forKey: .from),
+                let toView = context.view(forKey: .to)
+            else {
+                return
+            }
+            context.containerView.insertSubview(toView, belowSubview: fromView)
+
+            UIView.animate(withDuration: duration, animations: {
+                fromView.transform = CGAffineTransform(translationX: fromView.bounds.width, y: 0)
+            }, completion: { (finished) in
+                context.completeTransition(!context.transitionWasCancelled)
+            })
+        }
+    }
+}
