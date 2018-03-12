@@ -6,7 +6,7 @@
 
 import UIKit
 
-open class TransitionAnimation: NSObject, UIViewControllerAnimatedTransitioning {
+open class AnimatedTransition: NSObject, UIViewControllerAnimatedTransitioning {
 
     // MARK: Types
 
@@ -49,7 +49,7 @@ open class TransitionAnimation: NSObject, UIViewControllerAnimatedTransitioning 
 
 }
 
-open class FadeTransition: TransitionAnimation {
+open class FadeTransition: AnimatedTransition {
     public override init(type: TransitionType, duration: TimeInterval) {
         super.init(type: type, duration: duration)
 
