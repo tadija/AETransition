@@ -10,26 +10,18 @@ open class AnimatedTransition: NSObject, UIViewControllerAnimatedTransitioning {
 
     // MARK: Types
 
-    public enum TransitionType {
-        case presenting
-        case dismissing
-    }
-
-    public typealias ContextAnimation = (UIViewControllerContextTransitioning) -> Void
+    public typealias Animation = (UIViewControllerContextTransitioning) -> Void
 
     // MARK: Properties
 
-    open let type: TransitionType
     open let duration: TimeInterval
-
-    open var presentingAnimation: ContextAnimation?
-    open var dismissingAnimation: ContextAnimation?
+    open let animation: Animation
 
     // MARK: Init
 
-    public init(type: TransitionType = .presenting, duration: TimeInterval = 0.5) {
-        self.type = type
+    public init(duration: TimeInterval, animation: @escaping Animation) {
         self.duration = duration
+        self.animation = animation
     }
 
     // MARK: UIViewControllerAnimatedTransitioning
@@ -39,90 +31,74 @@ open class AnimatedTransition: NSObject, UIViewControllerAnimatedTransitioning {
     }
 
     open func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
-        switch type {
-        case .presenting:
-            presentingAnimation?(transitionContext)
-        case .dismissing:
-            dismissingAnimation?(transitionContext)
-        }
+        animation(transitionContext)
     }
 
 }
 
+public enum TransitionType {
+    case presenting
+    case dismissing
+}
+
 open class FadeTransition: AnimatedTransition {
-    public override init(type: TransitionType, duration: TimeInterval) {
-        super.init(type: type, duration: duration)
-
-        presentingAnimation = { (context) in
+    public init(type: TransitionType, duration: TimeInterval) {
+        super.init(duration: duration) { (context) in
             guard
                 let fromView = context.view(forKey: .from),
                 let toView = context.view(forKey: .to)
             else {
                 return
             }
-            context.containerView.insertSubview(toView, aboveSubview: fromView)
 
-            toView.alpha = 0
-            UIView.animate(withDuration: duration, animations: {
-                toView.alpha = 1
-            }, completion: { (finished) in
-                context.completeTransition(!context.transitionWasCancelled)
-            })
-        }
-
-        dismissingAnimation = { (context) in
-            guard
-                let fromView = context.view(forKey: .from),
-                let toView = context.view(forKey: .to)
-            else {
-                return
+            switch type {
+            case .presenting:
+                context.containerView.insertSubview(toView, aboveSubview: fromView)
+                toView.alpha = 0
+                UIView.animate(withDuration: duration, animations: {
+                    toView.alpha = 1
+                }, completion: { (finished) in
+                    context.completeTransition(!context.transitionWasCancelled)
+                })
+            case .dismissing:
+                context.containerView.insertSubview(toView, belowSubview: fromView)
+                UIView.animate(withDuration: duration, animations: {
+                    fromView.alpha = 0
+                }, completion: { (finished) in
+                    context.completeTransition(!context.transitionWasCancelled)
+                })
             }
-            context.containerView.insertSubview(toView, belowSubview: fromView)
-
-            UIView.animate(withDuration: duration, animations: {
-                fromView.alpha = 0
-            }, completion: { (finished) in
-                context.completeTransition(!context.transitionWasCancelled)
-            })
         }
     }
 }
 
 open class SlideTransition: AnimatedTransition {
-    public override init(type: TransitionType, duration: TimeInterval) {
-        super.init(type: type, duration: duration)
-
-        presentingAnimation = { (context) in
+    public init(type: TransitionType, duration: TimeInterval) {
+        super.init(duration: duration) { (context) in
             guard
                 let fromView = context.view(forKey: .from),
                 let toView = context.view(forKey: .to)
             else {
                 return
             }
-            context.containerView.insertSubview(toView, aboveSubview: fromView)
 
-            toView.transform = CGAffineTransform(translationX: fromView.bounds.width, y: 0)
-            UIView.animate(withDuration: duration, animations: {
-                toView.transform = .identity
-            }, completion: { (finished) in
-                context.completeTransition(!context.transitionWasCancelled)
-            })
-        }
-
-        dismissingAnimation = { (context) in
-            guard
-                let fromView = context.view(forKey: .from),
-                let toView = context.view(forKey: .to)
-            else {
-                return
+            switch type {
+            case .presenting:
+                context.containerView.insertSubview(toView, aboveSubview: fromView)
+                toView.transform = CGAffineTransform(translationX: fromView.bounds.width, y: 0)
+                UIView.animate(withDuration: duration, animations: {
+                    toView.transform = .identity
+                }, completion: { (finished) in
+                    context.completeTransition(!context.transitionWasCancelled)
+                })
+            case .dismissing:
+                context.containerView.insertSubview(toView, belowSubview: fromView)
+                UIView.animate(withDuration: duration, animations: {
+                    fromView.transform = CGAffineTransform(translationX: fromView.bounds.width, y: 0)
+                }, completion: { (finished) in
+                    context.completeTransition(!context.transitionWasCancelled)
+                })
             }
-            context.containerView.insertSubview(toView, belowSubview: fromView)
-
-            UIView.animate(withDuration: duration, animations: {
-                fromView.transform = CGAffineTransform(translationX: fromView.bounds.width, y: 0)
-            }, completion: { (finished) in
-                context.completeTransition(!context.transitionWasCancelled)
-            })
         }
     }
 }
