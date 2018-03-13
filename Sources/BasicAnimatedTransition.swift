@@ -15,7 +15,7 @@ open class BasicAnimatedTransition: AnimatedTransition {
 
     // MARK: Properties
 
-    open let layer: AnimatedTransitionLayer
+    open let layers: [AnimatedTransitionLayer]
 
     open var completion: ContextHandler? = { (context) in
         context.completeTransition(!context.transitionWasCancelled)
@@ -23,15 +23,19 @@ open class BasicAnimatedTransition: AnimatedTransition {
 
     // MARK: Init
 
-    public init(layer: AnimatedTransitionLayer, duration: TimeInterval = 0.5) {
-        self.layer = layer
-        
+    public init(duration: TimeInterval = 0.5, layers: [AnimatedTransitionLayer]) {
+        self.layers = layers
         super.init(duration: duration)
+        configureTransitionAnimation(duration: duration, layers: layers)
+    }
 
+    // MARK: Helpers
+
+    private func configureTransitionAnimation(duration: TimeInterval, layers: [AnimatedTransitionLayer]) {
         transitionAnimation = { [weak self] (context) in
-            self?.layer.preparation?(context)
+            layers.forEach({ $0.preparation?(context) })
             UIView.animate(withDuration: duration, animations: {
-                self?.layer.animation?(context)
+                layers.forEach({ $0.animation?(context) })
             }, completion: { (finished) in
                 self?.completion?(context)
             })
@@ -61,13 +65,13 @@ public struct FadeOutLayer: AnimatedTransitionLayer {
 
 open class LayeredFadeInTransition: BasicAnimatedTransition {
     public init(duration: TimeInterval = 0.5) {
-        super.init(layer: FadeInLayer(), duration: duration)
+        super.init(duration: duration, layers: [FadeInLayer()])
     }
 }
 
 open class LayeredFadeOutTransition: BasicAnimatedTransition {
     public init(duration: TimeInterval = 0.5) {
-        super.init(layer: FadeOutLayer(), duration: duration)
+        super.init(duration: duration, layers: [FadeOutLayer()])
     }
 }
 
