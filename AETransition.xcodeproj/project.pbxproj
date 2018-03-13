@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8B6D99472058858C0079EB3A /* AnimatedTransitionFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6D99462058858C0079EB3A /* AnimatedTransitionFactory.swift */; };
 		8B8A0E62204F2AC600444912 /* TransitioningDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8A0E61204F2AC600444912 /* TransitioningDelegate.swift */; };
 		8B8A0E682055970500444912 /* AnimatedTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8A0E672055970500444912 /* AnimatedTransition.swift */; };
 		8B8A0E712058558500444912 /* LayeredAnimatedTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8A0E702058558500444912 /* LayeredAnimatedTransition.swift */; };
@@ -15,6 +16,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8B6D99462058858C0079EB3A /* AnimatedTransitionFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedTransitionFactory.swift; sourceTree = "<group>"; };
 		8B8A0E61204F2AC600444912 /* TransitioningDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransitioningDelegate.swift; sourceTree = "<group>"; };
 		8B8A0E672055970500444912 /* AnimatedTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedTransition.swift; sourceTree = "<group>"; };
 		8B8A0E702058558500444912 /* LayeredAnimatedTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayeredAnimatedTransition.swift; sourceTree = "<group>"; };
@@ -82,6 +84,7 @@
 				8B8A0E61204F2AC600444912 /* TransitioningDelegate.swift */,
 				8B8A0E672055970500444912 /* AnimatedTransition.swift */,
 				8B8A0E702058558500444912 /* LayeredAnimatedTransition.swift */,
+				8B6D99462058858C0079EB3A /* AnimatedTransitionFactory.swift */,
 				8B8A0E762058627500444912 /* UIViewControllerContextTransitioning+Helpers.swift */,
 				8B8A0E64204F2AD700444912 /* Supporting Files */,
 			);
@@ -170,6 +173,7 @@
 			files = (
 				8B8A0E712058558500444912 /* LayeredAnimatedTransition.swift in Sources */,
 				8B8A0E62204F2AC600444912 /* TransitioningDelegate.swift in Sources */,
+				8B6D99472058858C0079EB3A /* AnimatedTransitionFactory.swift in Sources */,
 				8B8A0E772058627500444912 /* UIViewControllerContextTransitioning+Helpers.swift in Sources */,
 				8B8A0E682055970500444912 /* AnimatedTransition.swift in Sources */,
 			);
