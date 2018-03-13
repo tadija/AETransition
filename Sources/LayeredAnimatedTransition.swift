@@ -20,7 +20,7 @@ extension AnimatedTransitionLayer {
     }
 }
 
-open class BasicAnimatedTransition: AnimatedTransition {
+open class LayeredAnimatedTransition: AnimatedTransition {
 
     // MARK: Properties
 
@@ -80,13 +80,13 @@ public struct FadeOutLayer: AnimatedTransitionLayer {
     }
 }
 
-open class LayeredFadeInTransition: BasicAnimatedTransition {
+open class LayeredFadeInTransition: LayeredAnimatedTransition {
     public init(duration: TimeInterval = 0.5) {
         super.init(duration: duration, layers: [InsertViewAboveLayer(), FadeInLayer()])
     }
 }
 
-open class LayeredFadeOutTransition: BasicAnimatedTransition {
+open class LayeredFadeOutTransition: LayeredAnimatedTransition {
     public init(duration: TimeInterval = 0.5) {
         super.init(duration: duration, layers: [InsertViewBelowLayer(), FadeOutLayer()])
     }
