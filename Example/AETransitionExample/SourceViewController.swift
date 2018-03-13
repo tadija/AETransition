@@ -11,23 +11,35 @@ class SourceViewController: UIViewController {
 
     var animator: TransitioningDelegate?
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        animator = {
-            let pt = SlideTransition(type: .presenting, duration: 0.5)
-            let dt = SlideTransition(type: .dismissing, duration: 0.5)
-            let td = TransitioningDelegate(presentAnimation: pt, dismissAnimation: dt)
-            return td
-        }()
-    }
-
-    @IBAction func unwindToSourceViewController(_ segue: UIStoryboardSegue) {
-        
-    }
-
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        animator = TransitioningDelegate(presentAnimation: randomPresenting, dismissAnimation: randomDismissing)
         segue.destination.transitioningDelegate = animator
     }
 
+    @IBAction func unwindToSourceViewController(_ segue: UIStoryboardSegue) {}
+
+    var randomPresenting: AnimatedTransition {
+        let index = Int.random(min: 0, max: presenting.count - 1)
+        return presenting[index]
+    }
+
+    var randomDismissing: AnimatedTransition {
+        let index = Int.random(min: 0, max: dismissing.count - 1)
+        return dismissing[index]
+    }
+
+    let presenting: [AnimatedTransition] = [
+        FadeInTransition(), MoveInTransition()
+    ]
+
+    let dismissing: [AnimatedTransition] = [
+        FadeOutTransition(), MoveOutTransition()
+    ]
+
+}
+
+extension Int {
+    static func random(min: Int = 0, max: Int = Int.max) -> Int {
+        return Int(arc4random_uniform(UInt32((max - min) + 1))) + min
+    }
 }
