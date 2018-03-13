@@ -80,6 +80,23 @@ public struct FadeOutLayer: AnimatedTransitionLayer {
     }
 }
 
+public struct MoveInLayer: AnimatedTransitionLayer {
+    public var preparation: AnimatedTransition.ContextHandler? = { (context) in
+        let translationX = context.fromView?.bounds.width ?? 0
+        context.toView?.transform = CGAffineTransform(translationX: translationX, y: 0)
+    }
+    public var animation: AnimatedTransition.ContextHandler? = { (context) in
+        context.toView?.transform = .identity
+    }
+}
+
+public struct MoveOutLayer: AnimatedTransitionLayer {
+    public var animation: AnimatedTransition.ContextHandler? = { (context) in
+        let translationX = context.fromView?.bounds.width ?? 0
+        context.fromView?.transform = CGAffineTransform(translationX: translationX, y: 0)
+    }
+}
+
 open class LayeredFadeInTransition: LayeredAnimatedTransition {
     public init(duration: TimeInterval = 0.5) {
         super.init(duration: duration, layers: [InsertViewAboveLayer(), FadeInLayer()])
@@ -89,6 +106,18 @@ open class LayeredFadeInTransition: LayeredAnimatedTransition {
 open class LayeredFadeOutTransition: LayeredAnimatedTransition {
     public init(duration: TimeInterval = 0.5) {
         super.init(duration: duration, layers: [InsertViewBelowLayer(), FadeOutLayer()])
+    }
+}
+
+open class LayeredMoveInTransition: LayeredAnimatedTransition {
+    public init(duration: TimeInterval = 0.5) {
+        super.init(duration: duration, layers: [InsertViewAboveLayer(), MoveInLayer()])
+    }
+}
+
+open class LayeredMoveOutTransition: LayeredAnimatedTransition {
+    public init(duration: TimeInterval = 0.5) {
+        super.init(duration: duration, layers: [InsertViewBelowLayer(), MoveOutLayer()])
     }
 }
 
