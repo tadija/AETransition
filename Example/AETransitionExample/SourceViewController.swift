@@ -29,15 +29,11 @@ class SourceViewController: UIViewController {
     }
 
     let presenting: [AnimatedTransition] = [
-//        FadeInTransition(), MoveInTransition()
-//        LayeredFadeInTransition()
-        LayeredMoveInTransition()
+        FadeInTransition(), MoveInTransition()
     ]
 
     let dismissing: [AnimatedTransition] = [
-//        FadeOutTransition(), MoveOutTransition()
-//        LayeredFadeOutTransition()
-        LayeredMoveOutTransition()
+        FadeOutTransition(), MoveOutTransition()
     ]
 
 }
