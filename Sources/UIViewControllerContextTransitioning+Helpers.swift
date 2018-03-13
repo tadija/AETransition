@@ -6,7 +6,7 @@
 
 import UIKit
 
-extension UIViewControllerContextTransitioning {
+public extension UIViewControllerContextTransitioning {
 
     // MARK: Properties
 

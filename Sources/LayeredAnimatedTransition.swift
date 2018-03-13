@@ -11,7 +11,7 @@ public protocol AnimatedTransitionLayer {
     var animation: ContextHandler? { get }
 }
 
-extension AnimatedTransitionLayer {
+public extension AnimatedTransitionLayer {
     public var preparation: ContextHandler? {
         return nil
     }
@@ -32,7 +32,7 @@ open class LayeredAnimatedTransition: AnimatedTransition {
 
     // MARK: Init
 
-    public init(duration: TimeInterval = 0.5, layers: [AnimatedTransitionLayer]) {
+    public init(duration: TimeInterval, layers: [AnimatedTransitionLayer]) {
         self.layers = layers
         super.init(duration: duration)
         configureTransitionAnimation(duration: duration, layers: layers)
