@@ -46,15 +46,23 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		8B8A0E7520585B1100444912 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				8B949F67204B411A00147752 /* LICENSE */,
+				8B949F66204B411A00147752 /* README.md */,
+				8B949F68204B411A00147752 /* CHANGELOG.md */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		8B949F50204B395600147752 = {
 			isa = PBXGroup;
 			children = (
 				8B949F65204B40F500147752 /* Package.swift */,
 				8B949F5C204B395600147752 /* Sources */,
 				8B949F5B204B395600147752 /* Products */,
-				8B949F67204B411A00147752 /* LICENSE */,
-				8B949F66204B411A00147752 /* README.md */,
-				8B949F68204B411A00147752 /* CHANGELOG.md */,
+				8B8A0E7520585B1100444912 /* Supporting Files */,
 			);
 			sourceTree = "<group>";
 		};
