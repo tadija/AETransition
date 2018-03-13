@@ -8,7 +8,9 @@ import UIKit
 
 open class FadeInTransition: AnimatedTransition {
     public init(duration: TimeInterval = 0.5) {
-        super.init(duration: duration) { (context) in
+        super.init(duration: duration)
+
+        transitionAnimation = { (context) in
             context.insertToViewAboveFromView()
             context.toView?.alpha = 0
             UIView.animate(withDuration: duration, animations: {
@@ -22,7 +24,9 @@ open class FadeInTransition: AnimatedTransition {
 
 open class FadeOutTransition: AnimatedTransition {
     public init(duration: TimeInterval = 0.5) {
-        super.init(duration: duration) { (context) in
+        super.init(duration: duration)
+
+        transitionAnimation = { (context) in
             context.insertToViewBelowFromView()
             UIView.animate(withDuration: duration, animations: {
                 context.fromView?.alpha = 0
@@ -35,7 +39,9 @@ open class FadeOutTransition: AnimatedTransition {
 
 open class MoveInTransition: AnimatedTransition {
     public init(duration: TimeInterval = 0.5) {
-        super.init(duration: duration) { (context) in
+        super.init(duration: duration)
+
+        transitionAnimation = { (context) in
             context.insertToViewAboveFromView()
             let translationX = context.fromView?.bounds.width ?? 0
             context.toView?.transform = CGAffineTransform(translationX: translationX, y: 0)
@@ -50,7 +56,9 @@ open class MoveInTransition: AnimatedTransition {
 
 open class MoveOutTransition: AnimatedTransition {
     public init(duration: TimeInterval = 0.5) {
-        super.init(duration: duration) { (context) in
+        super.init(duration: duration)
+
+        transitionAnimation = { (context) in
             context.insertToViewBelowFromView()
             UIView.animate(withDuration: duration, animations: {
                 let translationX = context.fromView?.bounds.width ?? 0

@@ -10,18 +10,18 @@ open class AnimatedTransition: NSObject, UIViewControllerAnimatedTransitioning {
 
     // MARK: Types
 
-    public typealias Animation = (UIViewControllerContextTransitioning) -> Void
+    public typealias ContextHandler = (UIViewControllerContextTransitioning) -> Void
 
     // MARK: Properties
 
     open let duration: TimeInterval
-    open let animation: Animation
+    open var transitionAnimation: ContextHandler?
 
     // MARK: Init
 
-    public init(duration: TimeInterval, animation: @escaping Animation) {
+    public init(duration: TimeInterval, transitionAnimation: ContextHandler? = nil) {
         self.duration = duration
-        self.animation = animation
+        self.transitionAnimation = transitionAnimation
     }
 
     // MARK: UIViewControllerAnimatedTransitioning
@@ -31,7 +31,7 @@ open class AnimatedTransition: NSObject, UIViewControllerAnimatedTransitioning {
     }
 
     open func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
-        animation(transitionContext)
+        transitionAnimation?(transitionContext)
     }
 
 }
