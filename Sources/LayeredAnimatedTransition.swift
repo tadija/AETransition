@@ -7,15 +7,15 @@
 import UIKit
 
 public protocol AnimatedTransitionLayer {
-    var preparation: AnimatedTransition.ContextHandler? { get }
-    var animation: AnimatedTransition.ContextHandler? { get }
+    var preparation: ContextHandler? { get }
+    var animation: ContextHandler? { get }
 }
 
 extension AnimatedTransitionLayer {
-    public var preparation: AnimatedTransition.ContextHandler? {
+    public var preparation: ContextHandler? {
         return nil
     }
-    public var animation: AnimatedTransition.ContextHandler? {
+    public var animation: ContextHandler? {
         return nil
     }
 }
