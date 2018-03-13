@@ -11,6 +11,15 @@ public protocol AnimatedTransitionLayer {
     var animation: AnimatedTransition.ContextHandler? { get }
 }
 
+extension AnimatedTransitionLayer {
+    public var preparation: AnimatedTransition.ContextHandler? {
+        return nil
+    }
+    public var animation: AnimatedTransition.ContextHandler? {
+        return nil
+    }
+}
+
 open class BasicAnimatedTransition: AnimatedTransition {
 
     // MARK: Properties
@@ -44,9 +53,20 @@ open class BasicAnimatedTransition: AnimatedTransition {
 
 }
 
-public struct FadeInLayer: AnimatedTransitionLayer {
+public struct InsertViewAboveLayer: AnimatedTransitionLayer {
     public var preparation: AnimatedTransition.ContextHandler? = { (context) in
         context.insertToViewAboveFromView()
+    }
+}
+
+public struct InsertViewBelowLayer: AnimatedTransitionLayer {
+    public var preparation: AnimatedTransition.ContextHandler? = { (context) in
+        context.insertToViewBelowFromView()
+    }
+}
+
+public struct FadeInLayer: AnimatedTransitionLayer {
+    public var preparation: AnimatedTransition.ContextHandler? = { (context) in
         context.toView?.alpha = 0
     }
     public var animation: AnimatedTransition.ContextHandler? = { (context) in
@@ -55,9 +75,6 @@ public struct FadeInLayer: AnimatedTransitionLayer {
 }
 
 public struct FadeOutLayer: AnimatedTransitionLayer {
-    public var preparation: AnimatedTransition.ContextHandler? = { (context) in
-        context.insertToViewBelowFromView()
-    }
     public var animation: AnimatedTransition.ContextHandler? = { (context) in
         context.fromView?.alpha = 0
     }
@@ -65,13 +82,13 @@ public struct FadeOutLayer: AnimatedTransitionLayer {
 
 open class LayeredFadeInTransition: BasicAnimatedTransition {
     public init(duration: TimeInterval = 0.5) {
-        super.init(duration: duration, layers: [FadeInLayer()])
+        super.init(duration: duration, layers: [InsertViewAboveLayer(), FadeInLayer()])
     }
 }
 
 open class LayeredFadeOutTransition: BasicAnimatedTransition {
     public init(duration: TimeInterval = 0.5) {
-        super.init(duration: duration, layers: [FadeOutLayer()])
+        super.init(duration: duration, layers: [InsertViewBelowLayer(), FadeOutLayer()])
     }
 }
 
