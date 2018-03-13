@@ -6,7 +6,7 @@
 
 import UIKit
 
-open class TransitioningDelegate: NSObject, UIViewControllerTransitioningDelegate {
+open class TransitioningDelegate: NSObject {
 
     // MARK: Properties
 
@@ -32,7 +32,9 @@ open class TransitioningDelegate: NSObject, UIViewControllerTransitioningDelegat
         self.presentationController = presentationController
     }
 
-    // MARK: UIViewControllerTransitioningDelegate
+}
+
+extension TransitioningDelegate: UIViewControllerTransitioningDelegate {
 
     open func animationController(forPresented presented: UIViewController,
                                   presenting: UIViewController,
