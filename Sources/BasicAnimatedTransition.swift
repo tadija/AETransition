@@ -9,16 +9,10 @@ import UIKit
 open class FadeInTransition: AnimatedTransition {
     public init(duration: TimeInterval = 0.5) {
         super.init(duration: duration) { (context) in
-            guard
-                let fromView = context.view(forKey: .from),
-                let toView = context.view(forKey: .to)
-            else {
-                return
-            }
-            context.containerView.insertSubview(toView, aboveSubview: fromView)
-            toView.alpha = 0
+            context.insertToViewAboveFromView()
+            context.toView?.alpha = 0
             UIView.animate(withDuration: duration, animations: {
-                toView.alpha = 1
+                context.toView?.alpha = 1
             }, completion: { (finished) in
                 context.completeTransition(!context.transitionWasCancelled)
             })
@@ -29,15 +23,9 @@ open class FadeInTransition: AnimatedTransition {
 open class FadeOutTransition: AnimatedTransition {
     public init(duration: TimeInterval = 0.5) {
         super.init(duration: duration) { (context) in
-            guard
-                let fromView = context.view(forKey: .from),
-                let toView = context.view(forKey: .to)
-            else {
-                return
-            }
-            context.containerView.insertSubview(toView, belowSubview: fromView)
+            context.insertToViewBelowFromView()
             UIView.animate(withDuration: duration, animations: {
-                fromView.alpha = 0
+                context.fromView?.alpha = 0
             }, completion: { (finished) in
                 context.completeTransition(!context.transitionWasCancelled)
             })
@@ -48,16 +36,11 @@ open class FadeOutTransition: AnimatedTransition {
 open class MoveInTransition: AnimatedTransition {
     public init(duration: TimeInterval = 0.5) {
         super.init(duration: duration) { (context) in
-            guard
-                let fromView = context.view(forKey: .from),
-                let toView = context.view(forKey: .to)
-            else {
-                return
-            }
-            context.containerView.insertSubview(toView, aboveSubview: fromView)
-            toView.transform = CGAffineTransform(translationX: fromView.bounds.width, y: 0)
+            context.insertToViewAboveFromView()
+            let translationX = context.fromView?.bounds.width ?? 0
+            context.toView?.transform = CGAffineTransform(translationX: translationX, y: 0)
             UIView.animate(withDuration: duration, animations: {
-                toView.transform = .identity
+                context.toView?.transform = .identity
             }, completion: { (finished) in
                 context.completeTransition(!context.transitionWasCancelled)
             })
@@ -68,15 +51,10 @@ open class MoveInTransition: AnimatedTransition {
 open class MoveOutTransition: AnimatedTransition {
     public init(duration: TimeInterval = 0.5) {
         super.init(duration: duration) { (context) in
-            guard
-                let fromView = context.view(forKey: .from),
-                let toView = context.view(forKey: .to)
-            else {
-                return
-            }
-            context.containerView.insertSubview(toView, belowSubview: fromView)
+            context.insertToViewBelowFromView()
             UIView.animate(withDuration: duration, animations: {
-                fromView.transform = CGAffineTransform(translationX: fromView.bounds.width, y: 0)
+                let translationX = context.fromView?.bounds.width ?? 0
+                context.fromView?.transform = CGAffineTransform(translationX: translationX, y: 0)
             }, completion: { (finished) in
                 context.completeTransition(!context.transitionWasCancelled)
             })

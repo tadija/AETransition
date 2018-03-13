@@ -15,8 +15,10 @@ class SourceViewController: UIViewController {
         super.viewDidLoad()
 
         animator = {
-            let pt = MoveInTransition()
-            let dt = MoveOutTransition()
+//            let pt = MoveInTransition()
+//            let dt = MoveOutTransition()
+            let pt = FadeInTransition()
+            let dt = FadeOutTransition()
             let td = TransitioningDelegate(presentAnimation: pt, dismissAnimation: dt)
             return td
         }()
