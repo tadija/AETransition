@@ -57,29 +57,3 @@ public class MoveOutLayer: AnimatedTransitionLayer {
         context.fromView?.translate(to: self.edge)
     }
 }
-
-// MARK: - Transitions
-
-open class FadeInTransition: LayeredAnimatedTransition {
-    public init(duration: TimeInterval = 0.5) {
-        super.init(duration: duration, layers: [InsertViewAboveLayer(), FadeInLayer()])
-    }
-}
-
-open class FadeOutTransition: LayeredAnimatedTransition {
-    public init(duration: TimeInterval = 0.5) {
-        super.init(duration: duration, layers: [InsertViewBelowLayer(), FadeOutLayer()])
-    }
-}
-
-open class MoveInTransition: LayeredAnimatedTransition {
-    public init(from edge: Edge = .right, duration: TimeInterval = 0.5) {
-        super.init(duration: duration, layers: [InsertViewAboveLayer(), MoveInLayer(from: edge)])
-    }
-}
-
-open class MoveOutTransition: LayeredAnimatedTransition {
-    public init(to edge: Edge = .right, duration: TimeInterval = 0.5) {
-        super.init(duration: duration, layers: [InsertViewBelowLayer(), MoveOutLayer(to: edge)])
-    }
-}

@@ -33,11 +33,11 @@ class SourceViewController: UIViewController {
     }
 
     let presentingTransitions: [AnimatedTransition] = [
-        FadeInTransition(), MoveInTransition(from: Edge.random)
+        Transition.FadeIn(), Transition.MoveIn(from: Edge.random)
     ]
 
     let dismissingTransitions: [AnimatedTransition] = [
-        FadeOutTransition(), MoveOutTransition(to: Edge.random)
+        Transition.FadeOut(), Transition.MoveOut(to: Edge.random)
     ]
 
 }
