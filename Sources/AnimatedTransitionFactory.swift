@@ -58,9 +58,9 @@ public enum Edge {
         case .right:
             return CGAffineTransform(translationX: view.bounds.width, y: 0)
         case .top:
-            return CGAffineTransform(translationX: 0, y: view.bounds.height)
-        case .bottom:
             return CGAffineTransform(translationX: 0, y: -view.bounds.height)
+        case .bottom:
+            return CGAffineTransform(translationX: 0, y: view.bounds.height)
         }
     }
 }
@@ -71,18 +71,26 @@ public extension UIView {
     }
 }
 
-public struct MoveInLayer: AnimatedTransitionLayer {
-    public var preparation: ContextHandler? = { (context) in
-        context.toView?.translate(to: .right)
+public class MoveInLayer: AnimatedTransitionLayer {
+    let edge: Edge
+    init(from edge: Edge) {
+        self.edge = edge
+    }
+    public lazy var preparation: ContextHandler? = { [unowned self] (context) in
+        context.toView?.translate(to: self.edge)
     }
     public var animation: ContextHandler? = { (context) in
         context.toView?.transform = .identity
     }
 }
 
-public struct MoveOutLayer: AnimatedTransitionLayer {
-    public var animation: ContextHandler? = { (context) in
-        context.fromView?.translate(to: .right)
+public class MoveOutLayer: AnimatedTransitionLayer {
+    let edge: Edge
+    init(to edge: Edge) {
+        self.edge = edge
+    }
+    public lazy var animation: ContextHandler? = { [unowned self] (context) in
+        context.fromView?.translate(to: self.edge)
     }
 }
 
@@ -101,13 +109,13 @@ open class FadeOutTransition: LayeredAnimatedTransition {
 }
 
 open class MoveInTransition: LayeredAnimatedTransition {
-    public init(duration: TimeInterval = 0.5) {
-        super.init(duration: duration, layers: [InsertViewAboveLayer(), MoveInLayer()])
+    public init(from edge: Edge = .right, duration: TimeInterval = 0.5) {
+        super.init(duration: duration, layers: [InsertViewAboveLayer(), MoveInLayer(from: edge)])
     }
 }
 
 open class MoveOutTransition: LayeredAnimatedTransition {
-    public init(duration: TimeInterval = 0.5) {
-        super.init(duration: duration, layers: [InsertViewBelowLayer(), MoveOutLayer()])
+    public init(to edge: Edge = .right, duration: TimeInterval = 0.5) {
+        super.init(duration: duration, layers: [InsertViewBelowLayer(), MoveOutLayer(to: edge)])
     }
 }

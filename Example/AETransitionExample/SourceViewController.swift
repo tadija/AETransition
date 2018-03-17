@@ -29,11 +29,11 @@ class SourceViewController: UIViewController {
     }
 
     let presenting: [AnimatedTransition] = [
-        FadeInTransition(), MoveInTransition()
+        FadeInTransition(), MoveInTransition(from: Edge.random)
     ]
 
     let dismissing: [AnimatedTransition] = [
-        FadeOutTransition(), MoveOutTransition()
+        FadeOutTransition(), MoveOutTransition(to: Edge.random)
     ]
 
 }
@@ -42,4 +42,12 @@ extension Int {
     static func random(min: Int = 0, max: Int = Int.max) -> Int {
         return Int(arc4random_uniform(UInt32((max - min) + 1))) + min
     }
+}
+
+extension Edge {
+    static var random: Edge {
+        let index = Int.random(min: 0, max: all.count - 1)
+        return all[index]
+    }
+    static var all: [Edge] = [.left, .right, .top, .bottom]
 }
