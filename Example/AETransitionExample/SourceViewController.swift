@@ -19,21 +19,25 @@ class SourceViewController: UIViewController {
     @IBAction func unwindToSourceViewController(_ segue: UIStoryboardSegue) {}
 
     var randomPresenting: AnimatedTransition {
-        let index = Int.random(min: 0, max: presenting.count - 1)
-        return presenting[index]
+        let index = Int.random(min: 0, max: presentingTransitions.count - 1)
+        let random = presentingTransitions[index]
+        print(random.debugDescription)
+        return random
     }
 
     var randomDismissing: AnimatedTransition {
-        let index = Int.random(min: 0, max: dismissing.count - 1)
-        return dismissing[index]
+        let index = Int.random(min: 0, max: dismissingTransitions.count - 1)
+        let random = dismissingTransitions[index]
+        print(random.debugDescription)
+        return random
     }
 
-    let presenting: [AnimatedTransition] = [
-        FadeInTransition(), MoveInTransition()
+    let presentingTransitions: [AnimatedTransition] = [
+        FadeInTransition(), MoveInTransition(from: Edge.random)
     ]
 
-    let dismissing: [AnimatedTransition] = [
-        FadeOutTransition(), MoveOutTransition()
+    let dismissingTransitions: [AnimatedTransition] = [
+        FadeOutTransition(), MoveOutTransition(to: Edge.random)
     ]
 
 }
@@ -42,4 +46,12 @@ extension Int {
     static func random(min: Int = 0, max: Int = Int.max) -> Int {
         return Int(arc4random_uniform(UInt32((max - min) + 1))) + min
     }
+}
+
+extension Edge {
+    static var random: Edge {
+        let index = Int.random(min: 0, max: all.count - 1)
+        return all[index]
+    }
+    static var all: [Edge] = [.left, .right, .top, .bottom]
 }

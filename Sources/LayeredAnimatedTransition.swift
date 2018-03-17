@@ -6,20 +6,6 @@
 
 import UIKit
 
-public protocol AnimatedTransitionLayer {
-    var preparation: ContextHandler? { get }
-    var animation: ContextHandler? { get }
-}
-
-extension AnimatedTransitionLayer {
-    public var preparation: ContextHandler? {
-        return nil
-    }
-    public var animation: ContextHandler? {
-        return nil
-    }
-}
-
 open class LayeredAnimatedTransition: AnimatedTransition {
 
     // MARK: Properties
@@ -30,9 +16,13 @@ open class LayeredAnimatedTransition: AnimatedTransition {
         context.completeTransition(!context.transitionWasCancelled)
     }
 
+    open override var debugDescription: String {
+        return "\(type(of: self)) | Layers: \(layers.map{ "\(type(of: $0))".split{$0 == "."}.last ?? "" })"
+    }
+
     // MARK: Init
 
-    public init(duration: TimeInterval = 0.5, layers: [AnimatedTransitionLayer]) {
+    public init(duration: TimeInterval, layers: [AnimatedTransitionLayer]) {
         self.layers = layers
         super.init(duration: duration)
         configureTransitionAnimation(duration: duration, layers: layers)

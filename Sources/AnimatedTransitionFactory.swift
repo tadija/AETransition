@@ -35,20 +35,26 @@ public struct FadeOutLayer: AnimatedTransitionLayer {
     }
 }
 
-public struct MoveInLayer: AnimatedTransitionLayer {
-    public var preparation: ContextHandler? = { (context) in
-        let translationX = context.fromView?.bounds.width ?? 0
-        context.toView?.transform = CGAffineTransform(translationX: translationX, y: 0)
+public class MoveInLayer: AnimatedTransitionLayer {
+    let edge: Edge
+    init(from edge: Edge) {
+        self.edge = edge
+    }
+    public lazy var preparation: ContextHandler? = { [unowned self] (context) in
+        context.toView?.translate(to: self.edge)
     }
     public var animation: ContextHandler? = { (context) in
         context.toView?.transform = .identity
     }
 }
 
-public struct MoveOutLayer: AnimatedTransitionLayer {
-    public var animation: ContextHandler? = { (context) in
-        let translationX = context.fromView?.bounds.width ?? 0
-        context.fromView?.transform = CGAffineTransform(translationX: translationX, y: 0)
+public class MoveOutLayer: AnimatedTransitionLayer {
+    let edge: Edge
+    init(to edge: Edge) {
+        self.edge = edge
+    }
+    public lazy var animation: ContextHandler? = { [unowned self] (context) in
+        context.fromView?.translate(to: self.edge)
     }
 }
 
@@ -67,13 +73,13 @@ open class FadeOutTransition: LayeredAnimatedTransition {
 }
 
 open class MoveInTransition: LayeredAnimatedTransition {
-    public init(duration: TimeInterval = 0.5) {
-        super.init(duration: duration, layers: [InsertViewAboveLayer(), MoveInLayer()])
+    public init(from edge: Edge = .right, duration: TimeInterval = 0.5) {
+        super.init(duration: duration, layers: [InsertViewAboveLayer(), MoveInLayer(from: edge)])
     }
 }
 
 open class MoveOutTransition: LayeredAnimatedTransition {
-    public init(duration: TimeInterval = 0.5) {
-        super.init(duration: duration, layers: [InsertViewBelowLayer(), MoveOutLayer()])
+    public init(to edge: Edge = .right, duration: TimeInterval = 0.5) {
+        super.init(duration: duration, layers: [InsertViewBelowLayer(), MoveOutLayer(to: edge)])
     }
 }

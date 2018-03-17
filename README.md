@@ -1,8 +1,8 @@
 # AETransition
 
-**Custom transitions on iOS - quick and easy**
+**Custom transitions for iOS - simple yet powerful**
 
-> I made this for personal use, feel free to use it or contribute if you like.
+> I made this for personal use, but feel free to use it or contribute.
 > For more examples check out [Sources](Sources) and [Tests](Tests).
 
 ## Installation
