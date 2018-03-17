@@ -40,15 +40,15 @@ open class LayeredAnimatedTransition: AnimatedTransition {
 
     // MARK: Init
 
-    public init(duration: TimeInterval, layers: [AnimatedTransitionLayer]) {
+    public init(with layers: [AnimatedTransitionLayer], duration: TimeInterval) {
         self.layers = layers
         super.init(duration: duration)
-        configureTransitionAnimation(duration: duration, layers: layers)
+        configureTransitionAnimation(with: layers, duration: duration)
     }
 
     // MARK: Helpers
 
-    private func configureTransitionAnimation(duration: TimeInterval, layers: [AnimatedTransitionLayer]) {
+    private func configureTransitionAnimation(with layers: [AnimatedTransitionLayer], duration: TimeInterval) {
         transitionAnimation = { [weak self] (context) in
             layers.forEach({ $0.preparation?(context) })
             UIView.animate(withDuration: duration, animations: {
