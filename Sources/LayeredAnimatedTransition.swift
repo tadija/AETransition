@@ -18,6 +18,10 @@ public extension AnimatedTransitionLayer {
     public var animation: ContextHandler? {
         return nil
     }
+
+    public var debugDescription: String {
+        return String(describing: type(of: self))
+    }
 }
 
 open class LayeredAnimatedTransition: AnimatedTransition {
@@ -31,7 +35,7 @@ open class LayeredAnimatedTransition: AnimatedTransition {
     }
 
     open override var debugDescription: String {
-        return "\(type(of: self)) | Layers: \(layers.map{ "\(type(of: $0))".split{$0 == "."}.last ?? "" })"
+        return "\(String(describing: type(of: self))) | Layers: \(layers.map{ $0.debugDescription })"
     }
 
     // MARK: Init
