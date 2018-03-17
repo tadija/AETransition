@@ -35,42 +35,6 @@ public struct FadeOutLayer: AnimatedTransitionLayer {
     }
 }
 
-public enum Edge {
-    case left, right, top, bottom
-
-    public var opposite: Edge {
-        switch self {
-        case .left:
-            return .right
-        case .right:
-            return .left
-        case .top:
-            return .bottom
-        case .bottom:
-            return .top
-        }
-    }
-
-    public func translate(_ view: UIView) -> CGAffineTransform {
-        switch self {
-        case .left:
-            return CGAffineTransform(translationX: -view.bounds.width, y: 0)
-        case .right:
-            return CGAffineTransform(translationX: view.bounds.width, y: 0)
-        case .top:
-            return CGAffineTransform(translationX: 0, y: -view.bounds.height)
-        case .bottom:
-            return CGAffineTransform(translationX: 0, y: view.bounds.height)
-        }
-    }
-}
-
-public extension UIView {
-    public func translate(to edge: Edge) {
-        transform = edge.translate(self)
-    }
-}
-
 public class MoveInLayer: AnimatedTransitionLayer {
     let edge: Edge
     init(from edge: Edge) {
