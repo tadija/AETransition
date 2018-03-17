@@ -13,13 +13,13 @@ public struct Transition {}
 public extension Transition {
     public class FadeIn: LayeredAnimatedTransition {
         public init(duration: TimeInterval = 0.5) {
-            super.init(duration: duration, layers: [InsertViewAboveLayer(), FadeInLayer()])
+            super.init(duration: duration, layers: [Layer.InsertViewAbove(), Layer.FadeIn()])
         }
     }
 
     public class FadeOut: LayeredAnimatedTransition {
         public init(duration: TimeInterval = 0.5) {
-            super.init(duration: duration, layers: [InsertViewBelowLayer(), FadeOutLayer()])
+            super.init(duration: duration, layers: [Layer.InsertViewBelow(), Layer.FadeOut()])
         }
     }
 }
@@ -29,13 +29,13 @@ public extension Transition {
 public extension Transition {
     public class MoveIn: LayeredAnimatedTransition {
         public init(from edge: Edge = .right, duration: TimeInterval = 0.5) {
-            super.init(duration: duration, layers: [InsertViewAboveLayer(), MoveInLayer(from: edge)])
+            super.init(duration: duration, layers: [Layer.InsertViewAbove(), Layer.MoveIn(from: edge)])
         }
     }
 
     public class MoveOut: LayeredAnimatedTransition {
         public init(to edge: Edge = .right, duration: TimeInterval = 0.5) {
-            super.init(duration: duration, layers: [InsertViewBelowLayer(), MoveOutLayer(to: edge)])
+            super.init(duration: duration, layers: [Layer.InsertViewBelow(), Layer.MoveOut(to: edge)])
         }
     }
 }
