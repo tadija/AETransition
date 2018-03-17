@@ -1,5 +1,10 @@
 # Changelog
 
+## Version 0.1.4
+
+- Added transition animation options
+- Improvements and refactoring
+
 ## Version 0.1.3
 
 - Added Edge into MoveIn and MoveOut layers and transitions

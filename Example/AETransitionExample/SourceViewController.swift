@@ -12,7 +12,7 @@ class SourceViewController: UIViewController {
     var animator: TransitioningDelegate?
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        animator = TransitioningDelegate(presentAnimation: randomPresenting, dismissAnimation: randomDismissing)
+        animator = TransitioningDelegate(presentTransition: randomPresenting, dismissTransition: randomDismissing)
         segue.destination.transitioningDelegate = animator
     }
 
@@ -33,11 +33,11 @@ class SourceViewController: UIViewController {
     }
 
     let presentingTransitions: [AnimatedTransition] = [
-        FadeInTransition(), MoveInTransition(from: Edge.random)
+        Transition.FadeIn(), Transition.MoveIn(from: Edge.random)
     ]
 
     let dismissingTransitions: [AnimatedTransition] = [
-        FadeOutTransition(), MoveOutTransition(to: Edge.random)
+        Transition.FadeOut(), Transition.MoveOut(to: Edge.random)
     ]
 
 }
