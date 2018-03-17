@@ -10,7 +10,7 @@ public struct Layer {}
 
 // MARK: - Insert View
 
-public extension Layer {
+extension Layer {
     public struct InsertViewAbove: AnimatedTransitionLayer {
         public var preparation: ContextHandler? = { (context) in
             context.insertToViewAboveFromView()
@@ -26,7 +26,7 @@ public extension Layer {
 
 // MARK: - Fade
 
-public extension Layer {
+extension Layer {
     public struct FadeIn: AnimatedTransitionLayer {
         public var preparation: ContextHandler? = { (context) in
             context.toView?.alpha = 0
@@ -45,8 +45,8 @@ public extension Layer {
 
 // MARK: - Move
 
-public extension Layer {
-    public class MoveIn: AnimatedTransitionLayer {
+extension Layer {
+    open class MoveIn: AnimatedTransitionLayer {
         let edge: Edge
         init(from edge: Edge) {
             self.edge = edge
@@ -59,7 +59,7 @@ public extension Layer {
         }
     }
 
-    public class MoveOut: AnimatedTransitionLayer {
+    open class MoveOut: AnimatedTransitionLayer {
         let edge: Edge
         init(to edge: Edge) {
             self.edge = edge

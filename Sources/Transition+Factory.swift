@@ -10,15 +10,15 @@ public struct Transition {}
 
 // MARK: - Fade
 
-public extension Transition {
-    public class FadeIn: LayeredAnimatedTransition {
+extension Transition {
+    open class FadeIn: LayeredAnimatedTransition {
         public init(options: Options = .standard) {
             let layers: [AnimatedTransitionLayer] = [Layer.InsertViewAbove(), Layer.FadeIn()]
             super.init(with: layers, options: options)
         }
     }
 
-    public class FadeOut: LayeredAnimatedTransition {
+    open class FadeOut: LayeredAnimatedTransition {
         public init(options: Options = .standard) {
             let layers: [AnimatedTransitionLayer] = [Layer.InsertViewBelow(), Layer.FadeOut()]
             super.init(with: layers, options: options)
@@ -28,15 +28,15 @@ public extension Transition {
 
 // MARK: - Move
 
-public extension Transition {
-    public class MoveIn: LayeredAnimatedTransition {
+extension Transition {
+    open class MoveIn: LayeredAnimatedTransition {
         public init(from edge: Edge = .right, options: Options = .standard) {
             let layers: [AnimatedTransitionLayer] = [Layer.InsertViewAbove(), Layer.MoveIn(from: edge)]
             super.init(with: layers, options: options)
         }
     }
 
-    public class MoveOut: LayeredAnimatedTransition {
+    open class MoveOut: LayeredAnimatedTransition {
         public init(to edge: Edge = .right, options: Options = .standard) {
             let layers: [AnimatedTransitionLayer] = [Layer.InsertViewBelow(), Layer.MoveOut(to: edge)]
             super.init(with: layers, options: options)
