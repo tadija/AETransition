@@ -38,7 +38,7 @@ public struct FadeOutLayer: AnimatedTransitionLayer {
 public enum Edge {
     case left, right, top, bottom
 
-    var opposite: Edge {
+    public var opposite: Edge {
         switch self {
         case .left:
             return .right
@@ -51,10 +51,7 @@ public enum Edge {
         }
     }
 
-    func transform(with view: UIView?) -> CGAffineTransform {
-        guard let view = view else {
-            return .identity
-        }
+    public func translate(_ view: UIView) -> CGAffineTransform {
         switch self {
         case .left:
             return CGAffineTransform(translationX: -view.bounds.width, y: 0)
@@ -68,9 +65,15 @@ public enum Edge {
     }
 }
 
+public extension UIView {
+    public func translate(to edge: Edge) {
+        transform = edge.translate(self)
+    }
+}
+
 public struct MoveInLayer: AnimatedTransitionLayer {
     public var preparation: ContextHandler? = { (context) in
-        context.toView?.transform = Edge.right.transform(with: context.fromView)
+        context.toView?.translate(to: .right)
     }
     public var animation: ContextHandler? = { (context) in
         context.toView?.transform = .identity
@@ -79,7 +82,7 @@ public struct MoveInLayer: AnimatedTransitionLayer {
 
 public struct MoveOutLayer: AnimatedTransitionLayer {
     public var animation: ContextHandler? = { (context) in
-        context.fromView?.transform = Edge.right.transform(with: context.fromView)
+        context.fromView?.translate(to: .right)
     }
 }
 
