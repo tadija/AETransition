@@ -10,8 +10,8 @@ open class TransitioningDelegate: NSObject {
 
     // MARK: Properties
 
-    open var presentAnimation: UIViewControllerAnimatedTransitioning?
-    open var dismissAnimation: UIViewControllerAnimatedTransitioning?
+    open var presentTransition: UIViewControllerAnimatedTransitioning?
+    open var dismissTransition: UIViewControllerAnimatedTransitioning?
 
     open var presentInteraction: UIViewControllerInteractiveTransitioning?
     open var dismissInteraction: UIViewControllerInteractiveTransitioning?
@@ -20,13 +20,13 @@ open class TransitioningDelegate: NSObject {
 
     // MARK: Init
 
-    public init(presentAnimation: UIViewControllerAnimatedTransitioning? = nil,
-                dismissAnimation: UIViewControllerAnimatedTransitioning? = nil,
+    public init(presentTransition: UIViewControllerAnimatedTransitioning? = nil,
+                dismissTransition: UIViewControllerAnimatedTransitioning? = nil,
                 presentInteraction: UIViewControllerInteractiveTransitioning? = nil,
                 dismissInteraction: UIViewControllerInteractiveTransitioning? = nil,
                 presentationController: UIPresentationController? = nil) {
-        self.presentAnimation = presentAnimation
-        self.dismissAnimation = dismissAnimation
+        self.presentTransition = presentTransition
+        self.dismissTransition = dismissTransition
         self.presentInteraction = presentInteraction
         self.dismissInteraction = dismissInteraction
         self.presentationController = presentationController
@@ -39,11 +39,11 @@ extension TransitioningDelegate: UIViewControllerTransitioningDelegate {
     open func animationController(forPresented presented: UIViewController,
                                   presenting: UIViewController,
                                   source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return presentAnimation
+        return presentTransition
     }
 
     open func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return dismissAnimation
+        return dismissTransition
     }
 
     open func interactionControllerForPresentation(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
@@ -70,9 +70,9 @@ extension TransitioningDelegate: UINavigationControllerDelegate {
                                    to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         switch operation {
         case .push:
-            return presentAnimation
+            return presentTransition
         case .pop:
-            return dismissAnimation
+            return dismissTransition
         default:
             return nil
         }
@@ -90,7 +90,7 @@ extension TransitioningDelegate: UITabBarControllerDelegate {
     open func tabBarController(_ tabBarController: UITabBarController,
                                animationControllerForTransitionFrom fromVC: UIViewController,
                                to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return presentAnimation
+        return presentTransition
     }
 
     open func tabBarController(_ tabBarController: UITabBarController,
