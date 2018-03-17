@@ -6,6 +6,20 @@
 
 import UIKit
 
+public protocol AnimatedTransitionLayer {
+    var preparation: ContextHandler? { get }
+    var animation: ContextHandler? { get }
+}
+
+public extension AnimatedTransitionLayer {
+    public var preparation: ContextHandler? {
+        return nil
+    }
+    public var animation: ContextHandler? {
+        return nil
+    }
+}
+
 open class LayeredAnimatedTransition: AnimatedTransition {
 
     // MARK: Properties

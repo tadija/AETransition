@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8B6D9950205DA0710079EB3A /* AnimatedTransitionLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6D994F205DA0710079EB3A /* AnimatedTransitionLayer.swift */; };
 		8B6D9953205DB52C0079EB3A /* UIView+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6D9952205DB52C0079EB3A /* UIView+Helpers.swift */; };
 		8B6D9955205DBDD10079EB3A /* Transition+Factory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6D9954205DBDD10079EB3A /* Transition+Factory.swift */; };
 		8B6D9957205DBFC70079EB3A /* Layer+Factory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6D9956205DBFC70079EB3A /* Layer+Factory.swift */; };
@@ -19,7 +18,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		8B6D994F205DA0710079EB3A /* AnimatedTransitionLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedTransitionLayer.swift; sourceTree = "<group>"; };
 		8B6D9952205DB52C0079EB3A /* UIView+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Helpers.swift"; sourceTree = "<group>"; };
 		8B6D9954205DBDD10079EB3A /* Transition+Factory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Transition+Factory.swift"; sourceTree = "<group>"; };
 		8B6D9956205DBFC70079EB3A /* Layer+Factory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Layer+Factory.swift"; sourceTree = "<group>"; };
@@ -89,7 +87,6 @@
 			children = (
 				8B8A0E61204F2AC600444912 /* TransitioningDelegate.swift */,
 				8B8A0E672055970500444912 /* AnimatedTransition.swift */,
-				8B6D994F205DA0710079EB3A /* AnimatedTransitionLayer.swift */,
 				8B8A0E702058558500444912 /* LayeredAnimatedTransition.swift */,
 				8B6D9956205DBFC70079EB3A /* Layer+Factory.swift */,
 				8B6D9954205DBDD10079EB3A /* Transition+Factory.swift */,
@@ -184,7 +181,6 @@
 				8B6D9955205DBDD10079EB3A /* Transition+Factory.swift in Sources */,
 				8B6D9957205DBFC70079EB3A /* Layer+Factory.swift in Sources */,
 				8B8A0E712058558500444912 /* LayeredAnimatedTransition.swift in Sources */,
-				8B6D9950205DA0710079EB3A /* AnimatedTransitionLayer.swift in Sources */,
 				8B8A0E62204F2AC600444912 /* TransitioningDelegate.swift in Sources */,
 				8B8A0E772058627500444912 /* UIViewControllerContextTransitioning+Helpers.swift in Sources */,
 				8B8A0E682055970500444912 /* AnimatedTransition.swift in Sources */,
