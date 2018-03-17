@@ -32,7 +32,7 @@ open class LayeredAnimatedTransition: AnimatedTransition {
         public static let duration: TimeInterval = 0.5
         public static let delay: TimeInterval = 0
         public static let dumping: CGFloat = 1
-        public static let velocity: CGFloat = 1
+        public static let velocity: CGFloat = 0
         public static let options: UIViewAnimationOptions = []
     }
 
