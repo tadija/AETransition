@@ -12,20 +12,16 @@ public struct Transition {}
 
 public extension Transition {
     public class FadeIn: LayeredAnimatedTransition {
-        public init(duration: TimeInterval = Default.duration, delay: TimeInterval = Default.delay,
-                    damping: CGFloat = Default.dumping, velocity: CGFloat = Default.velocity,
-                    options: UIViewAnimationOptions = Default.options) {
+        public init(options: Options = Options.defaults) {
             let layers: [AnimatedTransitionLayer] = [Layer.InsertViewAbove(), Layer.FadeIn()]
-            super.init(with: layers, duration: duration)
+            super.init(with: layers, options: options)
         }
     }
 
     public class FadeOut: LayeredAnimatedTransition {
-        public init(duration: TimeInterval = Default.duration, delay: TimeInterval = Default.delay,
-                    damping: CGFloat = Default.dumping, velocity: CGFloat = Default.velocity,
-                    options: UIViewAnimationOptions = Default.options) {
+        public init(options: Options = Options.defaults) {
             let layers: [AnimatedTransitionLayer] = [Layer.InsertViewBelow(), Layer.FadeOut()]
-            super.init(with: layers, duration: duration)
+            super.init(with: layers, options: options)
         }
     }
 }
@@ -34,22 +30,16 @@ public extension Transition {
 
 public extension Transition {
     public class MoveIn: LayeredAnimatedTransition {
-        public init(from edge: Edge = .right,
-                    duration: TimeInterval = Default.duration, delay: TimeInterval = Default.delay,
-                    damping: CGFloat = Default.dumping, velocity: CGFloat = Default.velocity,
-                    options: UIViewAnimationOptions = Default.options) {
+        public init(from edge: Edge = .right, options: Options = Options.defaults) {
             let layers: [AnimatedTransitionLayer] = [Layer.InsertViewAbove(), Layer.MoveIn(from: edge)]
-            super.init(with: layers, duration: duration)
+            super.init(with: layers, options: options)
         }
     }
 
     public class MoveOut: LayeredAnimatedTransition {
-        public init(to edge: Edge = .right,
-                    duration: TimeInterval = Default.duration, delay: TimeInterval = Default.delay,
-                    damping: CGFloat = Default.dumping, velocity: CGFloat = Default.velocity,
-                    options: UIViewAnimationOptions = Default.options) {
+        public init(to edge: Edge = .right, options: Options = Options.defaults) {
             let layers: [AnimatedTransitionLayer] = [Layer.InsertViewBelow(), Layer.MoveOut(to: edge)]
-            super.init(with: layers, duration: duration)
+            super.init(with: layers, options: options)
         }
     }
 }

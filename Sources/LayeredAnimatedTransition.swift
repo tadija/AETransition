@@ -28,12 +28,14 @@ open class LayeredAnimatedTransition: AnimatedTransition {
 
     // MARK: Types
 
-    public struct Default {
-        public static let duration: TimeInterval = 0.5
-        public static let delay: TimeInterval = 0
-        public static let dumping: CGFloat = 1
-        public static let velocity: CGFloat = 0
-        public static let options: UIViewAnimationOptions = []
+    public struct Options {
+        public let duration: TimeInterval = 0.5
+        public let delay: TimeInterval = 0
+        public let damping: CGFloat = 1
+        public let velocity: CGFloat = 0
+        public let animationOptions: UIViewAnimationOptions = []
+
+        public static let defaults = Options()
     }
 
     // MARK: Properties
@@ -50,29 +52,20 @@ open class LayeredAnimatedTransition: AnimatedTransition {
 
     // MARK: Init
 
-    public init(with layers: [AnimatedTransitionLayer],
-                duration: TimeInterval = Default.duration, delay: TimeInterval = Default.delay,
-                damping: CGFloat = Default.dumping, velocity: CGFloat = Default.velocity,
-                options: UIViewAnimationOptions = Default.options) {
+    public init(with layers: [AnimatedTransitionLayer], options: Options) {
         self.layers = layers
-        super.init(duration: duration)
-        configureTransitionAnimation(with: layers,
-                                     duration: duration, delay: delay,
-                                     damping: damping, velocity: velocity,
-                                     options: options)
+        super.init(duration: options.duration)
+        configureTransitionAnimation(with: layers, options: options)
     }
 
     // MARK: Helpers
 
-    private func configureTransitionAnimation(with layers: [AnimatedTransitionLayer],
-                                              duration: TimeInterval, delay: TimeInterval,
-                                              damping: CGFloat, velocity: CGFloat,
-                                              options: UIViewAnimationOptions) {
+    private func configureTransitionAnimation(with layers: [AnimatedTransitionLayer], options: Options) {
         transitionAnimation = { [weak self] (context) in
             layers.forEach({ $0.preparation?(context) })
-            UIView.animate(withDuration: duration, delay: delay,
-                           usingSpringWithDamping: damping, initialSpringVelocity: velocity,
-                           options: options,
+            UIView.animate(withDuration: options.duration, delay: options.delay,
+                           usingSpringWithDamping: options.damping, initialSpringVelocity: options.velocity,
+                           options: options.animationOptions,
                            animations: {
                             layers.forEach({ $0.animation?(context) })
             }, completion: { (finished) in
