@@ -40,19 +40,31 @@ open class LayeredAnimatedTransition: AnimatedTransition {
 
     // MARK: Init
 
-    public init(with layers: [AnimatedTransitionLayer], duration: TimeInterval) {
+    public init(with layers: [AnimatedTransitionLayer],
+                duration: TimeInterval = 0.5, delay: TimeInterval = 0,
+                springWithDamping: CGFloat = 1, springVelocity: CGFloat = 1,
+                options: UIViewAnimationOptions = []) {
         self.layers = layers
         super.init(duration: duration)
-        configureTransitionAnimation(with: layers, duration: duration)
+        configureTransitionAnimation(with: layers,
+                                     duration: duration, delay: delay,
+                                     springWithDamping: springWithDamping,
+                                     springVelocity: springVelocity, options: options)
     }
 
     // MARK: Helpers
 
-    private func configureTransitionAnimation(with layers: [AnimatedTransitionLayer], duration: TimeInterval) {
+    private func configureTransitionAnimation(with layers: [AnimatedTransitionLayer],
+                                              duration: TimeInterval, delay: TimeInterval,
+                                              springWithDamping: CGFloat, springVelocity: CGFloat,
+                                              options: UIViewAnimationOptions) {
         transitionAnimation = { [weak self] (context) in
             layers.forEach({ $0.preparation?(context) })
-            UIView.animate(withDuration: duration, animations: {
-                layers.forEach({ $0.animation?(context) })
+            UIView.animate(withDuration: duration, delay: delay,
+                           usingSpringWithDamping: springWithDamping, initialSpringVelocity: springVelocity,
+                           options: options,
+                           animations: {
+                            layers.forEach({ $0.animation?(context) })
             }, completion: { (finished) in
                 self?.completion?(context)
             })
