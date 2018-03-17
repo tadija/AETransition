@@ -26,6 +26,16 @@ public extension AnimatedTransitionLayer {
 
 open class LayeredAnimatedTransition: AnimatedTransition {
 
+    // MARK: Types
+
+    public struct Default {
+        public static let duration: TimeInterval = 0.5
+        public static let delay: TimeInterval = 0
+        public static let dumping: CGFloat = 1
+        public static let velocity: CGFloat = 1
+        public static let options: UIViewAnimationOptions = []
+    }
+
     // MARK: Properties
 
     open let layers: [AnimatedTransitionLayer]
@@ -41,27 +51,27 @@ open class LayeredAnimatedTransition: AnimatedTransition {
     // MARK: Init
 
     public init(with layers: [AnimatedTransitionLayer],
-                duration: TimeInterval = 0.5, delay: TimeInterval = 0,
-                springWithDamping: CGFloat = 1, springVelocity: CGFloat = 1,
-                options: UIViewAnimationOptions = []) {
+                duration: TimeInterval = Default.duration, delay: TimeInterval = Default.delay,
+                damping: CGFloat = Default.dumping, velocity: CGFloat = Default.velocity,
+                options: UIViewAnimationOptions = Default.options) {
         self.layers = layers
         super.init(duration: duration)
         configureTransitionAnimation(with: layers,
                                      duration: duration, delay: delay,
-                                     springWithDamping: springWithDamping,
-                                     springVelocity: springVelocity, options: options)
+                                     damping: damping, velocity: velocity,
+                                     options: options)
     }
 
     // MARK: Helpers
 
     private func configureTransitionAnimation(with layers: [AnimatedTransitionLayer],
                                               duration: TimeInterval, delay: TimeInterval,
-                                              springWithDamping: CGFloat, springVelocity: CGFloat,
+                                              damping: CGFloat, velocity: CGFloat,
                                               options: UIViewAnimationOptions) {
         transitionAnimation = { [weak self] (context) in
             layers.forEach({ $0.preparation?(context) })
             UIView.animate(withDuration: duration, delay: delay,
-                           usingSpringWithDamping: springWithDamping, initialSpringVelocity: springVelocity,
+                           usingSpringWithDamping: damping, initialSpringVelocity: velocity,
                            options: options,
                            animations: {
                             layers.forEach({ $0.animation?(context) })
