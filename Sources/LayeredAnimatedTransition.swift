@@ -16,6 +16,10 @@ open class LayeredAnimatedTransition: AnimatedTransition {
         context.completeTransition(!context.transitionWasCancelled)
     }
 
+    open override var debugDescription: String {
+        return "\(type(of: self)) | Layers: \(layers.map{ "\(type(of: $0))".split{$0 == "."}.last ?? "" })"
+    }
+
     // MARK: Init
 
     public init(duration: TimeInterval, layers: [AnimatedTransitionLayer]) {
