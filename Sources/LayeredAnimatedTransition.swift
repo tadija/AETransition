@@ -29,13 +29,23 @@ open class LayeredAnimatedTransition: AnimatedTransition {
     // MARK: Types
 
     public struct Options {
-        public let duration: TimeInterval = 0.5
-        public let delay: TimeInterval = 0
-        public let damping: CGFloat = 1
-        public let velocity: CGFloat = 0
-        public let animationOptions: UIViewAnimationOptions = []
+        public let duration: TimeInterval
+        public let delay: TimeInterval
+        public let damping: CGFloat
+        public let velocity: CGFloat
+        public let animationOptions: UIViewAnimationOptions
 
-        public static let defaults = Options()
+        public static let standard = Options()
+
+        public init(duration: TimeInterval = 0.5, delay: TimeInterval = 0,
+                    damping: CGFloat = 1, velocity: CGFloat = 0,
+                    animationOptions: UIViewAnimationOptions = []) {
+            self.duration = duration
+            self.delay = delay
+            self.damping = damping
+            self.velocity = velocity
+            self.animationOptions = animationOptions
+        }
     }
 
     // MARK: Properties
