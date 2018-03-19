@@ -47,10 +47,6 @@ open class LayeredAnimatedTransition: AnimatedTransition {
 
     open let layers: [AnimatedTransitionLayer]
 
-    open var completion: ContextHandler? = { (context) in
-        context.completeTransition(!context.transitionWasCancelled)
-    }
-
     open override var debugDescription: String {
         return "\(String(describing: type(of: self))) | Layers: \(layers.map{ $0.debugDescription })"
     }
@@ -61,6 +57,12 @@ open class LayeredAnimatedTransition: AnimatedTransition {
         self.layers = layers
         super.init(duration: options.duration)
         configureTransitionAnimation(with: layers, options: options)
+    }
+
+    // MARK: Internal API
+
+    open func completeTransition(using context: UIViewControllerContextTransitioning) {
+        context.completeTransition(!context.transitionWasCancelled)
     }
 
     // MARK: Helpers
@@ -74,7 +76,7 @@ open class LayeredAnimatedTransition: AnimatedTransition {
                            animations: {
                             layers.forEach({ $0.animate(using: context) })
             }, completion: { (finished) in
-                self?.completion?(context)
+                self?.completeTransition(using: context)
             })
         }
     }
