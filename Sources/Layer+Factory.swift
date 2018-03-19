@@ -12,13 +12,13 @@ public struct Layer {}
 
 extension Layer {
     public struct InsertViewAbove: AnimatedTransitionLayer {
-        public var preparation: ContextHandler? = { (context) in
+        public func prepare(using context: UIViewControllerContextTransitioning) {
             context.insertToViewAboveFromView()
         }
     }
 
     public struct InsertViewBelow: AnimatedTransitionLayer {
-        public var preparation: ContextHandler? = { (context) in
+        public func prepare(using context: UIViewControllerContextTransitioning) {
             context.insertToViewBelowFromView()
         }
     }
@@ -28,16 +28,16 @@ extension Layer {
 
 extension Layer {
     public struct FadeIn: AnimatedTransitionLayer {
-        public var preparation: ContextHandler? = { (context) in
+        public func prepare(using context: UIViewControllerContextTransitioning) {
             context.toView?.alpha = 0
         }
-        public var animation: ContextHandler? = { (context) in
+        public func animate(using context: UIViewControllerContextTransitioning) {
             context.toView?.alpha = 1
         }
     }
 
     public struct FadeOut: AnimatedTransitionLayer {
-        public var animation: ContextHandler? = { (context) in
+        public func animate(using context: UIViewControllerContextTransitioning) {
             context.fromView?.alpha = 0
         }
     }
@@ -51,10 +51,10 @@ extension Layer {
         init(from edge: Edge) {
             self.edge = edge
         }
-        public lazy var preparation: ContextHandler? = { [unowned self] (context) in
+        public func prepare(using context: UIViewControllerContextTransitioning) {
             context.toView?.translate(to: self.edge)
         }
-        public var animation: ContextHandler? = { (context) in
+        public func animate(using context: UIViewControllerContextTransitioning) {
             context.toView?.transform = .identity
         }
     }
@@ -64,7 +64,7 @@ extension Layer {
         init(to edge: Edge) {
             self.edge = edge
         }
-        public lazy var animation: ContextHandler? = { [unowned self] (context) in
+        public func animate(using context: UIViewControllerContextTransitioning) {
             context.fromView?.translate(to: self.edge)
         }
     }

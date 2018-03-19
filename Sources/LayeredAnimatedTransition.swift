@@ -7,21 +7,16 @@
 import UIKit
 
 public protocol AnimatedTransitionLayer {
-    var preparation: ContextHandler? { get }
-    var animation: ContextHandler? { get }
+    func prepare(using context: UIViewControllerContextTransitioning) -> Void
+    func animate(using context: UIViewControllerContextTransitioning) -> Void
 }
 
 public extension AnimatedTransitionLayer {
-    public var preparation: ContextHandler? {
-        return nil
-    }
-    public var animation: ContextHandler? {
-        return nil
-    }
-
     public var debugDescription: String {
         return String(describing: type(of: self))
     }
+    func prepare(using context: UIViewControllerContextTransitioning) -> Void {}
+    func animate(using context: UIViewControllerContextTransitioning) -> Void {}
 }
 
 open class LayeredAnimatedTransition: AnimatedTransition {
@@ -72,12 +67,12 @@ open class LayeredAnimatedTransition: AnimatedTransition {
 
     private func configureTransitionAnimation(with layers: [AnimatedTransitionLayer], options: Options) {
         transitionAnimation = { [weak self] (context) in
-            layers.forEach({ $0.preparation?(context) })
+            layers.forEach({ $0.prepare(using: context) })
             UIView.animate(withDuration: options.duration, delay: options.delay,
                            usingSpringWithDamping: options.damping, initialSpringVelocity: options.velocity,
                            options: options.animationOptions,
                            animations: {
-                            layers.forEach({ $0.animation?(context) })
+                            layers.forEach({ $0.animate(using: context) })
             }, completion: { (finished) in
                 self?.completion?(context)
             })
