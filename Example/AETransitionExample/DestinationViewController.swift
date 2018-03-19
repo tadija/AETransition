@@ -6,4 +6,4 @@
 
 import UIKit
 
-class DestinationViewController: UIViewController {}
+final class DestinationViewController: UIViewController {}
