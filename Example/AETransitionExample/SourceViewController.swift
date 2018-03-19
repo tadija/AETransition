@@ -33,20 +33,16 @@ class SourceViewController: UIViewController {
     }
 
     let presentingTransitions: [AnimatedTransition] = [
-        Transition.FadeIn(), Transition.MoveIn(from: Edge.random)
+        Transition.FadeIn(options: .random), Transition.MoveIn(from: .random, options: .random)
     ]
 
     let dismissingTransitions: [AnimatedTransition] = [
-        Transition.FadeOut(), Transition.MoveOut(to: Edge.random)
+        Transition.FadeOut(options: .random), Transition.MoveOut(to: .random, options: .random)
     ]
 
 }
 
-extension Int {
-    static func random(min: Int = 0, max: Int = Int.max) -> Int {
-        return Int(arc4random_uniform(UInt32((max - min) + 1))) + min
-    }
-}
+// MARK: - Random
 
 extension Edge {
     static var random: Edge {
@@ -54,4 +50,24 @@ extension Edge {
         return all[index]
     }
     static var all: [Edge] = [.left, .right, .top, .bottom]
+}
+
+extension LayeredAnimatedTransition.Options {
+    static var random: LayeredAnimatedTransition.Options {
+        return LayeredAnimatedTransition.Options(duration: Double.random(min: 0.3, max: 0.7),
+                                                 delay: 0,
+                                                 damping: CGFloat.random(min: 0, max: 1),
+                                                 velocity: CGFloat.random(min: 0, max: 1),
+                                                 animationOptions: .random)
+    }
+}
+
+extension UIViewAnimationOptions {
+    static var random: UIViewAnimationOptions {
+        if Bool.random() {
+            return .curveEaseIn
+        } else {
+            return .curveEaseOut
+        }
+    }
 }

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8B6D995A206073FE0079EB3A /* Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6D9959206073FE0079EB3A /* Random.swift */; };
 		8B8A0E6B2055D04700444912 /* DestinationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8A0E6A2055D04700444912 /* DestinationViewController.swift */; };
 		8B949F76204B434E00147752 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B949F75204B434E00147752 /* AppDelegate.swift */; };
 		8B949F78204B434E00147752 /* SourceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B949F77204B434E00147752 /* SourceViewController.swift */; };
@@ -49,6 +50,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		8B6D9959206073FE0079EB3A /* Random.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Random.swift; sourceTree = "<group>"; };
 		8B8A0E6A2055D04700444912 /* DestinationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationViewController.swift; sourceTree = "<group>"; };
 		8B949F72204B434E00147752 /* AETransitionExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AETransitionExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8B949F75204B434E00147752 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -95,6 +97,7 @@
 				8B949F75204B434E00147752 /* AppDelegate.swift */,
 				8B949F77204B434E00147752 /* SourceViewController.swift */,
 				8B8A0E6A2055D04700444912 /* DestinationViewController.swift */,
+				8B6D9959206073FE0079EB3A /* Random.swift */,
 				8B949F7E204B434E00147752 /* LaunchScreen.storyboard */,
 				8B949F79204B434E00147752 /* Main.storyboard */,
 				8B949F7C204B434E00147752 /* Assets.xcassets */,
@@ -201,6 +204,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8B6D995A206073FE0079EB3A /* Random.swift in Sources */,
 				8B949F78204B434E00147752 /* SourceViewController.swift in Sources */,
 				8B8A0E6B2055D04700444912 /* DestinationViewController.swift in Sources */,
 				8B949F76204B434E00147752 /* AppDelegate.swift in Sources */,

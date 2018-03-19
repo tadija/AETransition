@@ -47,7 +47,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3kL-vI-3Xk">
-                                <rect key="frame" x="160" y="557" width="54" height="30"/>
+                                <rect key="frame" x="160" y="328.5" width="54" height="30"/>
                                 <state key="normal" title="Dismiss"/>
                                 <connections>
                                     <segue destination="RRh-kM-Vrh" kind="unwind" unwindAction="unwindToSourceViewController:" id="i4N-j8-xew"/>
@@ -57,7 +57,7 @@
                         <color key="backgroundColor" red="1" green="0.83234566450000003" blue="0.47320586440000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="3kL-vI-3Xk" firstAttribute="centerX" secondItem="JM6-iX-0Z2" secondAttribute="centerX" id="Nw6-DO-kza"/>
-                            <constraint firstItem="JM6-iX-0Z2" firstAttribute="bottom" secondItem="3kL-vI-3Xk" secondAttribute="bottom" constant="80" id="th9-la-rBP"/>
+                            <constraint firstItem="3kL-vI-3Xk" firstAttribute="centerY" secondItem="JM6-iX-0Z2" secondAttribute="centerY" id="V76-ml-IBV"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="JM6-iX-0Z2"/>
                     </view>
