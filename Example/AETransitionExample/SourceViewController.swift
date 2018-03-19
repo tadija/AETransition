@@ -9,17 +9,16 @@ import AETransition
 
 final class SourceViewController: UIViewController {
 
-    var animator: TransitioningDelegate?
-
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.randomVivid()
     }
 
+    var animator: TransitioningDelegate?
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         animator = TransitioningDelegate(presentTransition: randomPresenting, dismissTransition: randomDismissing)
         segue.destination.transitioningDelegate = animator
-        segue.destination.view.backgroundColor = UIColor.randomVivid()
     }
 
     @IBAction func unwindToSourceViewController(_ segue: UIStoryboardSegue) {}
