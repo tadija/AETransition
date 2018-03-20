@@ -8,7 +8,7 @@ import UIKit
 
 public struct Layer {}
 
-// MARK: - Insert View
+// MARK: - Hierarchy
 
 extension Layer {
     public struct InsertViewAbove: AnimatedTransitionLayer {
@@ -24,10 +24,10 @@ extension Layer {
     }
 }
 
-// MARK: - Fade
+// MARK: - Alpha
 
 extension Layer {
-    public struct FadeIn: AnimatedTransitionLayer {
+    public struct AlphaIn: AnimatedTransitionLayer {
         public func prepare(using context: UIViewControllerContextTransitioning) {
             context.toView?.alpha = 0
         }
@@ -36,7 +36,7 @@ extension Layer {
         }
     }
 
-    public struct FadeOut: AnimatedTransitionLayer {
+    public struct AlphaOut: AnimatedTransitionLayer {
         public func animate(using context: UIViewControllerContextTransitioning) {
             context.fromView?.alpha = 0
         }
@@ -47,7 +47,7 @@ extension Layer {
 
 extension Layer {
     open class TransformIn: AnimatedTransitionLayer {
-        var transform: CGAffineTransform = .identity
+        public var transform: CGAffineTransform = .identity
         public func prepare(using context: UIViewControllerContextTransitioning) {
             context.toView?.transform = transform
         }
@@ -57,7 +57,7 @@ extension Layer {
     }
 
     open class TransformOut: AnimatedTransitionLayer {
-        var transform: CGAffineTransform = .identity
+        public var transform: CGAffineTransform = .identity
         public func animate(using context: UIViewControllerContextTransitioning) {
             context.fromView?.transform = transform
         }
@@ -68,8 +68,8 @@ extension Layer {
 
 extension Layer {
     open class TranslateIn: TransformIn {
-        let edge: Edge
-        init(from edge: Edge) {
+        public let edge: Edge
+        public init(from edge: Edge) {
             self.edge = edge
         }
         public override func prepare(using context: UIViewControllerContextTransitioning) {
@@ -79,8 +79,8 @@ extension Layer {
     }
 
     open class TranslateOut: TransformOut {
-        let edge: Edge
-        init(to edge: Edge) {
+        public let edge: Edge
+        public init(to edge: Edge) {
             self.edge = edge
         }
         public override func animate(using context: UIViewControllerContextTransitioning) {

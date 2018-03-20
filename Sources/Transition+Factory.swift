@@ -13,14 +13,14 @@ public struct Transition {}
 extension Transition {
     open class FadeIn: LayeredAnimatedTransition {
         public init(options: Options = .standard) {
-            let layers: [AnimatedTransitionLayer] = [Layer.InsertViewAbove(), Layer.FadeIn()]
+            let layers: [AnimatedTransitionLayer] = [Layer.InsertViewAbove(), Layer.AlphaIn()]
             super.init(with: layers, options: options)
         }
     }
 
     open class FadeOut: LayeredAnimatedTransition {
         public init(options: Options = .standard) {
-            let layers: [AnimatedTransitionLayer] = [Layer.InsertViewBelow(), Layer.FadeOut()]
+            let layers: [AnimatedTransitionLayer] = [Layer.InsertViewBelow(), Layer.AlphaOut()]
             super.init(with: layers, options: options)
         }
     }
