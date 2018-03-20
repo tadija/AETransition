@@ -54,14 +54,14 @@ extension Edge {
         let index = Int.random(min: 0, max: all.count - 1)
         return all[index]
     }
-    static var all: [Edge] = [.left, .right, .top, .bottom]
+    static let all: [Edge] = [.left, .right, .top, .bottom]
 }
 
 extension LayeredAnimatedTransition.Options {
     static func random() -> LayeredAnimatedTransition.Options {
-        return LayeredAnimatedTransition.Options(duration: Double.random(min: 0.3, max: 0.7),
+        return LayeredAnimatedTransition.Options(duration: Double.random(min: 0.3, max: 0.9),
                                                  delay: 0,
-                                                 damping: CGFloat.random(min: 0.5, max: 1),
+                                                 damping: CGFloat.random(min: 0.3, max: 1),
                                                  velocity: CGFloat.random(min: 0, max: 1),
                                                  animationOptions: .random())
     }

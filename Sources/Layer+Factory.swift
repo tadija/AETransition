@@ -74,7 +74,7 @@ extension Layer {
         }
         public override func prepare(using context: UIViewControllerContextTransitioning) {
             transform = Edge.makeTransform(translating: context.toView, to: edge)
-            super.animate(using: context)
+            super.prepare(using: context)
         }
     }
 

@@ -39,12 +39,18 @@ final class SourceViewController: UIViewController {
         return random
     }
 
-    let presentingTransitions: [AnimatedTransition] = [
-        Transition.FadeIn(options: .random()), Transition.MoveIn(from: .random(), options: .random())
-    ]
+    var presentingTransitions: [AnimatedTransition] {
+        return [
+            Transition.FadeIn(options: .random()),
+            Transition.MoveIn(from: .random(), options: .random())
+        ]
+    }
 
-    let dismissingTransitions: [AnimatedTransition] = [
-        Transition.FadeOut(options: .random()), Transition.MoveOut(to: .random(), options: .random())
-    ]
+    var dismissingTransitions: [AnimatedTransition] {
+        return [
+            Transition.FadeOut(options: .random()),
+            Transition.MoveOut(to: .random(), options: .random())
+        ]
+    }
 
 }
