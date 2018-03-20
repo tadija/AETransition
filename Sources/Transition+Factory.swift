@@ -31,14 +31,14 @@ extension Transition {
 extension Transition {
     open class MoveIn: LayeredAnimatedTransition {
         public init(from edge: Edge = .right, options: Options = .standard) {
-            let layers: [AnimatedTransitionLayer] = [Layer.InsertViewAbove(), Layer.MoveIn(from: edge)]
+            let layers: [AnimatedTransitionLayer] = [Layer.InsertViewAbove(), Layer.TranslateIn(from: edge)]
             super.init(with: layers, options: options)
         }
     }
 
     open class MoveOut: LayeredAnimatedTransition {
         public init(to edge: Edge = .right, options: Options = .standard) {
-            let layers: [AnimatedTransitionLayer] = [Layer.InsertViewBelow(), Layer.MoveOut(to: edge)]
+            let layers: [AnimatedTransitionLayer] = [Layer.InsertViewBelow(), Layer.TranslateOut(to: edge)]
             super.init(with: layers, options: options)
         }
     }

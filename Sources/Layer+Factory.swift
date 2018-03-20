@@ -43,29 +43,49 @@ extension Layer {
     }
 }
 
-// MARK: - Move
+// MARK: - Transform
 
 extension Layer {
-    open class MoveIn: AnimatedTransitionLayer {
-        let edge: Edge
-        init(from edge: Edge) {
-            self.edge = edge
-        }
+    open class TransformIn: AnimatedTransitionLayer {
+        var transform: CGAffineTransform = .identity
         public func prepare(using context: UIViewControllerContextTransitioning) {
-            context.toView?.translate(to: self.edge)
+            context.toView?.transform = transform
         }
         public func animate(using context: UIViewControllerContextTransitioning) {
             context.toView?.transform = .identity
         }
     }
 
-    open class MoveOut: AnimatedTransitionLayer {
+    open class TransformOut: AnimatedTransitionLayer {
+        var transform: CGAffineTransform = .identity
+        public func animate(using context: UIViewControllerContextTransitioning) {
+            context.fromView?.transform = transform
+        }
+    }
+}
+
+// MARK: - Translate
+
+extension Layer {
+    open class TranslateIn: TransformIn {
+        let edge: Edge
+        init(from edge: Edge) {
+            self.edge = edge
+        }
+        public override func prepare(using context: UIViewControllerContextTransitioning) {
+            transform = Edge.makeTransform(translating: context.toView, to: edge)
+            super.animate(using: context)
+        }
+    }
+
+    open class TranslateOut: TransformOut {
         let edge: Edge
         init(to edge: Edge) {
             self.edge = edge
         }
-        public func animate(using context: UIViewControllerContextTransitioning) {
-            context.fromView?.translate(to: self.edge)
+        public override func animate(using context: UIViewControllerContextTransitioning) {
+            transform = Edge.makeTransform(translating: context.fromView, to: edge)
+            super.animate(using: context)
         }
     }
 }

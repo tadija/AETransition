@@ -6,12 +6,6 @@
 
 import UIKit
 
-public extension UIView {
-    public func translate(to edge: Edge) {
-        transform = edge.translate(self)
-    }
-}
-
 public enum Edge {
     case left, right, top, bottom
 
@@ -28,8 +22,11 @@ public enum Edge {
         }
     }
 
-    public func translate(_ view: UIView) -> CGAffineTransform {
-        switch self {
+    static func makeTransform(translating view: UIView?, to edge: Edge) -> CGAffineTransform {
+        guard let view = view else {
+            return .identity
+        }
+        switch edge {
         case .left:
             return CGAffineTransform(translationX: -view.bounds.width, y: 0)
         case .right:
@@ -40,4 +37,5 @@ public enum Edge {
             return CGAffineTransform(translationX: 0, y: view.bounds.height)
         }
     }
+
 }
