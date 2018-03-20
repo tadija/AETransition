@@ -6,9 +6,9 @@
 
 import UIKit
 
-public typealias ContextHandler = (UIViewControllerContextTransitioning) -> Void
-
 open class AnimatedTransition: NSObject, UIViewControllerAnimatedTransitioning {
+
+    public typealias ContextHandler = (UIViewControllerContextTransitioning) -> Void
 
     // MARK: Properties
 

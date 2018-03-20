@@ -7,7 +7,12 @@
 import UIKit
 import AETransition
 
-class SourceViewController: UIViewController {
+final class SourceViewController: UIViewController {
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.backgroundColor = UIColor.randomVivid()
+    }
 
     var animator: TransitioningDelegate?
 
@@ -17,6 +22,8 @@ class SourceViewController: UIViewController {
     }
 
     @IBAction func unwindToSourceViewController(_ segue: UIStoryboardSegue) {}
+
+    // MARK: Helpers
 
     var randomPresenting: AnimatedTransition {
         let index = Int.random(min: 0, max: presentingTransitions.count - 1)
@@ -32,26 +39,18 @@ class SourceViewController: UIViewController {
         return random
     }
 
-    let presentingTransitions: [AnimatedTransition] = [
-        Transition.FadeIn(), Transition.MoveIn(from: Edge.random)
-    ]
-
-    let dismissingTransitions: [AnimatedTransition] = [
-        Transition.FadeOut(), Transition.MoveOut(to: Edge.random)
-    ]
-
-}
-
-extension Int {
-    static func random(min: Int = 0, max: Int = Int.max) -> Int {
-        return Int(arc4random_uniform(UInt32((max - min) + 1))) + min
+    var presentingTransitions: [AnimatedTransition] {
+        return [
+            Transition.FadeIn(options: .random()),
+            Transition.MoveIn(from: .random(), options: .random())
+        ]
     }
-}
 
-extension Edge {
-    static var random: Edge {
-        let index = Int.random(min: 0, max: all.count - 1)
-        return all[index]
+    var dismissingTransitions: [AnimatedTransition] {
+        return [
+            Transition.FadeOut(options: .random()),
+            Transition.MoveOut(to: .random(), options: .random())
+        ]
     }
-    static var all: [Edge] = [.left, .right, .top, .bottom]
+
 }

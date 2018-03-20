@@ -6,4 +6,11 @@
 
 import UIKit
 
-class DestinationViewController: UIViewController {}
+final class DestinationViewController: UIViewController {
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        view.backgroundColor = UIColor.randomVivid()
+    }
+
+}

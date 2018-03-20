@@ -8,64 +8,84 @@ import UIKit
 
 public struct Layer {}
 
-// MARK: - Insert View
+// MARK: - Hierarchy
 
-public extension Layer {
+extension Layer {
     public struct InsertViewAbove: AnimatedTransitionLayer {
-        public var preparation: ContextHandler? = { (context) in
+        public func prepare(using context: UIViewControllerContextTransitioning) {
             context.insertToViewAboveFromView()
         }
     }
 
     public struct InsertViewBelow: AnimatedTransitionLayer {
-        public var preparation: ContextHandler? = { (context) in
+        public func prepare(using context: UIViewControllerContextTransitioning) {
             context.insertToViewBelowFromView()
         }
     }
 }
 
-// MARK: - Fade
+// MARK: - Alpha
 
-public extension Layer {
-    public struct FadeIn: AnimatedTransitionLayer {
-        public var preparation: ContextHandler? = { (context) in
+extension Layer {
+    public struct AlphaIn: AnimatedTransitionLayer {
+        public func prepare(using context: UIViewControllerContextTransitioning) {
             context.toView?.alpha = 0
         }
-        public var animation: ContextHandler? = { (context) in
+        public func animate(using context: UIViewControllerContextTransitioning) {
             context.toView?.alpha = 1
         }
     }
 
-    public struct FadeOut: AnimatedTransitionLayer {
-        public var animation: ContextHandler? = { (context) in
+    public struct AlphaOut: AnimatedTransitionLayer {
+        public func animate(using context: UIViewControllerContextTransitioning) {
             context.fromView?.alpha = 0
         }
     }
 }
 
-// MARK: - Move
+// MARK: - Transform
 
-public extension Layer {
-    public class MoveIn: AnimatedTransitionLayer {
-        let edge: Edge
-        init(from edge: Edge) {
-            self.edge = edge
+extension Layer {
+    open class TransformIn: AnimatedTransitionLayer {
+        public var transform: CGAffineTransform = .identity
+        public func prepare(using context: UIViewControllerContextTransitioning) {
+            context.toView?.transform = transform
         }
-        public lazy var preparation: ContextHandler? = { [unowned self] (context) in
-            context.toView?.translate(to: self.edge)
-        }
-        public var animation: ContextHandler? = { (context) in
+        public func animate(using context: UIViewControllerContextTransitioning) {
             context.toView?.transform = .identity
         }
     }
 
-    public class MoveOut: AnimatedTransitionLayer {
-        let edge: Edge
-        init(to edge: Edge) {
+    open class TransformOut: AnimatedTransitionLayer {
+        public var transform: CGAffineTransform = .identity
+        public func animate(using context: UIViewControllerContextTransitioning) {
+            context.fromView?.transform = transform
+        }
+    }
+}
+
+// MARK: - Translate
+
+extension Layer {
+    open class TranslateIn: TransformIn {
+        public let edge: Edge
+        public init(from edge: Edge) {
             self.edge = edge
         }
-        public lazy var animation: ContextHandler? = { [unowned self] (context) in
-            context.fromView?.translate(to: self.edge)
+        public override func prepare(using context: UIViewControllerContextTransitioning) {
+            transform = Edge.makeTransform(translating: context.toView, to: edge)
+            super.prepare(using: context)
+        }
+    }
+
+    open class TranslateOut: TransformOut {
+        public let edge: Edge
+        public init(to edge: Edge) {
+            self.edge = edge
+        }
+        public override func animate(using context: UIViewControllerContextTransitioning) {
+            transform = Edge.makeTransform(translating: context.fromView, to: edge)
+            super.animate(using: context)
         }
     }
 }
