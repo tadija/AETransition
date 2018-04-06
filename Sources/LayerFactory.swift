@@ -103,3 +103,59 @@ extension LayerFactory {
         }
     }
 }
+
+// MARK: - Rotate
+
+extension LayerFactory {
+    open class RotateDestination: TransformDestination {
+        public let angle: CGFloat
+        public init(_ angle: CGFloat) {
+            self.angle = angle
+        }
+        public override func initialState(in context: UIViewControllerContextTransitioning) {
+            transform = CGAffineTransform(rotationAngle: angle)
+            super.initialState(in: context)
+        }
+    }
+
+    open class RotateSource: TransformSource {
+        public let angle: CGFloat
+        public init(_ angle: CGFloat) {
+            self.angle = angle
+        }
+        public override func finalState(in context: UIViewControllerContextTransitioning) {
+            transform = CGAffineTransform(rotationAngle: angle)
+            super.finalState(in: context)
+        }
+    }
+}
+
+// MARK: - Scale
+
+extension LayerFactory {
+    open class ScaleDestination: TransformDestination {
+        public let x: CGFloat
+        public let y: CGFloat
+        public init(x: CGFloat, y: CGFloat) {
+            self.x = x
+            self.y = y
+        }
+        public override func initialState(in context: UIViewControllerContextTransitioning) {
+            transform = CGAffineTransform(scaleX: x, y: y)
+            super.initialState(in: context)
+        }
+    }
+
+    open class ScaleSource: TransformSource {
+        public let x: CGFloat
+        public let y: CGFloat
+        public init(x: CGFloat, y: CGFloat) {
+            self.x = x
+            self.y = y
+        }
+        public override func finalState(in context: UIViewControllerContextTransitioning) {
+            transform = CGAffineTransform(scaleX: x, y: y)
+            super.finalState(in: context)
+        }
+    }
+}
