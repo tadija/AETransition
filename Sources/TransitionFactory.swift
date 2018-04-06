@@ -34,10 +34,10 @@ extension TransitionFactory {
     }
 }
 
-// MARK: - Move
+// MARK: - Translate
 
 extension TransitionFactory {
-    open class MoveIn: LayeredAnimatedTransition {
+    open class TranslateIn: LayeredAnimatedTransition {
         public init(from edge: Edge = .right, push: Bool, options: Options = .standard) {
             var layers: [AnimatedTransitionLayer] = [Layer.InsertDestinationAbove(), Layer.TranslateDestination(from: edge)]
             if push {
@@ -47,7 +47,7 @@ extension TransitionFactory {
         }
     }
 
-    open class MoveOut: LayeredAnimatedTransition {
+    open class TranslateOut: LayeredAnimatedTransition {
         public init(to edge: Edge = .right, push: Bool, options: Options = .standard) {
             var layers: [AnimatedTransitionLayer] = [Layer.InsertDestinationBelow(), Layer.TranslateSource(to: edge)]
             if push {
