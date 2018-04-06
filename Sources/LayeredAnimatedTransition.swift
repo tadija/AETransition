@@ -6,20 +6,7 @@
 
 import UIKit
 
-public protocol AnimatedTransitionLayer {
-    func prepare(using context: UIViewControllerContextTransitioning) -> Void
-    func animate(using context: UIViewControllerContextTransitioning) -> Void
-}
-
-public extension AnimatedTransitionLayer {
-    public var debugDescription: String {
-        return String(describing: type(of: self))
-    }
-    func prepare(using context: UIViewControllerContextTransitioning) -> Void {}
-    func animate(using context: UIViewControllerContextTransitioning) -> Void {}
-}
-
-open class LayeredAnimatedTransition: AnimatedTransition {
+open class LayeredAnimatedTransition: NSObject, AnimatedTransition {
 
     // MARK: Types
 
@@ -46,39 +33,40 @@ open class LayeredAnimatedTransition: AnimatedTransition {
     // MARK: Properties
 
     open let layers: [AnimatedTransitionLayer]
+    open let options: Options
 
     open override var debugDescription: String {
-        return "\(String(describing: type(of: self))) | Layers: \(layers.map{ $0.debugDescription })"
+        return "\(String(describing: type(of: self))) | Layers: \(layers.map{ String(describing: type(of: $0)) })"
     }
 
     // MARK: Init
 
     public init(with layers: [AnimatedTransitionLayer], options: Options) {
         self.layers = layers
-        super.init(duration: options.duration)
-        configureTransitionAnimation(with: layers, options: options)
+        self.options = options
+        super.init()
     }
 
-    // MARK: Internal API
+    // MARK: AnimatedTransition
+
+    open func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
+        return options.duration
+    }
+
+    open func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
+        layers.forEach({ $0.prepare(using: transitionContext) })
+        UIView.animate(withDuration: options.duration, delay: options.delay,
+                       usingSpringWithDamping: options.damping, initialSpringVelocity: options.velocity,
+                       options: options.animationOptions,
+                       animations: { [weak self] in
+                        self?.layers.forEach({ $0.animate(using: transitionContext) })
+            }, completion: { [weak self] (finished) in
+                self?.completeTransition(using: transitionContext)
+        })
+    }
 
     open func completeTransition(using context: UIViewControllerContextTransitioning) {
         context.completeTransition(!context.transitionWasCancelled)
-    }
-
-    // MARK: Helpers
-
-    private func configureTransitionAnimation(with layers: [AnimatedTransitionLayer], options: Options) {
-        transitionAnimation = { [weak self] (context) in
-            layers.forEach({ $0.prepare(using: context) })
-            UIView.animate(withDuration: options.duration, delay: options.delay,
-                           usingSpringWithDamping: options.damping, initialSpringVelocity: options.velocity,
-                           options: options.animationOptions,
-                           animations: {
-                            layers.forEach({ $0.animate(using: context) })
-            }, completion: { (finished) in
-                self?.completeTransition(using: context)
-            })
-        }
     }
 
 }

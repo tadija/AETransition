@@ -28,14 +28,14 @@ final class SourceViewController: UIViewController {
     var randomPresenting: AnimatedTransition {
         let index = Int.random(min: 0, max: presentingTransitions.count - 1)
         let random = presentingTransitions[index]
-        print(random.debugDescription)
+        print(random.debugDescription ?? "")
         return random
     }
 
     var randomDismissing: AnimatedTransition {
         let index = Int.random(min: 0, max: dismissingTransitions.count - 1)
         let random = dismissingTransitions[index]
-        print(random.debugDescription)
+        print(random.debugDescription ?? "")
         return random
     }
 

@@ -85,9 +85,9 @@
 		8B949F5C204B395600147752 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				8B8A0E61204F2AC600444912 /* TransitioningDelegate.swift */,
 				8B8A0E672055970500444912 /* AnimatedTransition.swift */,
 				8B8A0E702058558500444912 /* LayeredAnimatedTransition.swift */,
+				8B8A0E61204F2AC600444912 /* TransitioningDelegate.swift */,
 				8B6D9956205DBFC70079EB3A /* Layer+Factory.swift */,
 				8B6D9954205DBDD10079EB3A /* Transition+Factory.swift */,
 				8B6D9952205DB52C0079EB3A /* Edge.swift */,
