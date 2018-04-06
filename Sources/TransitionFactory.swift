@@ -6,21 +6,23 @@
 
 import UIKit
 
-public struct Transition {}
+public typealias Transition = TransitionFactory
+
+public struct TransitionFactory {}
 
 // MARK: - Fade
 
-extension Transition {
+extension TransitionFactory {
     open class FadeIn: LayeredAnimatedTransition {
         public init(options: Options = .standard) {
-            let layers: [AnimatedTransitionLayer] = [Layer.InsertViewAbove(), Layer.AlphaIn()]
+            let layers: [AnimatedTransitionLayer] = [Layer.InsertDestinationAbove(), Layer.FadeInDestination()]
             super.init(with: layers, options: options)
         }
     }
 
     open class FadeOut: LayeredAnimatedTransition {
         public init(options: Options = .standard) {
-            let layers: [AnimatedTransitionLayer] = [Layer.InsertViewBelow(), Layer.AlphaOut()]
+            let layers: [AnimatedTransitionLayer] = [Layer.InsertDestinationBelow(), Layer.FadeOutSource()]
             super.init(with: layers, options: options)
         }
     }
@@ -28,17 +30,17 @@ extension Transition {
 
 // MARK: - Move
 
-extension Transition {
+extension TransitionFactory {
     open class MoveIn: LayeredAnimatedTransition {
         public init(from edge: Edge = .right, options: Options = .standard) {
-            let layers: [AnimatedTransitionLayer] = [Layer.InsertViewAbove(), Layer.TranslateIn(from: edge)]
+            let layers: [AnimatedTransitionLayer] = [Layer.InsertDestinationAbove(), Layer.TranslateDestination(from: edge)]
             super.init(with: layers, options: options)
         }
     }
 
     open class MoveOut: LayeredAnimatedTransition {
         public init(to edge: Edge = .right, options: Options = .standard) {
-            let layers: [AnimatedTransitionLayer] = [Layer.InsertViewBelow(), Layer.TranslateOut(to: edge)]
+            let layers: [AnimatedTransitionLayer] = [Layer.InsertDestinationBelow(), Layer.TranslateSource(to: edge)]
             super.init(with: layers, options: options)
         }
     }

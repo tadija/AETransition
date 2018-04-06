@@ -54,12 +54,12 @@ open class LayeredAnimatedTransition: NSObject, AnimatedTransition {
     }
 
     open func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
-        layers.forEach({ $0.prepare(using: transitionContext) })
+        layers.forEach({ $0.initialState(in: transitionContext) })
         UIView.animate(withDuration: options.duration, delay: options.delay,
                        usingSpringWithDamping: options.damping, initialSpringVelocity: options.velocity,
                        options: options.animationOptions,
                        animations: { [weak self] in
-                        self?.layers.forEach({ $0.animate(using: transitionContext) })
+                        self?.layers.forEach({ $0.finalState(in: transitionContext) })
             }, completion: { [weak self] (finished) in
                 self?.completeTransition(using: transitionContext)
         })
