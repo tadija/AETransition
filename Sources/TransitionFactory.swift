@@ -14,15 +14,21 @@ public struct TransitionFactory {}
 
 extension TransitionFactory {
     open class FadeIn: LayeredAnimatedTransition {
-        public init(options: Options = .standard) {
-            let layers: [AnimatedTransitionLayer] = [Layer.InsertDestinationAbove(), Layer.FadeInDestination()]
+        public init(crossfade: Bool = false, options: Options = .standard) {
+            var layers: [AnimatedTransitionLayer] = [Layer.InsertDestinationAbove(), Layer.FadeInDestination()]
+            if crossfade {
+                layers.append(Layer.FadeOutSource())
+            }
             super.init(with: layers, options: options)
         }
     }
 
     open class FadeOut: LayeredAnimatedTransition {
-        public init(options: Options = .standard) {
-            let layers: [AnimatedTransitionLayer] = [Layer.InsertDestinationBelow(), Layer.FadeOutSource()]
+        public init(crossfade: Bool = false, options: Options = .standard) {
+            var layers: [AnimatedTransitionLayer] = [Layer.InsertDestinationBelow(), Layer.FadeOutSource()]
+            if crossfade {
+                layers.append(Layer.FadeInDestination())
+            }
             super.init(with: layers, options: options)
         }
     }
@@ -32,15 +38,21 @@ extension TransitionFactory {
 
 extension TransitionFactory {
     open class MoveIn: LayeredAnimatedTransition {
-        public init(from edge: Edge = .right, options: Options = .standard) {
-            let layers: [AnimatedTransitionLayer] = [Layer.InsertDestinationAbove(), Layer.TranslateDestination(from: edge)]
+        public init(from edge: Edge = .right, push: Bool, options: Options = .standard) {
+            var layers: [AnimatedTransitionLayer] = [Layer.InsertDestinationAbove(), Layer.TranslateDestination(from: edge)]
+            if push {
+                layers.append(Layer.TranslateSource(to: edge.opposite))
+            }
             super.init(with: layers, options: options)
         }
     }
 
     open class MoveOut: LayeredAnimatedTransition {
-        public init(to edge: Edge = .right, options: Options = .standard) {
-            let layers: [AnimatedTransitionLayer] = [Layer.InsertDestinationBelow(), Layer.TranslateSource(to: edge)]
+        public init(to edge: Edge = .right, push: Bool, options: Options = .standard) {
+            var layers: [AnimatedTransitionLayer] = [Layer.InsertDestinationBelow(), Layer.TranslateSource(to: edge)]
+            if push {
+                layers.append(Layer.TranslateDestination(from: edge.opposite))
+            }
             super.init(with: layers, options: options)
         }
     }

@@ -39,8 +39,14 @@ extension LayerFactory {
     }
 
     public struct FadeOutSource: AnimatedTransitionLayer {
+        public func initialState(in context: UIViewControllerContextTransitioning) {
+            context.fromView?.alpha = 1
+        }
         public func finalState(in context: UIViewControllerContextTransitioning) {
             context.fromView?.alpha = 0
+        }
+        public func finish(in context: UIViewControllerContextTransitioning) {
+            context.fromView?.alpha = 1
         }
     }
 }
@@ -60,8 +66,14 @@ extension LayerFactory {
 
     open class TransformSource: AnimatedTransitionLayer {
         public var transform: CGAffineTransform = .identity
+        public func initialState(in context: UIViewControllerContextTransitioning) {
+            context.fromView?.transform = .identity
+        }
         public func finalState(in context: UIViewControllerContextTransitioning) {
             context.fromView?.transform = transform
+        }
+        public func finish(in context: UIViewControllerContextTransitioning) {
+            context.fromView?.transform = .identity
         }
     }
 }
