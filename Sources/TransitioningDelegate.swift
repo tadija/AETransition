@@ -10,8 +10,8 @@ open class TransitioningDelegate: NSObject {
 
     // MARK: Properties
 
-    open var presentTransition: UIViewControllerAnimatedTransitioning?
-    open var dismissTransition: UIViewControllerAnimatedTransitioning?
+    open var presentTransition: AnimatedTransition?
+    open var dismissTransition: AnimatedTransition?
 
     open var presentInteraction: UIViewControllerInteractiveTransitioning?
     open var dismissInteraction: UIViewControllerInteractiveTransitioning?
@@ -20,8 +20,8 @@ open class TransitioningDelegate: NSObject {
 
     // MARK: Init
 
-    public init(presentTransition: UIViewControllerAnimatedTransitioning? = nil,
-                dismissTransition: UIViewControllerAnimatedTransitioning? = nil,
+    public init(presentTransition: AnimatedTransition? = nil,
+                dismissTransition: AnimatedTransition? = nil,
                 presentInteraction: UIViewControllerInteractiveTransitioning? = nil,
                 dismissInteraction: UIViewControllerInteractiveTransitioning? = nil,
                 presentationController: UIPresentationController? = nil) {
