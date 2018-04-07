@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 0.2.0
+
+- Migrated to Swift 4.1 with Xcode 9.3 (9E145)
+- Replaced AnimatedTransition class with protocol
+- Added more transform based layers and transitions (rotate and scale)
+- Improvements and refactoring
+
 ## Version 0.1.5
 
 - Changed AnimatedTransitionLayer to use functions instead of closure properties

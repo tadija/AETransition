@@ -6,30 +6,16 @@
 
 import UIKit
 
-open class AnimatedTransition: NSObject, UIViewControllerAnimatedTransitioning {
+public protocol AnimatedTransition: UIViewControllerAnimatedTransitioning {}
 
-    public typealias ContextHandler = (UIViewControllerContextTransitioning) -> Void
+public protocol AnimatedTransitionLayer {
+    func initialState(in context: UIViewControllerContextTransitioning) -> Void
+    func finalState(in context: UIViewControllerContextTransitioning) -> Void
+    func finish(in context: UIViewControllerContextTransitioning) -> Void
+}
 
-    // MARK: Properties
-
-    open let duration: TimeInterval
-    open var transitionAnimation: ContextHandler?
-
-    // MARK: Init
-
-    public init(duration: TimeInterval, transitionAnimation: ContextHandler? = nil) {
-        self.duration = duration
-        self.transitionAnimation = transitionAnimation
-    }
-
-    // MARK: UIViewControllerAnimatedTransitioning
-
-    open func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
-        return duration
-    }
-
-    open func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
-        transitionAnimation?(transitionContext)
-    }
-
+public extension AnimatedTransitionLayer {
+    func initialState(in context: UIViewControllerContextTransitioning) -> Void {}
+    func finalState(in context: UIViewControllerContextTransitioning) -> Void {}
+    func finish(in context: UIViewControllerContextTransitioning) -> Void {}
 }

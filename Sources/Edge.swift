@@ -22,7 +22,7 @@ public enum Edge {
         }
     }
 
-    static func makeTransform(translating view: UIView?, to edge: Edge) -> CGAffineTransform {
+    static func translation(for view: UIView?, to edge: Edge) -> CGAffineTransform {
         guard let view = view else {
             return .identity
         }

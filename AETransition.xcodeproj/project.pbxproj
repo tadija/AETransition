@@ -8,8 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		8B6D9953205DB52C0079EB3A /* Edge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6D9952205DB52C0079EB3A /* Edge.swift */; };
-		8B6D9955205DBDD10079EB3A /* Transition+Factory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6D9954205DBDD10079EB3A /* Transition+Factory.swift */; };
-		8B6D9957205DBFC70079EB3A /* Layer+Factory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6D9956205DBFC70079EB3A /* Layer+Factory.swift */; };
+		8B6D9955205DBDD10079EB3A /* TransitionFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6D9954205DBDD10079EB3A /* TransitionFactory.swift */; };
+		8B6D9957205DBFC70079EB3A /* LayerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6D9956205DBFC70079EB3A /* LayerFactory.swift */; };
 		8B8A0E62204F2AC600444912 /* TransitioningDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8A0E61204F2AC600444912 /* TransitioningDelegate.swift */; };
 		8B8A0E682055970500444912 /* AnimatedTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8A0E672055970500444912 /* AnimatedTransition.swift */; };
 		8B8A0E712058558500444912 /* LayeredAnimatedTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8A0E702058558500444912 /* LayeredAnimatedTransition.swift */; };
@@ -19,8 +19,8 @@
 
 /* Begin PBXFileReference section */
 		8B6D9952205DB52C0079EB3A /* Edge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Edge.swift; sourceTree = "<group>"; };
-		8B6D9954205DBDD10079EB3A /* Transition+Factory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Transition+Factory.swift"; sourceTree = "<group>"; };
-		8B6D9956205DBFC70079EB3A /* Layer+Factory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Layer+Factory.swift"; sourceTree = "<group>"; };
+		8B6D9954205DBDD10079EB3A /* TransitionFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransitionFactory.swift; sourceTree = "<group>"; };
+		8B6D9956205DBFC70079EB3A /* LayerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayerFactory.swift; sourceTree = "<group>"; };
 		8B8A0E61204F2AC600444912 /* TransitioningDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransitioningDelegate.swift; sourceTree = "<group>"; };
 		8B8A0E672055970500444912 /* AnimatedTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedTransition.swift; sourceTree = "<group>"; };
 		8B8A0E702058558500444912 /* LayeredAnimatedTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayeredAnimatedTransition.swift; sourceTree = "<group>"; };
@@ -45,6 +45,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8B12213F20781C3200C6B632 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				8B6D9952205DB52C0079EB3A /* Edge.swift */,
+				8B8A0E762058627500444912 /* UIViewControllerContextTransitioning+Helpers.swift */,
+			);
+			name = Helpers;
+			sourceTree = "<group>";
+		};
 		8B8A0E64204F2AD700444912 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
@@ -85,13 +94,12 @@
 		8B949F5C204B395600147752 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				8B8A0E61204F2AC600444912 /* TransitioningDelegate.swift */,
 				8B8A0E672055970500444912 /* AnimatedTransition.swift */,
 				8B8A0E702058558500444912 /* LayeredAnimatedTransition.swift */,
-				8B6D9956205DBFC70079EB3A /* Layer+Factory.swift */,
-				8B6D9954205DBDD10079EB3A /* Transition+Factory.swift */,
-				8B6D9952205DB52C0079EB3A /* Edge.swift */,
-				8B8A0E762058627500444912 /* UIViewControllerContextTransitioning+Helpers.swift */,
+				8B6D9956205DBFC70079EB3A /* LayerFactory.swift */,
+				8B6D9954205DBDD10079EB3A /* TransitionFactory.swift */,
+				8B8A0E61204F2AC600444912 /* TransitioningDelegate.swift */,
+				8B12213F20781C3200C6B632 /* Helpers */,
 				8B8A0E64204F2AD700444912 /* Supporting Files */,
 			);
 			path = Sources;
@@ -135,7 +143,7 @@
 		8B949F51204B395600147752 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0920;
+				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = AE;
 				TargetAttributes = {
 					8B949F59204B395600147752 = {
@@ -178,8 +186,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				8B6D9953205DB52C0079EB3A /* Edge.swift in Sources */,
-				8B6D9955205DBDD10079EB3A /* Transition+Factory.swift in Sources */,
-				8B6D9957205DBFC70079EB3A /* Layer+Factory.swift in Sources */,
+				8B6D9955205DBDD10079EB3A /* TransitionFactory.swift in Sources */,
+				8B6D9957205DBFC70079EB3A /* LayerFactory.swift in Sources */,
 				8B8A0E712058558500444912 /* LayeredAnimatedTransition.swift in Sources */,
 				8B8A0E62204F2AC600444912 /* TransitioningDelegate.swift in Sources */,
 				8B8A0E772058627500444912 /* UIViewControllerContextTransitioning+Helpers.swift in Sources */,
@@ -204,6 +212,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -211,6 +220,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -245,6 +255,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -264,6 +275,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -271,6 +283,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -297,6 +310,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 4.0;
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -322,7 +336,6 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -345,7 +358,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = net.tadija.AETransition;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
