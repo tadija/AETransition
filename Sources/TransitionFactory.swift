@@ -34,26 +34,38 @@ extension TransitionFactory {
     }
 }
 
-// MARK: - Translate
+// MARK: - Move
 
 extension TransitionFactory {
     open class MoveIn: LayeredAnimatedTransition {
-        public init(from edge: Edge = .right, push: Bool, options: Options = .standard) {
-            var layers: [AnimatedTransitionLayer] = [Layer.DestinationAbove(), Layer.DestinationMove(from: edge)]
-            if push {
-                layers.append(Layer.SourceMove(to: edge.opposite))
-            }
+        public init(from edge: Edge = .right, options: Options = .standard) {
+            let layers: [AnimatedTransitionLayer] = [Layer.DestinationAbove(), Layer.DestinationMove(from: edge)]
             super.init(with: layers, options: options)
         }
     }
 
     open class MoveOut: LayeredAnimatedTransition {
-        public init(to edge: Edge = .right, push: Bool, options: Options = .standard) {
-            var layers: [AnimatedTransitionLayer] = [Layer.DestinationBelow(), Layer.SourceMove(to: edge)]
-            if push {
-                layers.append(Layer.DestinationMove(from: edge.opposite))
-            }
+        public init(to edge: Edge = .right, options: Options = .standard) {
+            let layers: [AnimatedTransitionLayer] = [Layer.DestinationBelow(), Layer.SourceMove(to: edge)]
             super.init(with: layers, options: options)
+        }
+    }
+}
+
+// MARK: - Push
+
+extension TransitionFactory {
+    open class PushIn: MoveIn {
+        public override init(from edge: Edge = .right, options: Options = .standard) {
+            super.init(from: edge, options: options)
+            layers.append(Layer.SourceMove(to: edge.opposite))
+        }
+    }
+
+    open class PushOut: MoveOut {
+        public override init(to edge: Edge = .right, options: Options = .standard) {
+            super.init(to: edge, options: options)
+            layers.append(Layer.DestinationMove(from: edge.opposite))
         }
     }
 }
