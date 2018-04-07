@@ -41,7 +41,8 @@ final class SourceViewController: UIViewController {
 
     var presentingTransitions: [AnimatedTransition] {
         return [
-            Transition.FadeIn(crossfade: Bool.random(), options: .random()),
+            Transition.FadeIn(options: .random()),
+            Transition.CrossfadeIn(options: .random()),
             Transition.MoveIn(from: .random(), options: .random()),
             Transition.PushIn(from: .random(), options: .random()),
             Transition.RotateIn(angle: .pi, options: .random()),
@@ -51,7 +52,8 @@ final class SourceViewController: UIViewController {
 
     var dismissingTransitions: [AnimatedTransition] {
         return [
-            Transition.FadeOut(crossfade: Bool.random(), options: .random()),
+            Transition.FadeOut(options: .random()),
+            Transition.CrossfadeOut(options: .random()),
             Transition.MoveOut(to: .random(), options: .random()),
             Transition.PushOut(to: .random(), options: .random()),
             Transition.RotateOut(angle: .pi, fadeOut: Bool.random(), options: .random()),

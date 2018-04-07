@@ -14,22 +14,34 @@ public struct TransitionFactory {}
 
 extension TransitionFactory {
     open class FadeIn: LayeredAnimatedTransition {
-        public init(crossfade: Bool = false, options: Options = .standard) {
-            var layers: [AnimatedTransitionLayer] = [Layer.DestinationAbove(), Layer.DestinationAlpha()]
-            if crossfade {
-                layers.append(Layer.SourceAlpha())
-            }
+        public init(options: Options = .standard) {
+            let layers: [AnimatedTransitionLayer] = [Layer.DestinationAbove(), Layer.DestinationAlpha()]
             super.init(with: layers, options: options)
         }
     }
 
     open class FadeOut: LayeredAnimatedTransition {
-        public init(crossfade: Bool = false, options: Options = .standard) {
-            var layers: [AnimatedTransitionLayer] = [Layer.DestinationBelow(), Layer.SourceAlpha()]
-            if crossfade {
-                layers.append(Layer.DestinationAlpha())
-            }
+        public init(options: Options = .standard) {
+            let layers: [AnimatedTransitionLayer] = [Layer.DestinationBelow(), Layer.SourceAlpha()]
             super.init(with: layers, options: options)
+        }
+    }
+}
+
+// MARK: - Crossfade
+
+extension TransitionFactory {
+    open class CrossfadeIn: FadeIn {
+        public override init(options: Options) {
+            super.init(options: options)
+            layers.append(Layer.SourceAlpha())
+        }
+    }
+
+    open class CrossfadeOut: FadeOut {
+        public override init(options: Options) {
+            super.init(options: options)
+            layers.append(Layer.DestinationAlpha())
         }
     }
 }
