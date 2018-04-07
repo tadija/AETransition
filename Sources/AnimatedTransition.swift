@@ -11,11 +11,11 @@ public protocol AnimatedTransition: UIViewControllerAnimatedTransitioning {}
 public protocol AnimatedTransitionLayer {
     func initialState(in context: UIViewControllerContextTransitioning) -> Void
     func finalState(in context: UIViewControllerContextTransitioning) -> Void
-    func finish(in context: UIViewControllerContextTransitioning) -> Void
+    func cleanup(in context: UIViewControllerContextTransitioning) -> Void
 }
 
 public extension AnimatedTransitionLayer {
     func initialState(in context: UIViewControllerContextTransitioning) -> Void {}
     func finalState(in context: UIViewControllerContextTransitioning) -> Void {}
-    func finish(in context: UIViewControllerContextTransitioning) -> Void {}
+    func cleanup(in context: UIViewControllerContextTransitioning) -> Void {}
 }

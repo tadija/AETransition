@@ -66,7 +66,7 @@ open class LayeredAnimatedTransition: NSObject, AnimatedTransition {
     }
 
     open func completeTransition(using context: UIViewControllerContextTransitioning) {
-        layers.forEach({ $0.finish(in: context) })
+        layers.forEach({ $0.cleanup(in: context) })
         context.completeTransition(!context.transitionWasCancelled)
     }
 

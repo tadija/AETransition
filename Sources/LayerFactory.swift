@@ -15,13 +15,17 @@ public struct LayerFactory {}
 extension LayerFactory {
     public struct InsertDestinationAbove: AnimatedTransitionLayer {
         public func initialState(in context: UIViewControllerContextTransitioning) {
-            context.insertToViewAboveFromView()
+            if let source = context.source, let destination = context.destination {
+                context.containerView.insertSubview(destination, aboveSubview: source)
+            }
         }
     }
 
     public struct InsertDestinationBelow: AnimatedTransitionLayer {
         public func initialState(in context: UIViewControllerContextTransitioning) {
-            context.insertToViewBelowFromView()
+            if let source = context.source, let destination = context.destination {
+                context.containerView.insertSubview(destination, belowSubview: source)
+            }
         }
     }
 }
@@ -31,22 +35,22 @@ extension LayerFactory {
 extension LayerFactory {
     public struct FadeInDestination: AnimatedTransitionLayer {
         public func initialState(in context: UIViewControllerContextTransitioning) {
-            context.toView?.alpha = 0
+            context.destination?.alpha = 0
         }
         public func finalState(in context: UIViewControllerContextTransitioning) {
-            context.toView?.alpha = 1
+            context.destination?.alpha = 1
         }
     }
 
     public struct FadeOutSource: AnimatedTransitionLayer {
         public func initialState(in context: UIViewControllerContextTransitioning) {
-            context.fromView?.alpha = 1
+            context.source?.alpha = 1
         }
         public func finalState(in context: UIViewControllerContextTransitioning) {
-            context.fromView?.alpha = 0
+            context.source?.alpha = 0
         }
-        public func finish(in context: UIViewControllerContextTransitioning) {
-            context.fromView?.alpha = 1
+        public func cleanup(in context: UIViewControllerContextTransitioning) {
+            context.source?.alpha = 1
         }
     }
 }
@@ -57,23 +61,23 @@ extension LayerFactory {
     open class TransformDestination: AnimatedTransitionLayer {
         public var transform: CGAffineTransform = .identity
         public func initialState(in context: UIViewControllerContextTransitioning) {
-            context.toView?.transform = transform
+            context.destination?.transform = transform
         }
         public func finalState(in context: UIViewControllerContextTransitioning) {
-            context.toView?.transform = .identity
+            context.destination?.transform = .identity
         }
     }
 
     open class TransformSource: AnimatedTransitionLayer {
         public var transform: CGAffineTransform = .identity
         public func initialState(in context: UIViewControllerContextTransitioning) {
-            context.fromView?.transform = .identity
+            context.source?.transform = .identity
         }
         public func finalState(in context: UIViewControllerContextTransitioning) {
-            context.fromView?.transform = transform
+            context.source?.transform = transform
         }
-        public func finish(in context: UIViewControllerContextTransitioning) {
-            context.fromView?.transform = .identity
+        public func cleanup(in context: UIViewControllerContextTransitioning) {
+            context.source?.transform = .identity
         }
     }
 }
@@ -87,7 +91,7 @@ extension LayerFactory {
             self.edge = edge
         }
         public override func initialState(in context: UIViewControllerContextTransitioning) {
-            transform = Edge.translation(for: context.toView, to: edge)
+            transform = Edge.translation(for: context.destination, to: edge)
             super.initialState(in: context)
         }
     }
@@ -98,7 +102,7 @@ extension LayerFactory {
             self.edge = edge
         }
         public override func finalState(in context: UIViewControllerContextTransitioning) {
-            transform = Edge.translation(for: context.fromView, to: edge)
+            transform = Edge.translation(for: context.source, to: edge)
             super.finalState(in: context)
         }
     }
