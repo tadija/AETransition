@@ -59,7 +59,10 @@ extension LayerFactory {
 
 extension LayerFactory {
     open class TransformDestination: AnimatedTransitionLayer {
-        public var transform: CGAffineTransform = .identity
+        public var transform: CGAffineTransform
+        public init(with transform: CGAffineTransform = .identity) {
+            self.transform = transform
+        }
         public func initialState(in context: UIViewControllerContextTransitioning) {
             context.destination?.transform = transform
         }
@@ -69,7 +72,10 @@ extension LayerFactory {
     }
 
     open class TransformSource: AnimatedTransitionLayer {
-        public var transform: CGAffineTransform = .identity
+        public var transform: CGAffineTransform
+        public init(with transform: CGAffineTransform = .identity) {
+            self.transform = transform
+        }
         public func initialState(in context: UIViewControllerContextTransitioning) {
             context.source?.transform = .identity
         }
@@ -113,7 +119,7 @@ extension LayerFactory {
 extension LayerFactory {
     open class RotateDestination: TransformDestination {
         public let angle: CGFloat
-        public init(_ angle: CGFloat) {
+        public init(angle: CGFloat) {
             self.angle = angle
         }
         public override func initialState(in context: UIViewControllerContextTransitioning) {
@@ -124,7 +130,7 @@ extension LayerFactory {
 
     open class RotateSource: TransformSource {
         public let angle: CGFloat
-        public init(_ angle: CGFloat) {
+        public init(angle: CGFloat) {
             self.angle = angle
         }
         public override func finalState(in context: UIViewControllerContextTransitioning) {

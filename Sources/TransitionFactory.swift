@@ -63,14 +63,14 @@ extension TransitionFactory {
 extension TransitionFactory {
     open class RotateIn: LayeredAnimatedTransition {
         public init(angle: CGFloat, options: Options = .standard) {
-            let layers: [AnimatedTransitionLayer] = [Layer.InsertDestinationAbove(), Layer.RotateDestination(angle)]
+            let layers: [AnimatedTransitionLayer] = [Layer.InsertDestinationAbove(), Layer.RotateDestination(angle: angle)]
             super.init(with: layers, options: options)
         }
     }
 
     open class RotateOut: LayeredAnimatedTransition {
         public init(angle: CGFloat, fadeOut: Bool, options: Options = .standard) {
-            var layers: [AnimatedTransitionLayer] = [Layer.InsertDestinationBelow(), Layer.RotateSource(angle)]
+            var layers: [AnimatedTransitionLayer] = [Layer.InsertDestinationBelow(), Layer.RotateSource(angle: angle)]
             if fadeOut {
                 layers.append(Layer.FadeOutSource())
             }
