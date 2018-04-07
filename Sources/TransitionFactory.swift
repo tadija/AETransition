@@ -37,21 +37,21 @@ extension TransitionFactory {
 // MARK: - Translate
 
 extension TransitionFactory {
-    open class TranslateIn: LayeredAnimatedTransition {
+    open class MoveIn: LayeredAnimatedTransition {
         public init(from edge: Edge = .right, push: Bool, options: Options = .standard) {
-            var layers: [AnimatedTransitionLayer] = [Layer.InsertDestinationAbove(), Layer.TranslateDestination(from: edge)]
+            var layers: [AnimatedTransitionLayer] = [Layer.InsertDestinationAbove(), Layer.MoveDestination(from: edge)]
             if push {
-                layers.append(Layer.TranslateSource(to: edge.opposite))
+                layers.append(Layer.MoveSource(to: edge.opposite))
             }
             super.init(with: layers, options: options)
         }
     }
 
-    open class TranslateOut: LayeredAnimatedTransition {
+    open class MoveOut: LayeredAnimatedTransition {
         public init(to edge: Edge = .right, push: Bool, options: Options = .standard) {
-            var layers: [AnimatedTransitionLayer] = [Layer.InsertDestinationBelow(), Layer.TranslateSource(to: edge)]
+            var layers: [AnimatedTransitionLayer] = [Layer.InsertDestinationBelow(), Layer.MoveSource(to: edge)]
             if push {
-                layers.append(Layer.TranslateDestination(from: edge.opposite))
+                layers.append(Layer.MoveDestination(from: edge.opposite))
             }
             super.init(with: layers, options: options)
         }
@@ -63,14 +63,16 @@ extension TransitionFactory {
 extension TransitionFactory {
     open class RotateIn: LayeredAnimatedTransition {
         public init(angle: CGFloat, options: Options = .standard) {
-            let layers: [AnimatedTransitionLayer] = [Layer.InsertDestinationAbove(), Layer.RotateDestination(angle: angle)]
+            let rotate = CGAffineTransform(rotationAngle: angle)
+            let layers: [AnimatedTransitionLayer] = [Layer.InsertDestinationAbove(), Layer.TransformDestination(rotate)]
             super.init(with: layers, options: options)
         }
     }
 
     open class RotateOut: LayeredAnimatedTransition {
         public init(angle: CGFloat, fadeOut: Bool, options: Options = .standard) {
-            var layers: [AnimatedTransitionLayer] = [Layer.InsertDestinationBelow(), Layer.RotateSource(angle: angle)]
+            let rotate = CGAffineTransform(rotationAngle: angle)
+            var layers: [AnimatedTransitionLayer] = [Layer.InsertDestinationBelow(), Layer.TransformSource(rotate)]
             if fadeOut {
                 layers.append(Layer.FadeOutSource())
             }
@@ -84,14 +86,16 @@ extension TransitionFactory {
 extension TransitionFactory {
     open class ScaleIn: LayeredAnimatedTransition {
         public init(x: CGFloat, y: CGFloat, options: Options = .standard) {
-            let layers: [AnimatedTransitionLayer] = [Layer.InsertDestinationAbove(), Layer.ScaleDestination(x: x, y: y)]
+            let scale = CGAffineTransform(scaleX: x, y: y)
+            let layers: [AnimatedTransitionLayer] = [Layer.InsertDestinationAbove(), Layer.TransformDestination(scale)]
             super.init(with: layers, options: options)
         }
     }
 
     open class ScaleOut: LayeredAnimatedTransition {
         public init(x: CGFloat, y: CGFloat, fadeOut: Bool, options: Options = .standard) {
-            var layers: [AnimatedTransitionLayer] = [Layer.InsertDestinationBelow(), Layer.ScaleSource(x: x, y: y)]
+            let scale = CGAffineTransform(scaleX: x, y: y)
+            var layers: [AnimatedTransitionLayer] = [Layer.InsertDestinationBelow(), Layer.TransformSource(scale)]
             if fadeOut {
                 layers.append(Layer.FadeOutSource())
             }
