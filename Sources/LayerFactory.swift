@@ -76,7 +76,10 @@ extension LayerFactory {
             self.transform = transform
         }
         public func initialState(in context: UIViewControllerContextTransitioning) {
-            context.destination?.transform = transform
+            if let destinationTransform = context.destination?.transform {
+                let t = destinationTransform == .identity ? transform : destinationTransform.concatenating(transform)
+                context.destination?.transform = t
+            }
         }
         public func finalState(in context: UIViewControllerContextTransitioning) {
             context.destination?.transform = .identity
@@ -92,7 +95,10 @@ extension LayerFactory {
             context.source?.transform = .identity
         }
         public func finalState(in context: UIViewControllerContextTransitioning) {
-            context.source?.transform = transform
+            if let sourceTransform = context.source?.transform {
+                let t = sourceTransform == .identity ? transform : sourceTransform.concatenating(transform)
+                context.source?.transform = t
+            }
         }
         public func cleanup(in context: UIViewControllerContextTransitioning) {
             context.source?.transform = .identity

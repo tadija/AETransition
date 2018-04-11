@@ -105,3 +105,61 @@ extension TransitionFactory {
         }
     }
 }
+
+// MARK: - Basic
+
+extension TransitionFactory {
+    open class BasicIn: LayeredAnimatedTransition {
+        public init(fade: Bool = true,
+                    crossfade: Bool = false,
+                    moveFrom: Edge? = nil,
+                    pushTo: Edge? = nil,
+                    transform: CGAffineTransform? = nil,
+                    options: Options = .standard) {
+            var layers: [AnimatedTransitionLayer] = [Layer.DestinationAbove()]
+            if fade {
+                layers.append(Layer.DestinationAlpha())
+            }
+            if crossfade {
+                layers.append(Layer.SourceAlpha())
+            }
+            if let moveEdge = moveFrom {
+                layers.append(Layer.DestinationMove(from: moveEdge))
+            }
+            if let pushEdge = pushTo {
+                layers.append(Layer.SourceMove(to: pushEdge))
+            }
+            if let transform = transform {
+                layers.append(Layer.DestinationTransform(transform))
+            }
+            super.init(with: layers, options: options)
+        }
+    }
+
+    open class BasicOut: LayeredAnimatedTransition {
+        public init(fade: Bool = true,
+                    crossfade: Bool = false,
+                    moveTo: Edge? = nil,
+                    pushFrom: Edge? = nil,
+                    transform: CGAffineTransform? = nil,
+                    options: Options = .standard) {
+            var layers: [AnimatedTransitionLayer] = [Layer.DestinationBelow()]
+            if fade {
+                layers.append(Layer.SourceAlpha())
+            }
+            if crossfade {
+                layers.append(Layer.DestinationAlpha())
+            }
+            if let moveEdge = moveTo {
+                layers.append(Layer.SourceMove(to: moveEdge))
+            }
+            if let pushEdge = pushFrom {
+                layers.append(Layer.DestinationMove(from: pushEdge))
+            }
+            if let transform = transform {
+                layers.append(Layer.SourceTransform(transform))
+            }
+            super.init(with: layers, options: options)
+        }
+    }
+}

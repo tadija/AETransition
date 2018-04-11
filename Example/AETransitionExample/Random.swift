@@ -88,12 +88,10 @@ extension CGAffineTransform {
             return rotation().concatenating(scale())
         }
     }
-
-    private static func rotation() -> CGAffineTransform {
+    static func rotation() -> CGAffineTransform {
         return CGAffineTransform(rotationAngle: .pi)
     }
-
-    private static func scale() -> CGAffineTransform {
+    static func scale() -> CGAffineTransform {
         return CGAffineTransform(scaleX: CGFloat.random(min: 0, max: 2), y: CGFloat.random(min: 0, max: 2))
     }
 }
