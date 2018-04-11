@@ -106,10 +106,10 @@ extension LayerFactory {
     }
 }
 
-// MARK: - Move
+// MARK: - Slide
 
 extension LayerFactory {
-    open class DestinationMove: DestinationTransform {
+    open class DestinationSlide: DestinationTransform {
         public let edge: Edge
         public init(from edge: Edge) {
             self.edge = edge
@@ -120,7 +120,7 @@ extension LayerFactory {
         }
     }
 
-    open class SourceMove: SourceTransform {
+    open class SourceSlide: SourceTransform {
         public let edge: Edge
         public init(to edge: Edge) {
             self.edge = edge

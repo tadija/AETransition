@@ -43,10 +43,10 @@ final class SourceViewController: UIViewController {
         return [
             Transition.FadeIn(options: .random()),
             Transition.CrossfadeIn(options: .random()),
-            Transition.MoveIn(from: .random(), options: .random()),
+            Transition.SlideIn(from: .random(), options: .random()),
             Transition.PushIn(from: .random(), options: .random()),
             Transition.TransformIn(transform: .random(), options: .random()),
-            Transition.BasicIn(crossfade: .random(), moveFrom: .random(), pushTo: .random(), transform: .random(), options: .random()),
+            Transition.BasicIn(crossfade: .random(), slideFrom: .random(), pushTo: .random(), transform: .random(), options: .random()),
         ]
     }
 
@@ -54,10 +54,10 @@ final class SourceViewController: UIViewController {
         return [
             Transition.FadeOut(options: .random()),
             Transition.CrossfadeOut(options: .random()),
-            Transition.MoveOut(to: .random(), options: .random()),
+            Transition.SlideOut(to: .random(), options: .random()),
             Transition.PushOut(to: .random(), options: .random()),
             Transition.TransformOut(transform: .random(), options: .random()),
-            Transition.BasicOut(crossfade: .random(), moveTo: .random(), pushFrom: .random(), transform: .random(), options: .random()),
+            Transition.BasicOut(crossfade: .random(), slideTo: .random(), pushFrom: .random(), transform: .random(), options: .random()),
         ]
     }
 
