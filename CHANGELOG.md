@@ -1,5 +1,13 @@
 # Changelog
 
+## Version 0.2.1
+
+- Added Crossfade, Push and Basic
+- Replaced Rotate and Scale with Transform
+- Renamed Move to Slide
+- Fixed bug when dismissing after the orientation is changed
+- Improvements and refactoring
+
 ## Version 0.2.0
 
 - Migrated to Swift 4.1 with Xcode 9.3 (9E145)
