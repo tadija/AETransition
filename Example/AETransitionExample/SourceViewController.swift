@@ -45,8 +45,7 @@ final class SourceViewController: UIViewController {
             Transition.CrossfadeIn(options: .random()),
             Transition.MoveIn(from: .random(), options: .random()),
             Transition.PushIn(from: .random(), options: .random()),
-            Transition.RotateIn(angle: .pi, options: .random()),
-            Transition.ScaleIn(x: CGFloat.random(min: 0, max: 2), y: CGFloat.random(min: 0, max: 2), options: .random())
+            Transition.TransformIn(transform: .random(), options: .random())
         ]
     }
 
@@ -56,8 +55,7 @@ final class SourceViewController: UIViewController {
             Transition.CrossfadeOut(options: .random()),
             Transition.MoveOut(to: .random(), options: .random()),
             Transition.PushOut(to: .random(), options: .random()),
-            Transition.RotateOut(angle: .pi, fadeOut: Bool.random(), options: .random()),
-            Transition.ScaleOut(x: CGFloat.random(min: 0, max: 2), y: CGFloat.random(min: 0, max: 2), fadeOut: Bool.random(), options: .random())
+            Transition.TransformOut(transform: .random(), options: .random())
         ]
     }
 

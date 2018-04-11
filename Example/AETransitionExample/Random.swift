@@ -34,14 +34,14 @@ extension CGFloat {
 }
 
 extension UIColor {
-    class func random() -> UIColor {
+    static func random() -> UIColor {
         let hue = CGFloat(arc4random() % 256) / 256.0
         let saturation = CGFloat(arc4random() % 256) / 256.0
         let brightness = CGFloat(arc4random() % 256) / 256.0
         return UIColor(hue: hue, saturation: saturation, brightness: brightness, alpha: 1.0)
     }
 
-    class func randomVivid() -> UIColor {
+    static func randomVivid() -> UIColor {
         let hue = CGFloat(arc4random() % 256) / 256.0
         let saturation = (CGFloat(arc4random() % 128) / 256.0) + 0.5 // 0.5 to 1.0 (away from white)
         let brightness = (CGFloat(arc4random() % 128) / 256.0) + 0.5 // 0.5 to 1.0 (away from white)
@@ -59,7 +59,7 @@ extension Edge {
 
 extension LayeredAnimatedTransition.Options {
     static func random() -> LayeredAnimatedTransition.Options {
-        return LayeredAnimatedTransition.Options(duration: Double.random(min: 0.3, max: 0.9),
+        return LayeredAnimatedTransition.Options(duration: Double.random(min: 0.5, max: 1),
                                                  delay: 0,
                                                  damping: CGFloat.random(min: 0.3, max: 1),
                                                  velocity: CGFloat.random(min: 0, max: 1),
@@ -74,5 +74,26 @@ extension UIViewAnimationOptions {
         } else {
             return .curveEaseOut
         }
+    }
+}
+
+extension CGAffineTransform {
+    static func random() -> CGAffineTransform {
+        switch Int.random(min: 0, max: 2) {
+        case 0:
+            return rotation()
+        case 1:
+            return scale()
+        default:
+            return rotation().concatenating(scale())
+        }
+    }
+
+    private static func rotation() -> CGAffineTransform {
+        return CGAffineTransform(rotationAngle: .pi)
+    }
+
+    private static func scale() -> CGAffineTransform {
+        return CGAffineTransform(scaleX: CGFloat.random(min: 0, max: 2), y: CGFloat.random(min: 0, max: 2))
     }
 }
