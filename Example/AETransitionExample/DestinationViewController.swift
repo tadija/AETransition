@@ -5,12 +5,22 @@
  */
 
 import UIKit
+import AETransition
 
 final class DestinationViewController: UIViewController {
 
+    @IBOutlet weak var label: UILabel!
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        view.backgroundColor = UIColor.randomVivid()
+
+        let color = UIColor.randomVivid()
+        view.backgroundColor = color
+        label.backgroundColor = color.darker(withFactor: 0.75).withAlphaComponent(0.75)
+
+        let description = (transitioningDelegate as? TransitioningDelegate)?.dismissTransition?.debugDescription ?? "?"
+        label.text = description
+        print(description)
     }
 
 }

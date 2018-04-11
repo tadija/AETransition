@@ -10,25 +10,15 @@ public extension UIViewControllerContextTransitioning {
 
     // MARK: Properties
 
-    var fromView: UIView? {
+    var source: UIView? {
         return view(forKey: .from)
     }
-    var toView: UIView? {
+    var destination: UIView? {
         return view(forKey: .to)
     }
 
-    // MARK: API
-
-    func insertToViewAboveFromView() {
-        if let fromView = fromView, let toView = toView {
-            containerView.insertSubview(toView, aboveSubview: fromView)
-        }
-    }
-
-    func insertToViewBelowFromView() {
-        if let fromView = fromView, let toView = toView {
-            containerView.insertSubview(toView, belowSubview: fromView)
-        }
+    func resetDestinationFrame() {
+        destination?.frame = source?.frame ?? .zero
     }
 
 }

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8B546968207EC3AA007C3068 /* CustomDebugStringConvertible+Default.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B546967207EC3AA007C3068 /* CustomDebugStringConvertible+Default.swift */; };
 		8B6D9953205DB52C0079EB3A /* Edge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6D9952205DB52C0079EB3A /* Edge.swift */; };
 		8B6D9955205DBDD10079EB3A /* TransitionFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6D9954205DBDD10079EB3A /* TransitionFactory.swift */; };
 		8B6D9957205DBFC70079EB3A /* LayerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6D9956205DBFC70079EB3A /* LayerFactory.swift */; };
@@ -18,6 +19,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8B546967207EC3AA007C3068 /* CustomDebugStringConvertible+Default.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CustomDebugStringConvertible+Default.swift"; sourceTree = "<group>"; };
 		8B6D9952205DB52C0079EB3A /* Edge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Edge.swift; sourceTree = "<group>"; };
 		8B6D9954205DBDD10079EB3A /* TransitionFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransitionFactory.swift; sourceTree = "<group>"; };
 		8B6D9956205DBFC70079EB3A /* LayerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayerFactory.swift; sourceTree = "<group>"; };
@@ -50,6 +52,7 @@
 			children = (
 				8B6D9952205DB52C0079EB3A /* Edge.swift */,
 				8B8A0E762058627500444912 /* UIViewControllerContextTransitioning+Helpers.swift */,
+				8B546967207EC3AA007C3068 /* CustomDebugStringConvertible+Default.swift */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -188,6 +191,7 @@
 				8B6D9953205DB52C0079EB3A /* Edge.swift in Sources */,
 				8B6D9955205DBDD10079EB3A /* TransitionFactory.swift in Sources */,
 				8B6D9957205DBFC70079EB3A /* LayerFactory.swift in Sources */,
+				8B546968207EC3AA007C3068 /* CustomDebugStringConvertible+Default.swift in Sources */,
 				8B8A0E712058558500444912 /* LayeredAnimatedTransition.swift in Sources */,
 				8B8A0E62204F2AC600444912 /* TransitioningDelegate.swift in Sources */,
 				8B8A0E772058627500444912 /* UIViewControllerContextTransitioning+Helpers.swift in Sources */,
