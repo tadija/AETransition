@@ -9,15 +9,25 @@ import AETransition
 
 final class SourceViewController: UIViewController {
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        view.backgroundColor = UIColor.randomVivid()
+    @IBOutlet weak var label: UILabel!
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        let color = UIColor.randomVivid()
+        view.backgroundColor = color
+        label.backgroundColor = color.darker(withFactor: 0.75).withAlphaComponent(0.75)
+
+        animator = TransitioningDelegate(presentTransition: randomPresenting, dismissTransition: randomDismissing)
+
+        let description = animator?.presentTransition?.debugDescription ?? "?"
+        label.text = description
+        print(description)
     }
 
     var animator: TransitioningDelegate?
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        animator = TransitioningDelegate(presentTransition: randomPresenting, dismissTransition: randomDismissing)
         segue.destination.transitioningDelegate = animator
     }
 
@@ -28,14 +38,12 @@ final class SourceViewController: UIViewController {
     var randomPresenting: AnimatedTransition {
         let index = Int.random(min: 0, max: presentingTransitions.count - 1)
         let random = presentingTransitions[index]
-        print(random.debugDescription ?? "")
         return random
     }
 
     var randomDismissing: AnimatedTransition {
         let index = Int.random(min: 0, max: dismissingTransitions.count - 1)
         let random = dismissingTransitions[index]
-        print(random.debugDescription ?? "")
         return random
     }
 

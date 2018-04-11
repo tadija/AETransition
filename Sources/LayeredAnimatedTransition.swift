@@ -10,7 +10,7 @@ open class LayeredAnimatedTransition: NSObject, AnimatedTransition {
 
     // MARK: Types
 
-    public struct Options {
+    public struct Options: CustomDebugStringConvertible {
         public let duration: TimeInterval
         public let delay: TimeInterval
         public let damping: CGFloat
@@ -36,7 +36,9 @@ open class LayeredAnimatedTransition: NSObject, AnimatedTransition {
     open let options: Options
 
     open override var debugDescription: String {
-        return "\(String(describing: type(of: self))) | Layers: \(layers.map{ String(describing: type(of: $0)) })"
+        let typeDescription = String(describing: type(of: self))
+        let layersDescription = "Layers: \(layers.map{ $0.debugDescription })"
+        return "\(typeDescription) | \(layersDescription) | \(options.debugDescription)"
     }
 
     // MARK: Init

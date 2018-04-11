@@ -110,23 +110,23 @@ extension LayerFactory {
 
 extension LayerFactory {
     open class DestinationSlide: DestinationTransform {
-        public let edge: Edge
+        public let from: Edge
         public init(from edge: Edge) {
-            self.edge = edge
+            self.from = edge
         }
         public override func initialState(in context: UIViewControllerContextTransitioning) {
-            transform = Edge.translation(for: context.destination, to: edge)
+            transform = Edge.translation(for: context.destination, to: from)
             super.initialState(in: context)
         }
     }
 
     open class SourceSlide: SourceTransform {
-        public let edge: Edge
+        public let to: Edge
         public init(to edge: Edge) {
-            self.edge = edge
+            self.to = edge
         }
         public override func finalState(in context: UIViewControllerContextTransitioning) {
-            transform = Edge.translation(for: context.source, to: edge)
+            transform = Edge.translation(for: context.source, to: to)
             super.finalState(in: context)
         }
     }

@@ -33,22 +33,6 @@ extension CGFloat {
     }
 }
 
-extension UIColor {
-    static func random() -> UIColor {
-        let hue = CGFloat(arc4random() % 256) / 256.0
-        let saturation = CGFloat(arc4random() % 256) / 256.0
-        let brightness = CGFloat(arc4random() % 256) / 256.0
-        return UIColor(hue: hue, saturation: saturation, brightness: brightness, alpha: 1.0)
-    }
-
-    static func randomVivid() -> UIColor {
-        let hue = CGFloat(arc4random() % 256) / 256.0
-        let saturation = (CGFloat(arc4random() % 128) / 256.0) + 0.5 // 0.5 to 1.0 (away from white)
-        let brightness = (CGFloat(arc4random() % 128) / 256.0) + 0.5 // 0.5 to 1.0 (away from white)
-        return UIColor(hue: hue, saturation: saturation, brightness: brightness, alpha: 1.0)
-    }
-}
-
 extension Edge {
     static func random() -> Edge {
         let index = Int.random(min: 0, max: all.count - 1)
@@ -79,19 +63,48 @@ extension UIViewAnimationOptions {
 
 extension CGAffineTransform {
     static func random() -> CGAffineTransform {
-        switch Int.random(min: 0, max: 2) {
+        switch Int.random(min: 0, max: 10) {
         case 0:
-            return rotation()
+            return translate()
         case 1:
             return scale()
+        case 2:
+            return rotate()
+        case 3:
+            return translate().concatenating(scale())
+        case 4:
+            return translate().concatenating(rotate())
+        case 5:
+            return scale().concatenating(rotate())
         default:
-            return rotation().concatenating(scale())
+            return translate().concatenating(scale()).concatenating(rotate())
         }
     }
-    static func rotation() -> CGAffineTransform {
-        return CGAffineTransform(rotationAngle: .pi)
+    static func translate() -> CGAffineTransform {
+        let x = CGFloat.random(min: -500, max: 500)
+        let y = CGFloat.random(min: -1000, max: 1000)
+        return CGAffineTransform(translationX: x, y: y)
     }
     static func scale() -> CGAffineTransform {
-        return CGAffineTransform(scaleX: CGFloat.random(min: 0, max: 2), y: CGFloat.random(min: 0, max: 2))
+        let x = CGFloat.random(min: 0, max: 5)
+        let y = CGFloat.random(min: 0, max: 5)
+        return CGAffineTransform(scaleX: x, y: y)
+    }
+    static func rotate() -> CGAffineTransform {
+        return CGAffineTransform(rotationAngle: randomAngle())
+    }
+    private static func randomAngle() -> CGFloat {
+        switch Int.random(min: 0, max: 9) {
+        case 0:
+            return .pi / 2
+        case 1:
+            return .pi / 4
+        case 2:
+            return .pi * 2
+        case 3:
+            return .pi * 4
+        default:
+            return .pi
+        }
     }
 }
