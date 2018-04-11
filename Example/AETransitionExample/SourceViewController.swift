@@ -9,15 +9,25 @@ import AETransition
 
 final class SourceViewController: UIViewController {
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        view.backgroundColor = UIColor.randomVivid()
+    @IBOutlet weak var label: UILabel!
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        let color = UIColor.randomVivid()
+        view.backgroundColor = color
+        label.backgroundColor = color.darker(withFactor: 0.75).withAlphaComponent(0.75)
+
+        animator = TransitioningDelegate(presentTransition: randomPresenting, dismissTransition: randomDismissing)
+
+        let description = animator?.presentTransition?.debugDescription ?? "?"
+        label.text = description
+        print(description)
     }
 
     var animator: TransitioningDelegate?
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        animator = TransitioningDelegate(presentTransition: randomPresenting, dismissTransition: randomDismissing)
         segue.destination.transitioningDelegate = animator
     }
 
@@ -28,32 +38,34 @@ final class SourceViewController: UIViewController {
     var randomPresenting: AnimatedTransition {
         let index = Int.random(min: 0, max: presentingTransitions.count - 1)
         let random = presentingTransitions[index]
-        print(random.debugDescription ?? "")
         return random
     }
 
     var randomDismissing: AnimatedTransition {
         let index = Int.random(min: 0, max: dismissingTransitions.count - 1)
         let random = dismissingTransitions[index]
-        print(random.debugDescription ?? "")
         return random
     }
 
     var presentingTransitions: [AnimatedTransition] {
         return [
-            Transition.FadeIn(crossfade: Bool.random(), options: .random()),
-            Transition.TranslateIn(from: .random(), push: Bool.random(), options: .random()),
-            Transition.RotateIn(angle: .pi, options: .random()),
-            Transition.ScaleIn(x: CGFloat.random(min: 0, max: 2), y: CGFloat.random(min: 0, max: 2), options: .random())
+            Transition.FadeIn(options: .random()),
+            Transition.CrossfadeIn(options: .random()),
+            Transition.SlideIn(from: .random(), options: .random()),
+            Transition.PushIn(from: .random(), options: .random()),
+            Transition.TransformIn(transform: .random(), options: .random()),
+            Transition.BasicIn(crossfade: .random(), slideFrom: .random(), pushTo: .random(), transform: .random(), options: .random()),
         ]
     }
 
     var dismissingTransitions: [AnimatedTransition] {
         return [
-            Transition.FadeOut(crossfade: Bool.random(), options: .random()),
-            Transition.TranslateOut(to: .random(), push: Bool.random(), options: .random()),
-            Transition.RotateOut(angle: .pi, fadeOut: Bool.random(), options: .random()),
-            Transition.ScaleOut(x: CGFloat.random(min: 0, max: 2), y: CGFloat.random(min: 0, max: 2), fadeOut: Bool.random(), options: .random())
+            Transition.FadeOut(options: .random()),
+            Transition.CrossfadeOut(options: .random()),
+            Transition.SlideOut(to: .random(), options: .random()),
+            Transition.PushOut(to: .random(), options: .random()),
+            Transition.TransformOut(transform: .random(), options: .random()),
+            Transition.BasicOut(crossfade: .random(), slideTo: .random(), pushFrom: .random(), transform: .random(), options: .random()),
         ]
     }
 

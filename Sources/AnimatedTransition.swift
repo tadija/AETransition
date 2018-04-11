@@ -8,14 +8,14 @@ import UIKit
 
 public protocol AnimatedTransition: UIViewControllerAnimatedTransitioning {}
 
-public protocol AnimatedTransitionLayer {
+public protocol AnimatedTransitionLayer: CustomDebugStringConvertible {
     func initialState(in context: UIViewControllerContextTransitioning) -> Void
     func finalState(in context: UIViewControllerContextTransitioning) -> Void
     func cleanup(in context: UIViewControllerContextTransitioning) -> Void
 }
 
 public extension AnimatedTransitionLayer {
-    func initialState(in context: UIViewControllerContextTransitioning) -> Void {}
-    func finalState(in context: UIViewControllerContextTransitioning) -> Void {}
-    func cleanup(in context: UIViewControllerContextTransitioning) -> Void {}
+    public func initialState(in context: UIViewControllerContextTransitioning) -> Void {}
+    public func finalState(in context: UIViewControllerContextTransitioning) -> Void {}
+    public func cleanup(in context: UIViewControllerContextTransitioning) -> Void {}
 }

@@ -13,7 +13,7 @@ public struct LayerFactory {}
 // MARK: - Hierarchy
 
 extension LayerFactory {
-    public struct InsertDestinationAbove: AnimatedTransitionLayer {
+    public struct DestinationAbove: AnimatedTransitionLayer {
         public func initialState(in context: UIViewControllerContextTransitioning) {
             if let source = context.source, let destination = context.destination {
                 context.containerView.insertSubview(destination, aboveSubview: source)
@@ -21,7 +21,7 @@ extension LayerFactory {
         }
     }
 
-    public struct InsertDestinationBelow: AnimatedTransitionLayer {
+    public struct DestinationBelow: AnimatedTransitionLayer {
         public func initialState(in context: UIViewControllerContextTransitioning) {
             if let source = context.source, let destination = context.destination {
                 context.containerView.insertSubview(destination, belowSubview: source)
@@ -33,21 +33,33 @@ extension LayerFactory {
 // MARK: - Alpha
 
 extension LayerFactory {
-    public struct FadeInDestination: AnimatedTransitionLayer {
+    public struct DestinationAlpha: AnimatedTransitionLayer {
+        public let from: CGFloat
+        public let to: CGFloat
+        public init(from: CGFloat = 0, to: CGFloat = 1) {
+            self.from = from
+            self.to = to
+        }
         public func initialState(in context: UIViewControllerContextTransitioning) {
-            context.destination?.alpha = 0
+            context.destination?.alpha = from
         }
         public func finalState(in context: UIViewControllerContextTransitioning) {
-            context.destination?.alpha = 1
+            context.destination?.alpha = to
         }
     }
 
-    public struct FadeOutSource: AnimatedTransitionLayer {
+    public struct SourceAlpha: AnimatedTransitionLayer {
+        public let from: CGFloat
+        public let to: CGFloat
+        public init(from: CGFloat = 1, to: CGFloat = 0) {
+            self.from = from
+            self.to = to
+        }
         public func initialState(in context: UIViewControllerContextTransitioning) {
-            context.source?.alpha = 1
+            context.source?.alpha = from
         }
         public func finalState(in context: UIViewControllerContextTransitioning) {
-            context.source?.alpha = 0
+            context.source?.alpha = to
         }
         public func cleanup(in context: UIViewControllerContextTransitioning) {
             context.source?.alpha = 1
@@ -58,23 +70,35 @@ extension LayerFactory {
 // MARK: - Transform
 
 extension LayerFactory {
-    open class TransformDestination: AnimatedTransitionLayer {
-        public var transform: CGAffineTransform = .identity
+    open class DestinationTransform: AnimatedTransitionLayer {
+        public var transform: CGAffineTransform
+        public init(_ transform: CGAffineTransform = .identity) {
+            self.transform = transform
+        }
         public func initialState(in context: UIViewControllerContextTransitioning) {
-            context.destination?.transform = transform
+            if let destinationTransform = context.destination?.transform {
+                let t = destinationTransform == .identity ? transform : destinationTransform.concatenating(transform)
+                context.destination?.transform = t
+            }
         }
         public func finalState(in context: UIViewControllerContextTransitioning) {
             context.destination?.transform = .identity
         }
     }
 
-    open class TransformSource: AnimatedTransitionLayer {
-        public var transform: CGAffineTransform = .identity
+    open class SourceTransform: AnimatedTransitionLayer {
+        public var transform: CGAffineTransform
+        public init(_ transform: CGAffineTransform = .identity) {
+            self.transform = transform
+        }
         public func initialState(in context: UIViewControllerContextTransitioning) {
             context.source?.transform = .identity
         }
         public func finalState(in context: UIViewControllerContextTransitioning) {
-            context.source?.transform = transform
+            if let sourceTransform = context.source?.transform {
+                let t = sourceTransform == .identity ? transform : sourceTransform.concatenating(transform)
+                context.source?.transform = t
+            }
         }
         public func cleanup(in context: UIViewControllerContextTransitioning) {
             context.source?.transform = .identity
@@ -82,83 +106,27 @@ extension LayerFactory {
     }
 }
 
-// MARK: - Translate
+// MARK: - Slide
 
 extension LayerFactory {
-    open class TranslateDestination: TransformDestination {
-        public let edge: Edge
+    open class DestinationSlide: DestinationTransform {
+        public let from: Edge
         public init(from edge: Edge) {
-            self.edge = edge
+            self.from = edge
         }
         public override func initialState(in context: UIViewControllerContextTransitioning) {
-            transform = Edge.translation(for: context.destination, to: edge)
+            transform = Edge.translation(for: context.destination, to: from)
             super.initialState(in: context)
         }
     }
 
-    open class TranslateSource: TransformSource {
-        public let edge: Edge
+    open class SourceSlide: SourceTransform {
+        public let to: Edge
         public init(to edge: Edge) {
-            self.edge = edge
+            self.to = edge
         }
         public override func finalState(in context: UIViewControllerContextTransitioning) {
-            transform = Edge.translation(for: context.source, to: edge)
-            super.finalState(in: context)
-        }
-    }
-}
-
-// MARK: - Rotate
-
-extension LayerFactory {
-    open class RotateDestination: TransformDestination {
-        public let angle: CGFloat
-        public init(_ angle: CGFloat) {
-            self.angle = angle
-        }
-        public override func initialState(in context: UIViewControllerContextTransitioning) {
-            transform = CGAffineTransform(rotationAngle: angle)
-            super.initialState(in: context)
-        }
-    }
-
-    open class RotateSource: TransformSource {
-        public let angle: CGFloat
-        public init(_ angle: CGFloat) {
-            self.angle = angle
-        }
-        public override func finalState(in context: UIViewControllerContextTransitioning) {
-            transform = CGAffineTransform(rotationAngle: angle)
-            super.finalState(in: context)
-        }
-    }
-}
-
-// MARK: - Scale
-
-extension LayerFactory {
-    open class ScaleDestination: TransformDestination {
-        public let x: CGFloat
-        public let y: CGFloat
-        public init(x: CGFloat, y: CGFloat) {
-            self.x = x
-            self.y = y
-        }
-        public override func initialState(in context: UIViewControllerContextTransitioning) {
-            transform = CGAffineTransform(scaleX: x, y: y)
-            super.initialState(in: context)
-        }
-    }
-
-    open class ScaleSource: TransformSource {
-        public let x: CGFloat
-        public let y: CGFloat
-        public init(x: CGFloat, y: CGFloat) {
-            self.x = x
-            self.y = y
-        }
-        public override func finalState(in context: UIViewControllerContextTransitioning) {
-            transform = CGAffineTransform(scaleX: x, y: y)
+            transform = Edge.translation(for: context.source, to: to)
             super.finalState(in: context)
         }
     }

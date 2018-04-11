@@ -10,7 +10,7 @@ open class LayeredAnimatedTransition: NSObject, AnimatedTransition {
 
     // MARK: Types
 
-    public struct Options {
+    public struct Options: CustomDebugStringConvertible {
         public let duration: TimeInterval
         public let delay: TimeInterval
         public let damping: CGFloat
@@ -32,11 +32,13 @@ open class LayeredAnimatedTransition: NSObject, AnimatedTransition {
 
     // MARK: Properties
 
-    open let layers: [AnimatedTransitionLayer]
+    open var layers: [AnimatedTransitionLayer]
     open let options: Options
 
     open override var debugDescription: String {
-        return "\(String(describing: type(of: self))) | Layers: \(layers.map{ String(describing: type(of: $0)) })"
+        let typeDescription = String(describing: type(of: self))
+        let layersDescription = "Layers: \(layers.map{ $0.debugDescription })"
+        return "\(typeDescription) | \(layersDescription) | \(options.debugDescription)"
     }
 
     // MARK: Init
@@ -54,6 +56,7 @@ open class LayeredAnimatedTransition: NSObject, AnimatedTransition {
     }
 
     open func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
+        transitionContext.resetDestinationFrame()
         layers.forEach({ $0.initialState(in: transitionContext) })
         UIView.animate(withDuration: options.duration, delay: options.delay,
                        usingSpringWithDamping: options.damping, initialSpringVelocity: options.velocity,
