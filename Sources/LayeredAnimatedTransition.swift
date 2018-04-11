@@ -56,6 +56,7 @@ open class LayeredAnimatedTransition: NSObject, AnimatedTransition {
     }
 
     open func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
+        transitionContext.resetDestinationFrame()
         layers.forEach({ $0.initialState(in: transitionContext) })
         UIView.animate(withDuration: options.duration, delay: options.delay,
                        usingSpringWithDamping: options.damping, initialSpringVelocity: options.velocity,

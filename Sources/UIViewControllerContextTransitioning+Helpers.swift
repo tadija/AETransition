@@ -17,4 +17,8 @@ public extension UIViewControllerContextTransitioning {
         return view(forKey: .to)
     }
 
+    func resetDestinationFrame() {
+        destination?.frame = source?.frame ?? .zero
+    }
+
 }
