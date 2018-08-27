@@ -33,7 +33,7 @@ open class LayeredAnimatedTransition: NSObject, AnimatedTransition {
     // MARK: Properties
 
     open var layers: [AnimatedTransitionLayer]
-    open let options: Options
+    public let options: Options
 
     open override var debugDescription: String {
         let typeDescription = String(describing: type(of: self))

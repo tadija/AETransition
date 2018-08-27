@@ -11,6 +11,8 @@ final class SourceViewController: UIViewController {
 
     @IBOutlet weak var label: UILabel!
 
+    var animator: TransitioningDelegate?
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
@@ -24,8 +26,6 @@ final class SourceViewController: UIViewController {
         label.text = description
         print(description)
     }
-
-    var animator: TransitioningDelegate?
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         segue.destination.transitioningDelegate = animator
