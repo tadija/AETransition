@@ -35,26 +35,12 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6Bo-be-g1B">
-                                <rect key="frame" x="16" y="20" width="150" height="150"/>
-                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <gestureRecognizers/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="150" id="Aci-xw-AXq"/>
-                                    <constraint firstAttribute="width" constant="150" id="LFs-kb-yyH"/>
-                                </constraints>
-                                <connections>
-                                    <outletCollection property="gestureRecognizers" destination="soq-gg-fJH" appends="YES" id="W1m-pC-nnh"/>
-                                </connections>
-                            </view>
                         </subviews>
                         <color key="backgroundColor" red="0.83216959239999999" green="0.98548370600000001" blue="0.47333085539999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="PKF-Gd-Wga" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="0OQ-QL-KAE"/>
                             <constraint firstItem="PKF-Gd-Wga" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="kxx-Qo-qbU"/>
-                            <constraint firstItem="6Bo-be-g1B" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="oDi-jf-ADA"/>
-                            <constraint firstItem="6Bo-be-g1B" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="txa-n3-hsu"/>
                             <constraint firstItem="XYx-yj-N2P" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="vJh-BJ-0U8"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="XYx-yj-N2P" secondAttribute="bottom" constant="20" id="xH4-tX-6ce"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="XYx-yj-N2P" secondAttribute="trailing" constant="16" id="xHR-1f-FdS"/>
@@ -66,18 +52,12 @@
                     </view>
                     <connections>
                         <outlet property="label" destination="XYx-yj-N2P" id="jvt-Y1-DNj"/>
-                        <outlet property="pop" destination="6Bo-be-g1B" id="9wk-VS-7OD"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
                 <tapGestureRecognizer id="88m-SB-s43">
                     <connections>
                         <segue destination="T5z-Ip-Sts" kind="show" identifier="random" id="fvT-wZ-u8f"/>
-                    </connections>
-                </tapGestureRecognizer>
-                <tapGestureRecognizer id="soq-gg-fJH">
-                    <connections>
-                        <action selector="popOut:" destination="BYZ-38-t0r" id="UQ5-VP-yi8"/>
                     </connections>
                 </tapGestureRecognizer>
             </objects>
