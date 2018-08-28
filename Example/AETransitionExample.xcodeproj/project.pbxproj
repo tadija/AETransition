@@ -96,15 +96,11 @@
 		8B949F74204B434E00147752 /* AETransitionExample */ = {
 			isa = PBXGroup;
 			children = (
-				8B949F75204B434E00147752 /* AppDelegate.swift */,
+				8B949F79204B434E00147752 /* Main.storyboard */,
 				8B949F77204B434E00147752 /* SourceViewController.swift */,
 				8B8A0E6A2055D04700444912 /* DestinationViewController.swift */,
-				8B6D9959206073FE0079EB3A /* Random.swift */,
-				8B546969207ECB25007C3068 /* UIColor+Helpers.swift */,
-				8B949F7E204B434E00147752 /* LaunchScreen.storyboard */,
-				8B949F79204B434E00147752 /* Main.storyboard */,
-				8B949F7C204B434E00147752 /* Assets.xcassets */,
-				8B949F81204B434E00147752 /* Info.plist */,
+				8BFFDA342135DEC200CAA02D /* Helpers */,
+				8BFFDA332135DEB400CAA02D /* Supporting Files */,
 			);
 			path = AETransitionExample;
 			sourceTree = "<group>";
@@ -115,6 +111,26 @@
 				8B949F8D204B43DB00147752 /* AETransition.framework */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		8BFFDA332135DEB400CAA02D /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				8B949F75204B434E00147752 /* AppDelegate.swift */,
+				8B949F7E204B434E00147752 /* LaunchScreen.storyboard */,
+				8B949F7C204B434E00147752 /* Assets.xcassets */,
+				8B949F81204B434E00147752 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		8BFFDA342135DEC200CAA02D /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				8B546969207ECB25007C3068 /* UIColor+Helpers.swift */,
+				8B6D9959206073FE0079EB3A /* Random.swift */,
+			);
+			name = Helpers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
