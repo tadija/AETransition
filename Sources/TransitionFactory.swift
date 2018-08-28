@@ -106,6 +106,24 @@ extension TransitionFactory {
     }
 }
 
+// MARK: - Pop
+
+extension TransitionFactory {
+    open class PopOut: LayeredAnimatedTransition {
+        public init(from view: UIView, options: Options = .standard) {
+            let layers: [AnimatedTransitionLayer] = [Layer.DestinationAbove(), Layer.DestinationPopOut(from: view)]
+            super.init(with: layers, options: options)
+        }
+    }
+
+    open class PopIn: LayeredAnimatedTransition {
+        public init(to view: UIView, options: Options = .standard) {
+            let layers: [AnimatedTransitionLayer] = [Layer.DestinationBelow(), Layer.SourcePopIn(to: view)]
+            super.init(with: layers, options: options)
+        }
+    }
+}
+
 // MARK: - Basic
 
 extension TransitionFactory {
