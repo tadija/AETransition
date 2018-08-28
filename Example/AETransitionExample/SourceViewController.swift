@@ -11,29 +11,68 @@ final class SourceViewController: UIViewController {
 
     @IBOutlet weak var label: UILabel!
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+    var randomAnimator: TransitioningDelegate?
 
-        let color = UIColor.randomVivid()
-        view.backgroundColor = color
-        label.backgroundColor = color.darker(withFactor: 0.75).withAlphaComponent(0.75)
+    var popAnimator: TransitioningDelegate?
+    let popView = UIView()
 
-        animator = TransitioningDelegate(presentTransition: randomPresenting, dismissTransition: randomDismissing)
-
-        let description = animator?.presentTransition?.debugDescription ?? "?"
-        label.text = description
-        print(description)
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        popView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(popOut(_:))))
     }
 
-    var animator: TransitioningDelegate?
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        updateSelf()
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        updatePopView()
+    }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        segue.destination.transitioningDelegate = animator
+        if segue.identifier == "random" {
+            segue.destination.transitioningDelegate = randomAnimator
+        }
     }
 
     @IBAction func unwindToSourceViewController(_ segue: UIStoryboardSegue) {}
 
+    @objc
+    func popOut(_ sender: UITapGestureRecognizer) {
+        let vc = PopOutViewController()
+        vc.color = popView.backgroundColor
+        vc.transitioningDelegate = popAnimator
+        present(vc, animated: true, completion: nil)
+    }
+
     // MARK: Helpers
+
+    private func updateSelf() {
+        let color = UIColor.randomVivid()
+        view.backgroundColor = color
+        label.backgroundColor = color.darker(withFactor: 0.75).withAlphaComponent(0.75)
+
+        randomAnimator = TransitioningDelegate(presentTransition: randomPresenting, dismissTransition: randomDismissing)
+
+        let description = randomAnimator?.presentTransition?.debugDescription ?? "?"
+        label.text = description
+        print(description)
+    }
+
+    private func updatePopView() {
+        popView.removeFromSuperview()
+        popView.backgroundColor = UIColor.randomVivid()
+        popView.frame = CGRect(x: .random(min: 20, max: view.bounds.width / 2),
+                               y: .random(min: 20, max: view.bounds.height / 2),
+                               width: .random(min: 44, max: view.bounds.width / 3),
+                               height: .random(min: 44, max: view.bounds.height / 4))
+        view.insertSubview(popView, at: 0)
+        let popOut = Transition.PopOut(from: popView)
+        let popIn = Transition.PopIn(to: popView)
+        popAnimator = TransitioningDelegate(presentTransition: popOut, dismissTransition: popIn)
+    }
 
     var randomPresenting: AnimatedTransition {
         let index = Int.random(min: 0, max: presentingTransitions.count - 1)
@@ -69,4 +108,20 @@ final class SourceViewController: UIViewController {
         ]
     }
 
+}
+
+final class PopOutViewController: UIViewController {
+    var color: UIColor?
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.backgroundColor = color
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didRecognizeTapGesture(_:)))
+        view.addGestureRecognizer(tapGesture)
+    }
+
+    @objc
+    func didRecognizeTapGesture(_ sender: UITapGestureRecognizer) {
+        presentingViewController?.dismiss(animated: true, completion: nil)
+    }
 }

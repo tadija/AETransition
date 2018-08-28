@@ -14,6 +14,7 @@ public struct LayerFactory {}
 
 extension LayerFactory {
     public struct DestinationAbove: AnimatedTransitionLayer {
+        public init() {}
         public func initialState(in context: UIViewControllerContextTransitioning) {
             if let source = context.source, let destination = context.destination {
                 context.containerView.insertSubview(destination, aboveSubview: source)
@@ -22,6 +23,7 @@ extension LayerFactory {
     }
 
     public struct DestinationBelow: AnimatedTransitionLayer {
+        public init() {}
         public func initialState(in context: UIViewControllerContextTransitioning) {
             if let source = context.source, let destination = context.destination {
                 context.containerView.insertSubview(destination, belowSubview: source)
@@ -72,36 +74,62 @@ extension LayerFactory {
 extension LayerFactory {
     open class DestinationTransform: AnimatedTransitionLayer {
         public var transform: CGAffineTransform
-        public init(_ transform: CGAffineTransform = .identity) {
+        public var center: CGPoint?
+        private var originalCenter: CGPoint?
+
+        public init(_ transform: CGAffineTransform = .identity, center: CGPoint? = nil) {
             self.transform = transform
+            self.center = center
         }
         public func initialState(in context: UIViewControllerContextTransitioning) {
-            if let destinationTransform = context.destination?.transform {
-                let t = destinationTransform == .identity ? transform : destinationTransform.concatenating(transform)
-                context.destination?.transform = t
+            if let destination = context.destination {
+                let initialTransform = destination.transform == .identity ?
+                    transform : destination.transform.concatenating(transform)
+                destination.transform = initialTransform
+
+                if let center = center {
+                    originalCenter = destination.center
+                    destination.center = center
+                }
             }
         }
         public func finalState(in context: UIViewControllerContextTransitioning) {
             context.destination?.transform = .identity
+            if let originalCenter = originalCenter {
+                context.destination?.center = originalCenter
+            }
         }
     }
 
     open class SourceTransform: AnimatedTransitionLayer {
         public var transform: CGAffineTransform
-        public init(_ transform: CGAffineTransform = .identity) {
+        public var center: CGPoint?
+        private var originalCenter: CGPoint?
+
+        public init(_ transform: CGAffineTransform = .identity, center: CGPoint? = nil) {
             self.transform = transform
+            self.center = center
         }
         public func initialState(in context: UIViewControllerContextTransitioning) {
             context.source?.transform = .identity
+            originalCenter = context.source?.center
         }
         public func finalState(in context: UIViewControllerContextTransitioning) {
-            if let sourceTransform = context.source?.transform {
-                let t = sourceTransform == .identity ? transform : sourceTransform.concatenating(transform)
-                context.source?.transform = t
+            if let source = context.source {
+                let finalTransform = source.transform == .identity ?
+                    transform : source.transform.concatenating(transform)
+                source.transform = finalTransform
+
+                if let center = center {
+                    source.center = center
+                }
             }
         }
         public func cleanup(in context: UIViewControllerContextTransitioning) {
             context.source?.transform = .identity
+            if let originalCenter = originalCenter {
+                context.source?.center = originalCenter
+            }
         }
     }
 }
@@ -127,6 +155,50 @@ extension LayerFactory {
         }
         public override func finalState(in context: UIViewControllerContextTransitioning) {
             transform = Edge.translation(for: context.source, to: to)
+            super.finalState(in: context)
+        }
+    }
+}
+
+// MARK: - Pop
+
+extension LayerFactory {
+    open class DestinationPopOut: DestinationTransform {
+        public let from: UIView
+        public init(from view: UIView) {
+            self.from = view
+        }
+        public override func initialState(in context: UIViewControllerContextTransitioning) {
+            let initialFrame = from.superview?.convert(from.frame, to: nil) ?? .zero
+            let finalFrame = context.destination?.frame ?? .zero
+
+            let scaleX = initialFrame.width / finalFrame.width
+            let scaleY = initialFrame.height / finalFrame.height
+            let scaleTransform = CGAffineTransform(scaleX: scaleX, y: scaleY)
+
+            transform = scaleTransform
+            center = CGPoint(x: initialFrame.midX, y: initialFrame.midY)
+
+            super.initialState(in: context)
+        }
+    }
+
+    open class SourcePopIn: SourceTransform {
+        public let to: UIView
+        public init(to view: UIView) {
+            self.to = view
+        }
+        public override func finalState(in context: UIViewControllerContextTransitioning) {
+            let initialFrame = context.source?.frame ?? .zero
+            let finalFrame = to.superview?.convert(to.frame, to: nil) ?? .zero
+
+            let scaleX = finalFrame.width / initialFrame.width
+            let scaleY = finalFrame.height / initialFrame.height
+            let scaleTransform = CGAffineTransform(scaleX: scaleX, y: scaleY)
+
+            transform = scaleTransform
+            center = CGPoint(x: finalFrame.midX, y: finalFrame.midY)
+
             super.finalState(in: context)
         }
     }
