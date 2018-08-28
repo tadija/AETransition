@@ -159,3 +159,47 @@ extension LayerFactory {
         }
     }
 }
+
+// MARK: - Pop
+
+extension LayerFactory {
+    open class DestinationPopOut: DestinationTransform {
+        public let from: UIView
+        public init(from view: UIView) {
+            self.from = view
+        }
+        public override func initialState(in context: UIViewControllerContextTransitioning) {
+            let initialFrame = from.superview?.convert(from.frame, to: nil) ?? .zero
+            let finalFrame = context.destination?.frame ?? .zero
+
+            let scaleX = initialFrame.width / finalFrame.width
+            let scaleY = initialFrame.height / finalFrame.height
+            let scaleTransform = CGAffineTransform(scaleX: scaleX, y: scaleY)
+
+            transform = scaleTransform
+            center = CGPoint(x: initialFrame.midX, y: initialFrame.midY)
+
+            super.initialState(in: context)
+        }
+    }
+
+    open class SourcePopIn: SourceTransform {
+        public let to: UIView
+        public init(to view: UIView) {
+            self.to = view
+        }
+        public override func finalState(in context: UIViewControllerContextTransitioning) {
+            let initialFrame = context.source?.frame ?? .zero
+            let finalFrame = to.superview?.convert(to.frame, to: nil) ?? .zero
+
+            let scaleX = finalFrame.width / initialFrame.width
+            let scaleY = finalFrame.height / initialFrame.height
+            let scaleTransform = CGAffineTransform(scaleX: scaleX, y: scaleY)
+
+            transform = scaleTransform
+            center = CGPoint(x: finalFrame.midX, y: finalFrame.midY)
+
+            super.finalState(in: context)
+        }
+    }
+}
