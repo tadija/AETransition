@@ -14,6 +14,7 @@ public struct LayerFactory {}
 
 extension LayerFactory {
     public struct DestinationAbove: AnimatedTransitionLayer {
+        public init() {}
         public func initialState(in context: UIViewControllerContextTransitioning) {
             if let source = context.source, let destination = context.destination {
                 context.containerView.insertSubview(destination, aboveSubview: source)
@@ -22,6 +23,7 @@ extension LayerFactory {
     }
 
     public struct DestinationBelow: AnimatedTransitionLayer {
+        public init() {}
         public func initialState(in context: UIViewControllerContextTransitioning) {
             if let source = context.source, let destination = context.destination {
                 context.containerView.insertSubview(destination, belowSubview: source)
