@@ -1,5 +1,10 @@
 # Changelog
 
+## Version 0.2.3
+
+- Bumped Swift language version to 4.2 with Xcode 10
+- Added support for CocoaPods
+
 ## Version 0.2.2
 
 - Added "Pop Out" and "Pop In"
