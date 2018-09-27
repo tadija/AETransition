@@ -51,8 +51,8 @@ extension LayeredAnimatedTransition.Options {
     }
 }
 
-extension UIViewAnimationOptions {
-    static func random() -> UIViewAnimationOptions {
+extension UIView.AnimationOptions {
+    static func random() -> UIView.AnimationOptions {
         if Bool.random() {
             return .curveEaseIn
         } else {
