@@ -29,6 +29,7 @@
 		8B6BF0CB215D692300B75390 /* CustomDebugStringConvertible+Default.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CustomDebugStringConvertible+Default.swift"; sourceTree = "<group>"; };
 		8B6BF0CC215D692300B75390 /* TransitionFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransitionFactory.swift; sourceTree = "<group>"; };
 		8B6BF0CD215D692300B75390 /* LayerFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LayerFactory.swift; sourceTree = "<group>"; };
+		8B6BF0D8215D6A9100B75390 /* AETransition.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = AETransition.podspec; sourceTree = "<group>"; };
 		8B949F5A204B395600147752 /* AETransition.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AETransition.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8B949F65204B40F500147752 /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		8B949F66204B411A00147752 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -93,6 +94,7 @@
 				8B949F67204B411A00147752 /* LICENSE */,
 				8B949F66204B411A00147752 /* README.md */,
 				8B949F68204B411A00147752 /* CHANGELOG.md */,
+				8B6BF0D8215D6A9100B75390 /* AETransition.podspec */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
