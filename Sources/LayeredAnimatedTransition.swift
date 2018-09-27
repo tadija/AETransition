@@ -15,13 +15,13 @@ open class LayeredAnimatedTransition: NSObject, AnimatedTransition {
         public let delay: TimeInterval
         public let damping: CGFloat
         public let velocity: CGFloat
-        public let animationOptions: UIViewAnimationOptions
+        public let animationOptions: UIView.AnimationOptions
 
         public static let standard = Options()
 
         public init(duration: TimeInterval = 0.5, delay: TimeInterval = 0,
                     damping: CGFloat = 1, velocity: CGFloat = 0,
-                    animationOptions: UIViewAnimationOptions = []) {
+                    animationOptions: UIView.AnimationOptions = []) {
             self.duration = duration
             self.delay = delay
             self.damping = damping
