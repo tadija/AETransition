@@ -7,46 +7,19 @@
 import UIKit
 import AETransition
 
-extension Bool {
-    static func random() -> Bool {
-        return arc4random_uniform(2) == 0
-    }
-}
-
-extension Int {
-    static func random(min: Int = 0, max: Int = Int.max) -> Int {
-        return Int(arc4random_uniform(UInt32((max - min) + 1))) + min
-    }
-}
-
-extension Double {
-    static func random(min: Double = 0.0, max: Double = 1.0) -> Double {
-        let r = Double(arc4random()) / Double(UInt32.max)
-        return (r * (max - min)) + min
-    }
-}
-
-extension CGFloat {
-    static func random(min: CGFloat = 0.0, max: CGFloat = 1.0) -> CGFloat {
-        let r = CGFloat(arc4random()) / CGFloat(UInt32.max)
-        return (r * (max - min)) + min
-    }
-}
-
 extension Edge {
     static func random() -> Edge {
-        let index = Int.random(min: 0, max: all.count - 1)
-        return all[index]
+        return all.randomElement()!
     }
     static let all: [Edge] = [.left, .right, .top, .bottom]
 }
 
 extension LayeredAnimatedTransition.Options {
     static func random() -> LayeredAnimatedTransition.Options {
-        return LayeredAnimatedTransition.Options(duration: Double.random(min: 0.5, max: 1),
+        return LayeredAnimatedTransition.Options(duration: Double.random(in: 0.5...1),
                                                  delay: 0,
-                                                 damping: CGFloat.random(min: 0.3, max: 1),
-                                                 velocity: CGFloat.random(min: 0, max: 1),
+                                                 damping: CGFloat.random(in: 0.3...1),
+                                                 velocity: CGFloat.random(in: 0...1),
                                                  animationOptions: .random())
     }
 }
@@ -63,7 +36,7 @@ extension UIView.AnimationOptions {
 
 extension CGAffineTransform {
     static func random() -> CGAffineTransform {
-        switch Int.random(min: 0, max: 10) {
+        switch Int.random(in: 0...10) {
         case 0:
             return translate()
         case 1:
@@ -81,20 +54,20 @@ extension CGAffineTransform {
         }
     }
     static func translate() -> CGAffineTransform {
-        let x = CGFloat.random(min: -500, max: 500)
-        let y = CGFloat.random(min: -1000, max: 1000)
+        let x = CGFloat.random(in: -500...500)
+        let y = CGFloat.random(in: -1000...1000)
         return CGAffineTransform(translationX: x, y: y)
     }
     static func scale() -> CGAffineTransform {
-        let x = CGFloat.random(min: 0, max: 5)
-        let y = CGFloat.random(min: 0, max: 5)
+        let x = CGFloat.random(in: 0...5)
+        let y = CGFloat.random(in: 0...5)
         return CGAffineTransform(scaleX: x, y: y)
     }
     static func rotate() -> CGAffineTransform {
         return CGAffineTransform(rotationAngle: randomAngle())
     }
     private static func randomAngle() -> CGFloat {
-        switch Int.random(min: 0, max: 9) {
+        switch Int.random(in: 0...9) {
         case 0:
             return .pi / 2
         case 1:

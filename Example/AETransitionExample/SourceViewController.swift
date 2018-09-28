@@ -64,10 +64,10 @@ final class SourceViewController: UIViewController {
     private func updatePopView() {
         popView.removeFromSuperview()
         popView.backgroundColor = UIColor.randomVivid()
-        popView.frame = CGRect(x: .random(min: 20, max: view.bounds.width / 2),
-                               y: .random(min: 20, max: view.bounds.height / 2),
-                               width: .random(min: 44, max: view.bounds.width / 3),
-                               height: .random(min: 44, max: view.bounds.height / 4))
+        popView.frame = CGRect(x: .random(in: 20...view.bounds.width / 2),
+                               y: .random(in: 20...view.bounds.height / 2),
+                               width: .random(in: 44...view.bounds.width / 3),
+                               height: .random(in: 44...view.bounds.height / 4))
         view.insertSubview(popView, at: 0)
         let popOut = Transition.PopOut(from: popView)
         let popIn = Transition.PopIn(to: popView)
@@ -75,13 +75,13 @@ final class SourceViewController: UIViewController {
     }
 
     var randomPresenting: AnimatedTransition {
-        let index = Int.random(min: 0, max: presentingTransitions.count - 1)
+        let index = Int.random(in: 0...presentingTransitions.count - 1)
         let random = presentingTransitions[index]
         return random
     }
 
     var randomDismissing: AnimatedTransition {
-        let index = Int.random(min: 0, max: dismissingTransitions.count - 1)
+        let index = Int.random(in: 0...dismissingTransitions.count - 1)
         let random = dismissingTransitions[index]
         return random
     }
