@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
 s.name = 'AETransition'
-s.version = '0.2.3'
+s.version = '0.3.0'
 s.license = { :type => 'MIT', :file => 'LICENSE' }
 s.summary = 'Custom transitions for iOS - simple yet powerful'
 
