@@ -1,6 +1,6 @@
 /**
  *  https://github.com/tadija/AETransition
- *  Copyright (c) Marko Tadić 2014-2018
+ *  Copyright (c) Marko Tadić 2014-2019
  *  Licensed under the MIT license. See LICENSE file.
  */
 
@@ -11,7 +11,7 @@ public extension UIColor {
     
     // MARK: - HEX
     
-    public convenience init(hex: String) {
+    convenience init(hex: String) {
         var red: CGFloat = 0.0, green: CGFloat = 0.0, blue: CGFloat = 0.0, alpha: CGFloat = 1.0, hex = hex
         
         if (hex.hasPrefix("#")) {
@@ -38,14 +38,14 @@ public extension UIColor {
     
     // MARK: - Random
 
-    public static func random() -> UIColor {
+    static func random() -> UIColor {
         let hue = CGFloat(arc4random() % 256) / 256.0
         let saturation = CGFloat(arc4random() % 256) / 256.0
         let brightness = CGFloat(arc4random() % 256) / 256.0
         return UIColor(hue: hue, saturation: saturation, brightness: brightness, alpha: 1.0)
     }
 
-    public static func randomVivid() -> UIColor {
+    static func randomVivid() -> UIColor {
         let hue = CGFloat(arc4random() % 256) / 256.0
         let saturation = (CGFloat(arc4random() % 128) / 256.0) + 0.5 // 0.5 to 1.0 (away from white)
         let brightness = (CGFloat(arc4random() % 128) / 256.0) + 0.5 // 0.5 to 1.0 (away from white)
@@ -54,7 +54,7 @@ public extension UIColor {
     
     // MARK: - Shades
     
-    public func lighter(withFactor factor: CGFloat = 0.5) -> UIColor {
+    func lighter(withFactor factor: CGFloat = 0.5) -> UIColor {
         guard let colorSpaceModel = cgColor.colorSpace?.model
         else { return UIColor.white }
         
@@ -86,7 +86,7 @@ public extension UIColor {
         return lighterColor
     }
     
-    public func darker(withFactor factor: CGFloat = 0.5) -> UIColor {
+    func darker(withFactor factor: CGFloat = 0.5) -> UIColor {
         guard let colorSpaceModel = cgColor.colorSpace?.model
         else { return UIColor.black }
         
@@ -120,7 +120,7 @@ public extension UIColor {
     
     // MARK: - Image
     
-    public func toImage() -> UIImage {
+    func toImage() -> UIImage {
         let rect : CGRect = CGRect(x: 0, y: 0, width: 1, height: 1)
         
         UIGraphicsBeginImageContext(rect.size)
