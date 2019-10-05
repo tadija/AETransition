@@ -7,7 +7,7 @@
 import Foundation
 
 public extension CustomDebugStringConvertible {
-    public var debugDescription: String {
+    var debugDescription: String {
         let typeDescription = String(describing: type(of: self))
         let properties = Mirror(reflecting: self).children.map({ "\($0.label ?? ""): \($0.value)" })
         if properties.count > 0 {
