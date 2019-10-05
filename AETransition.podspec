@@ -8,7 +8,7 @@ s.summary = 'Custom transitions for iOS - simple yet powerful'
 s.source = { :git => 'https://github.com/tadija/AETransition.git', :tag => s.version }
 s.source_files = 'Sources/AETransition/*.swift'
 
-s.swift_version = '4.2'
+s.swift_versions = ['4.0', '4.2', '5.0', '5.1']
 
 s.ios.deployment_target = '9.0'
 

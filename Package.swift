@@ -1,4 +1,4 @@
-// swift-tools-version:4.2
+// swift-tools-version:5.0
 
 /**
  *  https://github.com/tadija/AETransition
@@ -10,8 +10,14 @@ import PackageDescription
 
 let package = Package(
     name: "AETransition",
+    platforms: [
+        .iOS(.v9)
+    ],
     products: [
-        .library(name: "AETransition", targets: ["AETransition"])
+        .library(
+            name: "AETransition",
+            targets: ["AETransition"]
+        )
     ],
     targets: [
         .target(
